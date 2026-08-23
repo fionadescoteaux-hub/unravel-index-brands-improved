@@ -257,6 +257,11 @@ details.imp summary:focus-visible{outline:2px solid var(--steel);outline-offset:
   body.printing-co :not(#companyBody):not(#companyBody *){visibility:hidden}
   body.printing-co #companyBody, body.printing-co #companyBody *{visibility:visible}
   body.printing-co #companyBody{position:absolute;left:0;top:0;width:100%}
+  body.printing-cr :not(#customReport):not(#customReport *){visibility:hidden}
+  body.printing-cr #customReport, body.printing-cr #customReport *{visibility:visible}
+  body.printing-cr #customReport{position:absolute;left:0;top:0;width:100%}
+  .crsub{page-break-before:always}
+  .crsub:first-of-type{page-break-before:auto}
   details.lnd,details.imp{page-break-inside:avoid}
   /* The printed report carries every tab, not only the visible one. */
   .tpanel[hidden]{display:block!important}
@@ -702,6 +707,16 @@ button.cmdgo:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .cdrow .bd .mv{display:block;font-size:11.5px;color:var(--body);margin-top:1px;line-height:1.5}
 .cdrow .bd .who{display:block;font-size:10.5px;color:var(--faint);margin-top:3px}
 .cdrow .bd .who b{display:inline;font-size:10.5px;color:var(--steel)}
+/* ── Report builder ── */
+.rbl{font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--faint);margin:14px 0 7px}
+.rbchip{font-family:inherit;font-size:12px;border:1px solid var(--line);background:#fff;color:var(--body);border-radius:999px;padding:6px 13px;cursor:pointer}
+.rbchip.on{border-color:var(--navy);background:var(--tint);color:var(--navy);font-weight:600}
+.rbchip:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.crcover{border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:10px;background:#fff;padding:22px 26px;margin:16px 0}
+.crcover .k{font-family:'Jost',Helvetica,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.crcover h3{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:22px;color:var(--navy);margin:6px 0 8px}
+.crcover .m{font-size:12.5px;color:var(--body);line-height:1.6;max-width:80ch}
+.crsub{margin-top:16px}
 @media(prefers-reduced-motion:reduce){.bpanel,.sbg1,.sbg2{animation:none}.bcard,.bcard:hover{transform:none;transition:none}}
 .emx{margin-top:10px;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:0 8px 8px 0;background:var(--bg);padding:12px 16px}
 .emxh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--body);margin-bottom:9px}
@@ -931,6 +946,13 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div style="overflow-x:auto"><table class="dt" id="brandTable"></table></div>
         </div>
         <div id="detail2"></div>
+        <h2 class="secttl">Compare brands</h2>
+        <p class="sub" style="margin-top:2px">Select up to five brands and read them against each other &mdash; the same nine domains, drawn as one shape and scored side by side. A wide spread is a transfer hypothesis: check whether the stronger brand has evidenced practice that can be reused.</p>
+        <div class="card">
+          <div style="font-size:11px;color:var(--body);margin-bottom:9px">Select up to five brands. <span id="cmpCount" style="color:var(--faint)"></span></div>
+          <div id="cmpPick" style="display:flex;gap:7px;flex-wrap:wrap"></div>
+          <div id="cmpOut"></div>
+        </div>
       </div>
 
       <div class="page" data-page="delivery" hidden>
@@ -966,6 +988,25 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <p class="sub">One report per subject: the index, the constraint, the lines it bites in and the moves against it. Print produces the paper version of the same view &mdash; nothing is written for the page that is not in the product.</p>
         <div class="card">
           <div style="overflow-x:auto"><table class="dt" id="reportTable"></table></div>
+        </div>
+        <div class="card"><h2>Report builder</h2>
+          <div class="cs">Choose the subjects and the sections, and build one document from them &mdash; the same audits as the screens, assembled to your selection, ready to print or save as PDF. Nothing is written for the page that is not in the product.</div>
+          <div class="rbl">Subjects</div>
+          <div id="rbSubs" style="display:flex;gap:7px;flex-wrap:wrap"></div>
+          <div class="rbl">Sections</div>
+          <div id="rbSecs" style="display:flex;gap:7px;flex-wrap:wrap"></div>
+          <div style="margin-top:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+            <button type="button" class="btn" id="rbBuild" disabled>Build the report</button>
+            <span id="rbHint" style="font-size:11.5px;color:var(--faint)">Select at least one subject.</span>
+          </div>
+          <div id="rbPreview" hidden>
+            <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:16px;padding-top:12px">
+              <span style="font-size:12px;color:var(--body)" id="rbBuiltMsg"></span>
+              <button type="button" class="ghostlink" id="rbPrint">Print / save as PDF &rarr;</button>
+              <button type="button" class="ghostlink" id="rbClear">Clear</button>
+            </div>
+            <div id="customReport"></div>
+          </div>
         </div>
         <div class="card"><h2>Portfolio report</h2>
           <div class="cs">The whole book on paper: every subject, the constraints that repeat, movement since baseline and the action plan&rsquo;s state. Built from the same data as the screens &mdash; nothing is written for the page that is not in the product.</div>
@@ -1027,14 +1068,6 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <div class="cols">
           <div class="card"><h2>Income at risk</h2><div class="cs">Brands where half or more of income sits on one licensee or category. Here the constraint is not only a ceiling — it is downside if that relationship moves. These go to the front of the queue regardless of index points.</div><div class="rows" id="planRisk"></div></div>
           <div class="card"><h2>Leakage exposure</h2><div class="cs">Brands reporting no royalty audit in two years, or income that is almost entirely guaranteed minimums. Unverified self-reporting is the most direct money left on the table; guarantee-only income means the renewal is the only lever.</div><div class="rows" id="planLeak"></div></div>
-        </div>
-      
-        <h2 class="secttl">Compare brands</h2>
-        <p class="sub" style="margin-top:2px">Up to five brands side by side on the same nine domains. A wide spread is a transfer hypothesis: check whether the stronger brand has evidenced practice that can be reused.</p>
-        <div class="card">
-          <div style="font-size:11px;color:var(--body);margin-bottom:9px">Select up to five brands. <span id="cmpCount" style="color:var(--faint)"></span></div>
-          <div id="cmpPick" style="display:flex;gap:7px;flex-wrap:wrap"></div>
-          <div id="cmpOut"></div>
         </div>
       
         <div class="card"><h2>Domain performance across all brands</h2>
@@ -1795,6 +1828,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     safely('method', renderMethod);
     safely('insights', renderInsights);
     safely('reports', renderReports);
+    safely('report builder', renderReportBuilder);
     safely('search', buildPalette);
     safely('moves', renderMoves);
     safely('delivery', renderDelivery);
@@ -3474,6 +3508,76 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     if(print) printIsolated('detail2','printing-brand');
     else setTimeout(function(){$('detail2').scrollIntoView({behavior:'smooth',block:'start'})},40);
   }
+  /* ── Report builder ────────────────────────────────────────────────────
+     Choose subjects and sections; the builder assembles the same audits the
+     screens render — detailHTML, untouched — then strips the tab panels that
+     were not asked for. Nothing is written for the report that is not in
+     the product; leaving a section out never changes what is in the rest. */
+  var RB_SECTIONS=[['exec','Executive Audit'],['map','Commercial Map'],['evidence','Evidence'],['actions','Actions'],['history','History']];
+  var RB={subs:[],secs:RB_SECTIONS.map(function(s){return s[0]})};
+  function rbSubjects(){
+    var co=(DATA.company||[])[0];
+    var subs=(co?[{id:'__company',name:co.name+' — the company',co:true}]:[]);
+    return subs.concat(DATA.brands.slice().sort(function(a,b){return a.name.localeCompare(b.name)})
+      .map(function(b){return {id:b.id,name:b.name,co:false}}));
+  }
+  function renderReportBuilder(){
+    var subsEl=$('rbSubs'); if(!subsEl) return;
+    var subs=rbSubjects();
+    RB.subs=RB.subs.filter(function(id){return subs.some(function(s){return s.id===id})});
+    subsEl.innerHTML=subs.map(function(s){
+      return '<button type="button" class="rbchip'+(RB.subs.indexOf(s.id)>-1?' on':'')+'" data-rbs="'+esc(s.id)+'">'+esc(s.name)+'</button>';
+    }).join('');
+    $('rbSecs').innerHTML=RB_SECTIONS.map(function(s){
+      return '<button type="button" class="rbchip'+(RB.secs.indexOf(s[0])>-1?' on':'')+'" data-rbc="'+s[0]+'">'+s[1]+'</button>';
+    }).join('');
+    subsEl.querySelectorAll('[data-rbs]').forEach(function(btn){
+      btn.onclick=function(){var id=btn.dataset.rbs,i=RB.subs.indexOf(id);
+        if(i>-1)RB.subs.splice(i,1);else RB.subs.push(id);renderReportBuilder();};
+    });
+    $('rbSecs').querySelectorAll('[data-rbc]').forEach(function(btn){
+      btn.onclick=function(){var k=btn.dataset.rbc,i=RB.secs.indexOf(k);
+        if(i>-1){if(RB.secs.length>1)RB.secs.splice(i,1);}else RB.secs.push(k);renderReportBuilder();};
+    });
+    var ok=RB.subs.length>0;
+    $('rbBuild').disabled=!ok;
+    $('rbHint').textContent=ok
+      ?RB.subs.length+' subject'+(RB.subs.length===1?'':'s')+' · '+RB.secs.length+' of '+RB_SECTIONS.length+' sections — ready to build.'
+      :'Select at least one subject.';
+    $('rbBuild').onclick=rbBuild;
+    var pr=$('rbPrint'); if(pr) pr.onclick=function(){printIsolated('customReport','printing-cr')};
+    var cl=$('rbClear'); if(cl) cl.onclick=function(){$('customReport').innerHTML='';$('rbPreview').hidden=true;};
+  }
+  function rbBuild(){
+    var subs=rbSubjects().filter(function(s){return RB.subs.indexOf(s.id)>-1});
+    var secNames=RB_SECTIONS.filter(function(s){return RB.secs.indexOf(s[0])>-1}).map(function(s){return s[1]});
+    var co=(DATA.company||[])[0];
+    var host=$('customReport');
+    var cover='<div class="crcover"><div class="k">'+esc(DATA.partnerName||'Portfolio')+' &middot; Unravel Index</div>'
+      +'<h3>Built report &middot; '+esc(new Date().toISOString().slice(0,10))+'</h3>'
+      +'<div class="m"><b>Subjects:</b> '+subs.map(function(s){return esc(s.name)}).join(' · ')
+      +'<br><b>Sections:</b> '+secNames.join(' · ')
+      +'<br>Built from the same data as the screens &mdash; nothing is written for the page that is not in the product. Illustrative demonstration data is labelled as such throughout.</div></div>';
+    host.innerHTML=cover+subs.map(function(s){
+      var b=s.co?co:DATA.brands.find(function(x){return x.id===s.id});
+      if(!b) return '';
+      return '<div class="crsub">'+detailHTML(b,s.co)+'</div>';
+    }).join('');
+    /* Strip the sections that were not asked for — panels carry their tab
+       key as data-tp, so removal is exact and per-subject. */
+    host.querySelectorAll('.tpanel').forEach(function(p){
+      if(RB.secs.indexOf(p.dataset.tp)<0) p.remove();
+      else p.hidden=false;
+    });
+    /* The built document is a report, not a workspace: tab strips and print
+       buttons inside each audit have no meaning here. */
+    host.querySelectorAll('.btabs,.dback,.dprint,.tabintro').forEach(function(el){el.remove()});
+    host.querySelectorAll('.tpttl').forEach(function(t){t.style.display='block'});
+    $('rbPreview').hidden=false;
+    $('rbBuiltMsg').textContent='Built: '+subs.length+' subject'+(subs.length===1?'':'s')+', '+RB.secs.length+' section'+(RB.secs.length===1?'':'s')+' each.';
+    wireMoves(host);
+    setTimeout(function(){$('rbPreview').scrollIntoView({behavior:'smooth',block:'nearest'})},60);
+  }
   function printIsolated(hostId,cls){ /* printing-ov shares the same mechanism */
     document.body.classList.add(cls);
     /* A printed audit is a report: open every collapsed section inside the
@@ -3863,6 +3967,34 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     $('cmpCount').textContent=CMP.length+' of '+CMP_MAX+' selected'+(CMP.length>=CMP_MAX?' — deselect one to swap':'');
     paintCmp();
   }
+  /* Each selected brand keeps one colour across the radar, the legend and
+     the table header — the reader matches shape to column by colour alone. */
+  var CMPCOL=['#2D5175','#A2712F','#C4453B','#2E7D63','#6E4B9E'];
+  function cmpRadarHTML(sel){
+    var D=allDoms(); if(D.length<3) return '';
+    var keys=D.map(function(d){return d.key});
+    var W=460,H=356,cx=230,cy=178,R=118;
+    function pt(v,i){var a=(-90+i*360/keys.length)*Math.PI/180;
+      var r=R*Math.max(0,Math.min(100,(typeof v==='number'?v:0)))/100;
+      return [cx+Math.cos(a)*r, cy+Math.sin(a)*r];}
+    function poly(s){return keys.map(function(k,i){var p=pt(s[k],i);return p[0].toFixed(1)+','+p[1].toFixed(1)}).join(' ')}
+    var rings=[25,50,75,100].map(function(p){
+      return '<polygon class="rgring" points="'+keys.map(function(k,i){var q=pt(p,i);return q[0].toFixed(1)+','+q[1].toFixed(1)}).join(' ')+'"/>';}).join('');
+    var axes=keys.map(function(k,i){var q=pt(100,i);
+      return '<line class="rgaxis" x1="'+cx+'" y1="'+cy+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'"/>';}).join('');
+    var labels=keys.map(function(k,i){
+      var a=(-90+i*360/keys.length)*Math.PI/180, r=R+18;
+      var x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r;
+      var anc=Math.abs(Math.cos(a))<0.3?'middle':(Math.cos(a)>0?'start':'end');
+      return '<text class="rglab" x="'+x.toFixed(1)+'" y="'+(y+3).toFixed(1)+'" text-anchor="'+anc+'">'+esc(dom(k).short)+'</text>';}).join('');
+    var shapes=sel.map(function(b,i){
+      return '<polygon points="'+poly(b.domainScores||{})+'" fill="'+CMPCOL[i%CMPCOL.length]+'14" stroke="'+CMPCOL[i%CMPCOL.length]+'" stroke-width="2.2" stroke-linejoin="round"/>';}).join('');
+    var key=sel.map(function(b,i){
+      return '<span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--body)"><i style="width:16px;height:3px;border-radius:2px;background:'+CMPCOL[i%CMPCOL.length]+'"></i><b style="color:var(--ink)">'+esc(b.name)+'</b> '+b.overall+'</span>';}).join('');
+    return '<div style="margin-top:16px"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;max-width:520px;display:block;margin:0 auto" role="img" aria-label="The selected brands drawn on the same nine domains.">'
+      +rings+axes+shapes+labels+'</svg>'
+      +'<div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:6px">'+key+'</div></div>';
+  }
   function paintCmp(){
     var sel=CMP.map(function(id){return DATA.brands.find(function(x){return x.id===id})}).filter(Boolean);
     if(sel.length<2){$('cmpOut').innerHTML='<div style="color:var(--faint);font-size:12.5px;margin-top:16px">Pick at least two brands.</div>';return}
@@ -3904,7 +4036,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'<b>Spread</b> is the distance between the best and worst assessment scores. Where it is wide and one brand has a candidate there, inspect the stronger brand’s evidence for a practice that may be transferable; the score alone does not prove that capability exists.'
       +(widest&&widest.spread>=20?'<br><br><b>Widest here: '+esc(widest.d.name)+' at '+widest.spread+' points.</b> That is the first place to look for something that can be copied rather than bought.':'')
       +'</div>';
-    $('cmpOut').innerHTML=cards+table+read;
+    $('cmpOut').innerHTML=cards+cmpRadarHTML(sel)+table+read;
   }
 
 
