@@ -1,6 +1,6 @@
 {
   "name": "unravel-index-brands",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "private": true,
   "description": "Unravel Index — brand-licensing vertical. Commercial constraint diagnostic for brand portfolios.",
   "engines": { "node": ">=20" },

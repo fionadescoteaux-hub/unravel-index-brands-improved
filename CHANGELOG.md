@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.14 — the company page is a governance dashboard
+
+- **The five-tab audit no longer fronts the company page.** At company level it forced brand furniture onto the screen (a Commercial Map tab that could only say "this belongs to individual brands"). The page now reads as governance: **the house verdict** — one band with the index, the weakest link at its score, and what is committed against the house — then the operational engine cascade, then delivery. The full nine-domain audit is intact beneath, collapsed behind one click, so the scorecard, evidence and the commit controls all still work exactly as before.
+- **Delivery groups two ways: by office, or by project.** The same records read through either lens — the office doing the work, or the project it serves (each brand, and the house itself). The progress band's last KPI follows the lens (offices / projects).
+- Menu drop-down for The company updated to match: the house verdict · the operational engine · delivery per project · the full audit.
+
 ## 0.3.13 — the menu opens into its sections
 
 - Every menu item is now a drop-down group that opens into the sections its page actually holds, so nothing is more than two clicks from anywhere: Overview (the money answer / the brands, pictured / portfolio in one shape / the plan, live), The company (audit / operational engine / delivery around the globe), Brands (brand by brand / ranked table / compare), Action plan (the work / the record / renewals), Insights (scenario uplift / domain performance / benchmarks / portfolio shape), Reports (one per subject / builder / portfolio report), Method (the questions asked).
