@@ -666,6 +666,42 @@ button.cmdgo:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .sbkv span{color:var(--faint)}
 .sbkv b{color:var(--ink);font-weight:600}
 @media(max-width:860px){.bpgrid{grid-template-columns:1fr}}
+/* ── Delivery around the globe (company page) ──
+   Who is actually fixing what, from where, and how far along it is. */
+.codel{margin-top:20px}
+.cdband{background:linear-gradient(120deg,#081330 0%,#0F2148 55%,#16305E 100%);border-radius:12px;padding:15px 18px;margin-bottom:12px;color:#fff}
+.cdband .cdhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.cdband .t{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:15px}
+.cdband .t::after{content:'';display:block;width:38px;height:3px;background:#D9A441;border-radius:2px;margin-top:4px}
+.cdband .s{font-size:11px;color:rgba(255,255,255,.66)}
+.cdkpis{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline}
+.cdk .n{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:23px;color:#EFCB86;font-variant-numeric:tabular-nums}
+.cdk .l{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);font-family:'Jost',Helvetica,sans-serif}
+.cdbar{height:9px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:11px;display:flex}
+.cdbar i{height:100%}
+.cdbar .done{background:linear-gradient(90deg,#D9A441,#EFCB86)}
+.cdbar .under{background:#7FB4DD}
+.cdbar .blocked{background:#E0766C}
+.cdlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:10.5px;color:rgba(255,255,255,.72);margin-top:7px}
+.cdlegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.ofgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.ofc{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);border-radius:10px;padding:13px 15px}
+.ofh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.ofh b{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:14px;color:var(--navy)}
+.ofh .m{font-size:10.5px;color:var(--faint)}
+.ofbar{height:5px;border-radius:999px;background:var(--track,#E7EDF3);overflow:hidden;margin:6px 0 4px;display:flex}
+.ofbar i{height:100%}
+.cdrow{border-top:1px solid var(--line);padding:9px 0;display:flex;gap:10px;align-items:flex-start}
+.cdrow:first-of-type{border-top:0}
+.stch{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;border-radius:999px;padding:3px 8px;flex:none;margin-top:2px;border:1px solid var(--line);color:var(--body);background:var(--paper);white-space:nowrap}
+.stch.done{background:#F8F1E2;border-color:#E8D5AC;color:#7A5520}
+.stch.under{background:var(--tint);border-color:#C8D9E8;color:var(--steel)}
+.stch.blocked{background:#FBEFEE;border-color:#E9CBC8;color:#8A2F2A}
+.cdrow .bd{min-width:0}
+.cdrow .bd b{display:block;font-size:12px;color:var(--ink);font-weight:600}
+.cdrow .bd .mv{display:block;font-size:11.5px;color:var(--body);margin-top:1px;line-height:1.5}
+.cdrow .bd .who{display:block;font-size:10.5px;color:var(--faint);margin-top:3px}
+.cdrow .bd .who b{display:inline;font-size:10.5px;color:var(--steel)}
 @media(prefers-reduced-motion:reduce){.bpanel,.sbg1,.sbg2{animation:none}.bcard,.bcard:hover{transform:none;transition:none}}
 .emx{margin-top:10px;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:0 8px 8px 0;background:var(--bg);padding:12px 16px}
 .emxh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--body);margin-bottom:9px}
@@ -874,6 +910,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <h1 class="pg">The company engine</h1>
         <p class="sub">The commercial engine every brand feeds — the licensing house itself, read through the same nine-domain framework with company-specific questions. Where the same weakness shows here and across several brands, that is one capability worth fixing once for the whole book.</p>
         <div id="companyBody"></div>
+        <div id="coDelivery"></div>
       </div>
 
       <div class="page" data-page="brands" hidden>
@@ -1536,6 +1573,74 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +(active.length>5?'<span style="font-size:11.5px;color:var(--faint)">'+(active.length-5)+' more live commitment'+(active.length-5===1?'':'s')+' on the plan</span>':'')
       +'</div></div>';
   }
+  /* ── Delivery around the globe ─────────────────────────────────────────
+     The company page's answer to "who is actually fixing this": every
+     committed action grouped by the office delivering it, with the team and
+     the person responsible, its status and the measure it is judged on —
+     topped by one progress band for the whole programme. Office and person
+     ride on the move record; a record without them still renders, grouped
+     honestly under "Office not recorded". */
+  function stageOf(st){
+    var s=String(st||'');
+    if(/done/i.test(s)) return 'done';
+    if(/progress|underway|started/i.test(s)) return 'under';
+    if(/block|risk|hold/i.test(s)) return 'blocked';
+    return 'open';
+  }
+  function renderCoDelivery(){
+    var el=$('coDelivery'); if(!el) return;
+    if(!(DATA.company||[]).length){ el.innerHTML=''; return; }
+    var MV=(DATA.moves||[]).filter(function(m){return !/dropped/i.test(m.status||'')});
+    if(!MV.length){
+      el.innerHTML='<div class="codel"><h2 class="secttl">Delivery around the globe</h2>'
+        +'<p class="sub" style="margin-top:2px">Nothing is being delivered yet. When an action is committed on any audit, it appears here with the office, team and person responsible for it and how far along it is.</p></div>';
+      return;
+    }
+    var done=MV.filter(function(m){return stageOf(m.status)==='done'}).length;
+    var under=MV.filter(function(m){return stageOf(m.status)==='under'}).length;
+    var blocked=MV.filter(function(m){return stageOf(m.status)==='blocked'}).length;
+    var open=MV.length-done-under-blocked;
+    var latest=MV.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
+    var offices={};
+    MV.forEach(function(m){var o=m.office||'Office not recorded';(offices[o]=offices[o]||[]).push(m)});
+    var okeys=Object.keys(offices).sort(function(a,b){
+      if(a==='Office not recorded')return 1; if(b==='Office not recorded')return -1;
+      return offices[b].length-offices[a].length||a.localeCompare(b)});
+    var band='<div class="cdband"><div class="cdhead"><span class="t">Delivery around the globe</span>'
+      +'<span class="s">every committed action, the office delivering it, the team and person responsible, and where it stands'+(latest?' · latest update '+esc(latest.slice(0,10)):'')+'</span></div>'
+      +'<div class="cdkpis">'
+      +'<span class="cdk"><span class="n">'+MV.length+'</span> <span class="l">actions</span></span>'
+      +'<span class="cdk"><span class="n">'+done+'</span> <span class="l">done</span></span>'
+      +'<span class="cdk"><span class="n">'+under+'</span> <span class="l">underway</span></span>'
+      +'<span class="cdk"><span class="n">'+open+'</span> <span class="l">committed</span></span>'
+      +(blocked?'<span class="cdk"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></span>':'')
+      +'<span class="cdk"><span class="n">'+okeys.filter(function(k){return k!=='Office not recorded'}).length+'</span> <span class="l">offices</span></span>'
+      +'</div>'
+      +'<div class="cdbar"><i class="done" style="width:'+(done/MV.length*100)+'%"></i><i class="under" style="width:'+(under/MV.length*100)+'%"></i><i class="blocked" style="width:'+(blocked/MV.length*100)+'%"></i></div>'
+      +'<div class="cdlegend"><span><i class="done" style="background:#EFCB86"></i>done</span><span><i style="background:#7FB4DD"></i>underway</span>'+(blocked?'<span><i style="background:#E0766C"></i>blocked</span>':'')+'<span>unfilled = committed, not yet started</span></div>'
+      +'</div>';
+    var cards=okeys.map(function(o){
+      var ms=offices[o];
+      var od=ms.filter(function(m){return stageOf(m.status)==='done'}).length;
+      var ou=ms.filter(function(m){return stageOf(m.status)==='under'}).length;
+      var ob=ms.filter(function(m){return stageOf(m.status)==='blocked'}).length;
+      var rows=ms.map(function(m){
+        var st=stageOf(m.status);
+        return '<div class="cdrow"><span class="stch '+st+'">'+esc(m.status||'Committed')+'</span>'
+          +'<span class="bd"><b>'+esc(m.brand||m.subject||'Portfolio')+' · '+esc(dom(m.domainKey).short)+'</b>'
+          +'<span class="mv">'+esc(m.move||'')+'</span>'
+          +'<span class="who">'+[m.owner?'<b>'+esc(m.owner)+'</b>':'',m.person?esc(m.person):'',m.horizon?esc(m.horizon):''].filter(Boolean).join(' · ')+'</span>'
+          +'</span></div>';
+      }).join('');
+      return '<div class="ofc"><div class="ofh"><b>'+esc(o)+'</b><span class="m">'+ms.length+' action'+(ms.length===1?'':'s')+' · '+od+' done'+(ou?' · '+ou+' underway':'')+(ob?' · '+ob+' blocked':'')+'</span></div>'
+        +'<div class="ofbar"><i class="done" style="width:'+(od/ms.length*100)+'%;background:#D9A441"></i><i style="width:'+(ou/ms.length*100)+'%;background:#7FB4DD"></i><i style="width:'+(ob/ms.length*100)+'%;background:#E0766C"></i></div>'
+        +rows+'</div>';
+    }).join('');
+    el.innerHTML='<div class="codel"><h2 class="secttl">Who is fixing what, where</h2>'
+      +'<p class="sub" style="margin-top:2px">The bottlenecks named above are only alleviated by work someone owns. This is that work: grouped by office, carried by a team and a person, judged against the measure recorded when it was committed. Progress notes and step-by-step tracking live on the Action plan.</p>'
+      +band
+      +'<div class="ofgrid">'+cards+'</div></div>';
+  }
   function renderHomePlan(){
     var el=$('homePlan'); if(!el) return;
     el.innerHTML=homePlanHTML();
@@ -1683,6 +1788,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     if(ovt) ovt.textContent=(((DATA.company||[])[0]||{}).name)||name;
     $('bCount').textContent=b.length;
     if((DATA.company||[]).length) safely('company view', renderCompany);
+    safely('company delivery', renderCoDelivery);
     safely('brands table', renderBrandTable);
     safely('value creation', renderPlan);
     safely('compare', renderCompare);
