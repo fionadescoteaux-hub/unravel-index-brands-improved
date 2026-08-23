@@ -88,7 +88,7 @@ button,input{font-family:inherit}
 .navgrp>button .cnt{margin-left:auto}
 .navgrp>button .cnt+*::after,.navgrp>button:has(.cnt)::after{margin-left:8px}
 .navgrp[hidden]{display:none}
-#homeEngine,#brandGallery,#portfolioShape,#homePlan,#coVerdict,#opsEngine,#coDelivery,#coAuditWrap,#groups,#brandTable,#compareSec,#delKpis,#moveKpis,#renewalsSec,#upliftSec,#domTable,#benchSub,#shapeSec,#reportTable,#rbSubs,#pfPrint,#methodQs{scroll-margin-top:78px}
+#homeEngine,#brandGallery,#portfolioShape,#homePlan,#coVerdict,#opsEngine,#opsTable,#coDelivery,#coAuditWrap,#groups,#brandTable,#compareSec,#delKpis,#moveKpis,#renewalsSec,#upliftSec,#domTable,#benchSub,#shapeSec,#reportTable,#rbSubs,#pfPrint,#methodQs{scroll-margin-top:78px}
 /* The house verdict: the audit's answer, compressed to one governance band. */
 .coverd{background:linear-gradient(120deg,#081330 0%,#0F2148 55%,#16305E 100%);border-radius:12px;padding:16px 18px;color:#fff;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 26px;align-items:center}
 .coverd .ix{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:40px;line-height:1;color:#fff}
@@ -106,6 +106,27 @@ button,input{font-family:inherit}
 #coAuditWrap[open]>summary::before{transform:rotate(90deg)}
 #coAuditWrap>summary:hover{background:var(--tint);border-radius:12px}
 .cdgrpsel{display:flex;gap:6px;margin-left:auto}
+/* Clickable rungs: a rung is a filter on the operations table below it. */
+.oerung{cursor:pointer;border-radius:8px;transition:background .12s}
+.oerung:hover{background:var(--tint)}
+.oerung.sel{background:var(--tint);box-shadow:inset 3px 0 0 var(--gold)}
+.oerung:focus-visible{outline:2px solid var(--steel);outline-offset:-2px}
+/* ── The operations table: every action, one row, one KPI monitor ── */
+.otwrap{margin-top:20px}
+.otfilters{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.otfilters .lbl{font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-right:3px}
+.fd{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:0}
+.fd.g{background:#2E7D63}.fd.a{background:#C99A3C}.fd.r{background:#B0413A}.fd.x{background:#B9C6D6}
+.sth{cursor:pointer;user-select:none;white-space:nowrap}
+.sth:hover{color:var(--navy);text-decoration:underline}
+.sth.on::after{content:' \2193';color:var(--gold)}
+.sth.on.up::after{content:' \2191'}
+.otalt{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:var(--paper);color:var(--body);border-radius:4px;padding:1px 6px;white-space:nowrap}
+.otalt.line{background:var(--tint);border-color:#C8D9E8;color:var(--steel)}
+.otalt.house{background:#F8F1E2;border-color:#E8D5AC;color:#7A5520}
+#opsTbl td{vertical-align:top}
+#opsTbl .mv{max-width:36ch;line-height:1.5}
+#opsTbl .who{font-size:11px;color:var(--faint)}
 .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
 .nav button.on{background:rgba(255,255,255,.16);color:#fff}
 .nav .cnt{margin-left:auto;font-size:10.5px;background:rgba(255,255,255,.12);border-radius:999px;padding:1px 8px}
@@ -969,6 +990,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div class="subnav">
             <button type="button" data-page="company" data-target="coVerdict">The house verdict</button>
             <button type="button" data-page="company" data-target="opsEngine">The operational engine</button>
+            <button type="button" data-page="company" data-target="opsTable">The operations table</button>
             <button type="button" data-page="company" data-target="coDelivery">Delivery per project</button>
             <button type="button" data-page="company" data-target="coAuditWrap">The full audit</button>
           </div>
@@ -1036,6 +1058,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <p class="sub">Governance of the whole engine: the house&rsquo;s own verdict, every plan at every level feeding one line of sight, and who is delivering what, where. The full nine-domain audit of the company sits beneath, one click away.</p>
         <div id="coVerdict"></div>
         <div id="opsEngine"></div>
+        <div id="opsTable"></div>
         <div id="coDelivery"></div>
         <details id="coAuditWrap"><summary><span class="cmdlbl" style="color:var(--ink)">The full company audit</span><span style="font-size:11px;color:var(--faint)">the nine-domain read of the house itself &mdash; scorecard, evidence, actions, history</span></summary>
           <div id="companyBody"></div>
@@ -1785,8 +1808,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var nComps=(DATA.components||[]).length;
     var latest=MV.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
     var ov=DATA.oversightOwner||'';
-    function rung(top,lvl,nm,ovline,ms,cov){
-      return '<div class="oerung'+(top?' top':'')+'">'
+    function rung(top,lvl,nm,ovline,ms,cov,alt){
+      return '<div class="oerung'+(top?' top':'')+(OPS.alt===alt?' sel':'')+'" data-alt="'+alt+'" role="button" tabindex="0" aria-pressed="'+(OPS.alt===alt)+'" aria-label="'+lvl+' — focus the operations table on this level">'
         +'<span class="oer-rail"><i></i><b></b></span>'
         +'<span class="oer-what"><span class="lv">'+lvl+'</span><span class="nm">'+nm+'</span>'+(ovline?'<span class="ov">'+ovline+'</span>':'')+'</span>'
         +'<span class="oer-kpi"><span class="n">'+oeCounts(ms)+'</span>'+oeStatusBar(ms)
@@ -1801,16 +1824,24 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'<div class="oebody">'
       +rung(true,'One portfolio',esc(DATA.partnerName||'Portfolio'),
         ov?'Oversight: <b>'+esc(ov)+'</b> — the one line of sight across everything below':'Oversight owner not recorded — name one on the account so the engine has a single line of sight',
-        MV,'<b>'+MV.length+'</b><br>actions across the book')
+        MV,'<b>'+MV.length+'</b><br>actions across the book','all')
       +rung(false,'The company engine','Capabilities every brand inherits','',coMs,
-        coMs.length?'<b>'+coMs.length+'</b><br>on the house itself':'&mdash;')
+        coMs.length?'<b>'+coMs.length+'</b><br>on the house itself':'&mdash;','company')
       +rung(false,'Brands',B.length+' assessed','',brandMs,
-        '<b>'+covered+' of '+B.length+'</b><br>brands carry a committed action')
+        '<b>'+covered+' of '+B.length+'</b><br>brands carry a committed action','brand')
       +rung(false,'Commercial lines',totalLines+' mapped across the book','',lineMs,
-        lineMs.length?'<b>'+Object.keys(lineNames).length+'</b><br>line'+(Object.keys(lineNames).length===1?'':'s')+' named: '+esc(Object.keys(lineNames).join(', ')):'&mdash;')
+        lineMs.length?'<b>'+Object.keys(lineNames).length+'</b><br>line'+(Object.keys(lineNames).length===1?'':'s')+' named: '+esc(Object.keys(lineNames).join(', ')):'&mdash;','line')
       +rung(false,'Products &amp; services',nComps+' mapped components','',compMs,
-        compMs.length?'<b>'+compMs.length+'</b><br>at product level':'none committed at this depth yet — plans deepen here as line audits commit them')
+        compMs.length?'<b>'+compMs.length+'</b><br>at product level':'none committed at this depth yet — plans deepen here as line audits commit them','product')
       +'</div></div>';
+    /* A rung is a filter: selecting it focuses the operations table below on
+       that altitude and carries the reader there. */
+    el.querySelectorAll('.oerung').forEach(function(r){
+      function pick(){OPS.alt=r.dataset.alt;renderOpsEngine();renderOpsTable();
+        setTimeout(function(){var t=$('opsTable');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},60);}
+      r.addEventListener('click',pick);
+      r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}});
+    });
   }
   /* ── The house verdict ─────────────────────────────────────────────────
      The company audit's answer compressed to one governance band: the
@@ -1837,6 +1868,112 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var g=el.querySelector('[data-cov-audit]');
     if(g) g.onclick=function(){var w=$('coAuditWrap');if(w){w.open=true;setTimeout(function(){w.scrollIntoView({behavior:'smooth',block:'start'})},60)}};
   }
+  /* ── The operations table ──────────────────────────────────────────────
+     Every action across the book, one row each, under one KPI monitor.
+     The cascade above filters it by altitude; the chips filter it by state;
+     the columns sort it. Freshness is computed, never asserted: an open
+     action untouched for three weeks reads as stalled, whatever its status
+     field says — the difference between "committed" and "moving" is exactly
+     what this table exists to show. */
+  var OPS={alt:'all',status:'all',sort:'updated',dir:1}; /* dir 1 = descending */
+  function altitudeOf(m){
+    if(m.componentId) return 'product';
+    if((m.lines||[]).length) return 'line';
+    return m.subject==='company'?'company':'brand';
+  }
+  var ALT_LABEL={all:'every level',company:'the company engine',brand:'brand level',line:'commercial lines',product:'products & services'};
+  function freshness(m){
+    if(stageOf(m.status)==='done') return {cls:'x',word:'closed',days:null};
+    var t=Date.parse(m.updatedAt||m.createdAt||'');
+    if(isNaN(t)) return {cls:'a',word:'undated',days:null};
+    var d=Math.floor((Date.now()-t)/86400000);
+    if(d<=7) return {cls:'g',word:'moving',days:d};
+    if(d<=21) return {cls:'a',word:'quiet',days:d};
+    return {cls:'r',word:'stalled',days:d};
+  }
+  function renderOpsTable(){
+    var el=$('opsTable'); if(!el) return;
+    if(!(DATA.company||[]).length){ el.innerHTML=''; return; }
+    var ALL=(DATA.moves||[]).filter(function(m){return !/dropped/i.test(m.status||'')});
+    if(!ALL.length){
+      el.innerHTML='<div class="otwrap"><h2 class="secttl">The operations table</h2>'
+        +'<p class="sub" style="margin-top:2px">Every action across the book lands here, one row each, the moment it is committed on any audit.</p></div>';
+      return;
+    }
+    /* KPI monitor: state counts plus computed freshness. */
+    var done=ALL.filter(function(m){return stageOf(m.status)==='done'}).length;
+    var under=ALL.filter(function(m){return stageOf(m.status)==='under'}).length;
+    var blocked=ALL.filter(function(m){return stageOf(m.status)==='blocked'}).length;
+    var open=ALL.length-done-under-blocked;
+    var stalled=ALL.filter(function(m){return freshness(m).cls==='r'}).length;
+    var quiet=ALL.filter(function(m){return freshness(m).cls==='a'}).length;
+    var latest=ALL.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
+    var rows=ALL.filter(function(m){
+      if(OPS.alt!=='all'&&altitudeOf(m)!==OPS.alt) return false;
+      if(OPS.status==='all') return true;
+      if(OPS.status==='stalled') return freshness(m).cls==='r';
+      return stageOf(m.status)===OPS.status;
+    });
+    function key(m){
+      if(OPS.sort==='project') return (m.brand||m.subject||'').toLowerCase();
+      if(OPS.sort==='status') return stageOf(m.status)+(m.status||'');
+      if(OPS.sort==='office') return (m.office||'zz').toLowerCase();
+      return m.updatedAt||m.createdAt||'';
+    }
+    rows=rows.slice().sort(function(a,b){var ka=key(a),kb=key(b);return ka<kb?OPS.dir:ka>kb?-OPS.dir:0});
+    var chips=[['all','All'],['open','Committed'],['under','Underway'],['done','Done'],['blocked','Blocked'],['stalled','Stalled']];
+    var trs=rows.map(function(m){
+      var f=freshness(m), alt=altitudeOf(m), st=stageOf(m.status);
+      var lvl=alt==='company'?'<span class="otalt house">the house</span>'
+        :alt==='line'?(m.lines||[]).map(function(l){return '<span class="otalt line">'+esc(l)+'</span>'}).join(' ')
+        :alt==='product'?'<span class="otalt line">product</span>'
+        :'<span class="otalt">brand</span>';
+      return '<tr><td style="white-space:nowrap"><span class="fd '+f.cls+'"></span>'+f.word+(f.days!==null&&f.cls!=='x'?' <span style="color:var(--faint)">'+f.days+'d</span>':'')+'</td>'
+        +'<td><div class="mv">'+esc(m.move||'')+'</div><div class="who">'+[m.owner?esc(m.owner):'',m.person?esc(m.person):'',m.metric?'measure: '+esc(m.metric):''].filter(Boolean).join(' · ')+'</div></td>'
+        +'<td><b>'+esc(m.brand||m.subject||'—')+'</b></td>'
+        +'<td>'+lvl+'</td>'
+        +'<td>'+esc(m.office||'—')+'</td>'
+        +'<td style="white-space:nowrap"><span class="stch '+st+'">'+esc(m.status||'Committed')+'</span></td>'
+        +'<td style="white-space:nowrap">'+esc((m.updatedAt||m.createdAt||'').slice(0,10)||'—')+'</td></tr>';
+    }).join('');
+    el.innerHTML='<div class="otwrap"><h2 class="secttl">The operations table</h2>'
+      +'<p class="sub" style="margin-top:2px">Every action across the book, one row each — what it is, whose it is, the level it works at and whether it is actually moving. Freshness is computed from the record&rsquo;s own updates: an open action untouched for three weeks reads as stalled, whatever its status says.</p>'
+      +'<div class="cdband"><div class="cdhead"><span class="t">The KPI monitor</span><span class="s">state and freshness across all '+ALL.length+' actions'+(latest?' · latest update '+esc(latest.slice(0,10)):'')+'</span></div>'
+      +'<div class="cdkpis">'
+      +'<span class="cdk"><span class="n">'+ALL.length+'</span> <span class="l">actions</span></span>'
+      +'<span class="cdk"><span class="n">'+done+'</span> <span class="l">done</span></span>'
+      +'<span class="cdk"><span class="n">'+under+'</span> <span class="l">underway</span></span>'
+      +'<span class="cdk"><span class="n">'+open+'</span> <span class="l">committed</span></span>'
+      +(blocked?'<span class="cdk"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></span>':'')
+      +'<span class="cdk"><span class="n"'+(stalled?' style="color:#F6CFCB"':'')+'>'+stalled+'</span> <span class="l">stalled</span></span>'
+      +(quiet?'<span class="cdk"><span class="n">'+quiet+'</span> <span class="l">quiet 8–21d</span></span>':'')
+      +'</div>'
+      +'<div class="cdbar"><i class="done" style="width:'+(done/ALL.length*100)+'%"></i><i class="under" style="width:'+(under/ALL.length*100)+'%"></i><i class="blocked" style="width:'+(blocked/ALL.length*100)+'%"></i></div>'
+      +'<div class="cdlegend"><span><i style="background:#EFCB86"></i>done</span><span><i style="background:#7FB4DD"></i>underway</span>'+(blocked?'<span><i style="background:#E0766C"></i>blocked</span>':'')+'<span>unfilled = committed, not yet started</span></div>'
+      +'</div>'
+      +'<div class="otfilters"><span class="lbl">Showing</span>'
+      +chips.map(function(c){return '<button type="button" class="rbchip'+(OPS.status===c[0]?' on':'')+'" data-ots="'+c[0]+'">'+c[1]+'</button>'}).join('')
+      +'<span class="lbl" style="margin-left:10px">at</span><span class="rbchip on" style="cursor:default">'+esc(ALT_LABEL[OPS.alt])+'</span>'
+      +(OPS.alt!=='all'?'<button type="button" class="ghostlink" data-ota-clear>show every level</button>':'')
+      +'</div>'
+      +'<div class="card" style="margin-top:0"><div style="overflow-x:auto"><table class="dt" id="opsTbl"><thead><tr>'
+      +'<th>Freshness</th><th>The action</th>'
+      +'<th class="sth'+(OPS.sort==='project'?' on'+(OPS.dir===-1?' up':''):'')+'" data-otsort="project">Project</th>'
+      +'<th>Level</th>'
+      +'<th class="sth'+(OPS.sort==='office'?' on'+(OPS.dir===-1?' up':''):'')+'" data-otsort="office">Office</th>'
+      +'<th class="sth'+(OPS.sort==='status'?' on'+(OPS.dir===-1?' up':''):'')+'" data-otsort="status">Status</th>'
+      +'<th class="sth'+(OPS.sort==='updated'?' on'+(OPS.dir===-1?' up':''):'')+'" data-otsort="updated">Updated</th>'
+      +'</tr></thead><tbody>'
+      +(trs||'<tr><td colspan="7" style="color:var(--faint)">Nothing matches this view — clear a filter above.</td></tr>')
+      +'</tbody></table></div>'
+      +'<div style="font-size:11px;color:var(--faint);margin-top:9px">'+rows.length+' of '+ALL.length+' shown · step-by-step progress and notes live on the Action plan</div></div>'
+      +'</div>';
+    el.querySelectorAll('[data-ots]').forEach(function(b){b.onclick=function(){OPS.status=b.dataset.ots;renderOpsTable()}});
+    var cl=el.querySelector('[data-ota-clear]'); if(cl) cl.onclick=function(){OPS.alt='all';renderOpsEngine();renderOpsTable()};
+    el.querySelectorAll('[data-otsort]').forEach(function(h){h.onclick=function(){
+      if(OPS.sort===h.dataset.otsort)OPS.dir=-OPS.dir;else{OPS.sort=h.dataset.otsort;OPS.dir=h.dataset.otsort==='updated'?1:-1}
+      renderOpsTable()}});
+  }
   /* Delivery groups two ways: by the office doing the work, or by the
      project (the brand or the house) the work is for. Same records, same
      counts — only the lens moves. */
@@ -1850,11 +1987,6 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<p class="sub" style="margin-top:2px">Nothing is being delivered yet. When an action is committed on any audit, it appears here with the office, team and person responsible for it and how far along it is.</p></div>';
       return;
     }
-    var done=MV.filter(function(m){return stageOf(m.status)==='done'}).length;
-    var under=MV.filter(function(m){return stageOf(m.status)==='under'}).length;
-    var blocked=MV.filter(function(m){return stageOf(m.status)==='blocked'}).length;
-    var open=MV.length-done-under-blocked;
-    var latest=MV.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
     var byProject=CD_GROUP==='project';
     var fallback=byProject?'Project not recorded':'Office not recorded';
     var offices={};
@@ -1864,19 +1996,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var okeys=Object.keys(offices).sort(function(a,b){
       if(a===fallback)return 1; if(b===fallback)return -1;
       return offices[b].length-offices[a].length||a.localeCompare(b)});
-    var band='<div class="cdband"><div class="cdhead"><span class="t">Delivery around the globe</span>'
-      +'<span class="s">every committed action, the office delivering it, the team and person responsible, and where it stands'+(latest?' · latest update '+esc(latest.slice(0,10)):'')+'</span></div>'
-      +'<div class="cdkpis">'
-      +'<span class="cdk"><span class="n">'+MV.length+'</span> <span class="l">actions</span></span>'
-      +'<span class="cdk"><span class="n">'+done+'</span> <span class="l">done</span></span>'
-      +'<span class="cdk"><span class="n">'+under+'</span> <span class="l">underway</span></span>'
-      +'<span class="cdk"><span class="n">'+open+'</span> <span class="l">committed</span></span>'
-      +(blocked?'<span class="cdk"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></span>':'')
-      +'<span class="cdk"><span class="n">'+okeys.filter(function(k){return k!==fallback}).length+'</span> <span class="l">'+(byProject?'projects':'offices')+'</span></span>'
-      +'</div>'
-      +'<div class="cdbar"><i class="done" style="width:'+(done/MV.length*100)+'%"></i><i class="under" style="width:'+(under/MV.length*100)+'%"></i><i class="blocked" style="width:'+(blocked/MV.length*100)+'%"></i></div>'
-      +'<div class="cdlegend"><span><i class="done" style="background:#EFCB86"></i>done</span><span><i style="background:#7FB4DD"></i>underway</span>'+(blocked?'<span><i style="background:#E0766C"></i>blocked</span>':'')+'<span>unfilled = committed, not yet started</span></div>'
-      +'</div>';
+    /* The KPI monitor lives on the operations table above; this lens keeps
+       only its per-group progress bars. */
     var cards=okeys.map(function(o){
       var ms=offices[o];
       var od=ms.filter(function(m){return stageOf(m.status)==='done'}).length;
@@ -1896,8 +2017,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     }).join('');
     el.innerHTML='<div class="codel"><div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap"><h2 class="secttl" style="margin-bottom:6px">Who is fixing what, where</h2>'
       +'<span class="cdgrpsel"><button type="button" class="ghost'+(byProject?'':' on')+'" data-cdg="office">By office</button><button type="button" class="ghost'+(byProject?' on':'')+'" data-cdg="project">By project</button></span></div>'
-      +'<p class="sub" style="margin-top:2px">The bottlenecks named above are only alleviated by work someone owns. This is the operational plan for every action, grouped by '+(byProject?'the project it serves — each brand, and the house itself':'the office doing the work')+', carried by a team and a person, judged against the measure recorded when it was committed. Progress notes and step-by-step tracking live on the Action plan.</p>'
-      +band
+      +'<p class="sub" style="margin-top:2px">The same actions as the table above, grouped by '+(byProject?'the project they serve — each brand, and the house itself':'the office doing the work')+', carried by a team and a person, judged against the measure recorded when committed. The KPI monitor sits on the operations table; progress notes and step-by-step tracking live on the Action plan.</p>'
       +'<div class="ofgrid">'+cards+'</div></div>';
     el.querySelectorAll('[data-cdg]').forEach(function(btn){
       btn.onclick=function(){CD_GROUP=btn.dataset.cdg;renderCoDelivery();};
@@ -2052,6 +2172,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     if((DATA.company||[]).length) safely('company view', renderCompany);
     safely('house verdict', renderCoVerdict);
     safely('operational engine', renderOpsEngine);
+    safely('operations table', renderOpsTable);
     safely('company delivery', renderCoDelivery);
     safely('brands table', renderBrandTable);
     safely('value creation', renderPlan);
