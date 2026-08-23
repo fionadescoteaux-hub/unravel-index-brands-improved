@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.13 — the menu opens into its sections
+
+- Every menu item is now a drop-down group that opens into the sections its page actually holds, so nothing is more than two clicks from anywhere: Overview (the money answer / the brands, pictured / portfolio in one shape / the plan, live), The company (audit / operational engine / delivery around the globe), Brands (brand by brand / ranked table / compare), Action plan (the work / the record / renewals), Insights (scenario uplift / domain performance / benchmarks / portfolio shape), Reports (one per subject / builder / portfolio report), Method (the questions asked).
+- The active page's group is the open one (accordion); a child jumps straight to its section. The grouping follows the ontology's spine, and commercial lines and components stay off the menu deliberately — they exist only in the context of a brand and are reached by opening one.
+- The company group still disappears entirely for an account that has never assessed the house.
+
 ## 0.3.12 — the operational engine: every plan feeding one line of sight
 
 - **The company page now opens its delivery story with the cascade.** "The operational engine" reads the ontology spine bottom-up as delivery: products &amp; services &rarr; commercial lines &rarr; brands &rarr; the company engine &rarr; one portfolio, with the named oversight owner at the top. Each rung carries its own KPI read — actions at that altitude, done / underway / blocked as a bar, and coverage (7 of 19 brands carry a committed action; which lines are named). An action lives at exactly one altitude — the level whose constraint it addresses — and rolls up by counting, never duplication.
