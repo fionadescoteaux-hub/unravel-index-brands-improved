@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.17 — every commitment is governance-ready, and every commit feeds the engine in the same breath
+
+An operational review of the company engine against one rule — all actions from the brands MUST feed into this, with a responsible person on each — found four defects. All four are fixed.
+
+- **The engine went stale after a commit.** Committing from any audit updated the action plan but not the governance page; the cascade, operations table, delivery lens, verdict and home-page plan only caught up on reload. Every commit and status change now re-renders all of them in the same breath.
+- **The commitment moment captured no accountability.** The commit form asked for team, horizon and measure — no person, no office, no line. It now captures the <b>accountable person or role</b> (required: "unowned work stalls" — the rule fires even on the read-only demonstration, so it teaches), the <b>office delivering it</b>, and <b>where the action lands</b> — the whole brand, or a specific commercial line chosen from that brand's own lines. save-move writes all three; the record is born governance-ready.
+- **Nothing could ever be marked Blocked.** The KPI monitor and boards rendered a blocked state no one could set. "Blocked" is now a status everywhere a status is chosen, and the server accepts it.
+- **Open work with no owner hid in plain sight.** The operations table now leads each row with the accountable person — or a red <b>unassigned</b> flag on any open action without one — and the KPI monitor counts unassigned alongside stalled. Due dates surface on the row when set.
+
 ## 0.3.16 — first-look guidance that retires itself, and a polish pass
 
 - **First look.** Eleven slim guidance strips narrate the ontology in plain language exactly where a first-time reader meets it — the money answer, the brand cards, the radar, the governance page, the five altitudes, the operations table, comparison, the action plan, scenario uplift, the report builder. Each appears the first three times its page is opened, then retires itself; "Got it" retires one immediately. Stored per browser, like the tour; nothing leaves the page.
