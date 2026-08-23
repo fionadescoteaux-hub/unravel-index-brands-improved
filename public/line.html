@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Line assessment · Unravel Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1B1524; --muted:#5A5266; --faint:#756B80; --line:#E4DEEC; --bg:#F6F4F9;
+  --green:#1F7A5E; --amber:#8A6200; --red:#C4453B;
+  --brand:#351148; --brand-deep:#25092F; --accent:#F9A825; --accent-ink:#2A0E3A;
+  --accent-soft:#FDF3DC; --accent-line:#F2DCA6; --track:#F1ECF6; --card:#fff;
+}
+body[data-theme="marquee"]{
+  --ink:#0F1B2E; --muted:#4E5F73; --faint:#7C8B9C; --line:#DCE4EC; --bg:#F4F6F9;
+  --brand:#2D5175; --brand-deep:#081330; --accent:#2D5175; --accent-ink:#fff;
+  --accent-soft:#EEF3F8; --accent-line:#C8D9E8; --track:#E7EDF3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 'Jost',Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 90px}
+.head{background:var(--brand-deep);color:#fff;margin:-28px -20px 26px;padding:30px 20px 26px}
+.head .in{max-width:860px;margin:0 auto;padding:0 0}
+.kick{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.65);margin:0 0 8px}
+h1{font-size:24px;font-weight:600;margin:0 0 8px}
+.lede{font-size:14px;color:rgba(255,255,255,.82);max-width:64ch;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:20px 22px;margin-bottom:16px}
+.card h2{font-size:15px;margin:0 0 4px}
+.hint{font-size:12.5px;color:var(--faint);margin:0 0 14px;max-width:70ch}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+.fld span{display:block;font-size:11px;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}
+.fld input,.fld select{width:100%;font:inherit;font-size:14px;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+.full{grid-column:1/-1}
+.q{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.q .ql{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);font-weight:600;margin:0 0 3px}
+.q .qt{font-size:14.5px;font-weight:500;margin:0 0 11px;max-width:72ch}
+.opt{display:grid;grid-template-columns:26px 1fr;gap:11px;width:100%;text-align:left;border:1px solid var(--line);
+  background:#fff;border-radius:7px;padding:10px 12px;margin-bottom:7px;cursor:pointer;font:inherit;color:var(--ink)}
+.opt .lv{width:22px;height:22px;border-radius:5px;border:1px solid var(--line);background:var(--track);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.opt[aria-pressed="true"]{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
+.opt[aria-pressed="true"] .lv{background:var(--brand);border-color:var(--brand);color:#fff}
+.opt b{display:block;font-size:13.5px;font-weight:600}
+.opt .st{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
+.opt .ob{display:block;font-size:11px;color:var(--faint);margin-top:3px;font-style:italic}
+.opt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.btn{font:inherit;font-size:13px;letter-spacing:.06em;font-weight:600;background:var(--brand);color:#fff;border:0;
+  border-radius:7px;padding:13px 22px;cursor:pointer}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.err{background:#FBEFEE;border:1px solid #E9CBC8;color:#8A2F2A;border-radius:7px;padding:11px 14px;margin:14px 0;font-size:13px}
+.res{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:22px;margin-top:18px}
+.res h2{font-size:17px;margin:0 0 4px}
+.res .sub{font-size:12.5px;color:var(--faint);margin:0 0 16px}
+.read{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-top:1px solid var(--line);padding:11px 0}
+.read .nm{font-size:14px;font-weight:500}
+.read .nm small{display:block;font-size:11.5px;color:var(--faint);font-weight:400}
+.read .sc{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.read.weak .nm,.read.weak .sc{color:var(--red)}
+.chiprow{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 4px}
+.fchip{font-size:11px;letter-spacing:.05em;border:1px solid #E9CBC8;background:#FBEFEE;color:#8A2F2A;border-radius:999px;padding:4px 11px}
+.fchip.ok{border-color:#CBE3D8;background:#EDF6F1;color:#1F7A5E}
+.note{font-size:12.5px;color:var(--muted);margin-top:12px;max-width:70ch}
+.gate{max-width:520px;margin:80px auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:30px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="gate" id="gate" hidden>
+  <h1 style="color:var(--ink);font-size:19px">Line assessment</h1>
+  <p class="hint" id="gateMsg">This page needs an access code. Open it from the link you were given, or add ?code=YOURCODE to the address.</p>
+</div>
+
+<div id="app" hidden>
+<div class="head"><div class="in">
+  <p class="kick">Unravel Index · Tier 3 · <span id="partnerName"></span></p>
+  <h1>The line cut</h1>
+  <p class="lede">Six questions on one revenue line — how it earns, what it truly contributes, and where it goes next — plus the contract facts that cannot be inferred. About eight minutes, answered by whoever owns the line. This produces three domain reads and one or more lowest candidates, not an index: lines are compared with lines, never with brands.</p>
+</div></div>
+<div class="wrap">
+
+  <div class="card">
+    <h2>The line</h2>
+    <p class="hint">Name the brand exactly as its own assessment named it, so the two connect. Built for licensed or contracted lines; for an owned line, answer for the line's own economics and mark the contract fields not applicable.</p>
+    <div class="grid">
+      <label class="fld"><span>Brand</span><input id="c_brand" maxlength="120" placeholder="e.g. Martha Stewart"></label>
+      <label class="fld"><span>Line</span><input id="c_line" maxlength="80" placeholder="e.g. Kitchen electrics"></label>
+      <label class="fld"><span>Your name</span><input id="c_rname" maxlength="120"></label>
+      <label class="fld"><span>Your role</span><input id="c_rrole" maxlength="120" placeholder="e.g. Brand Director"></label>
+      <label class="fld full"><span>Email for the read-out</span><input id="c_email" type="email" maxlength="200"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Line identity and evidence</h2>
+    <p class="hint">These fields connect this cut to the same governed commercial line used by the brand assessment. They are descriptive and do not change the scores.</p>
+    <div class="grid">
+      <label class="fld"><span>Offering type</span><select id="o_type"></select></label>
+      <label class="fld"><span>Operating model</span><select id="o_model"></select></label>
+      <label class="fld"><span>Commercial status</span><select id="o_status"></select></label>
+      <label class="fld"><span>Territory</span><input id="o_territory" maxlength="120" placeholder="e.g. Global or North America"></label>
+      <label class="fld"><span>Partner / licensee</span><input id="o_partner" maxlength="120"></label>
+      <label class="fld"><span>Primary channel</span><input id="o_channel" maxlength="120"></label>
+      <label class="fld"><span>Verification status</span><select id="o_verification"></select></label>
+      <label class="fld"><span>Verified / checked on</span><input id="o_verified" type="date"></label>
+      <label class="fld"><span>Evidence source</span><input id="o_source" maxlength="160" placeholder="Document, registry or respondent"></label>
+      <label class="fld"><span>Source URL</span><input id="o_url" type="url" maxlength="500"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>The contract facts</h2>
+    <p class="hint">Captured, never scored — a fact is not a maturity. These are what let the read-out say when the terms are next open, whether the income is verified, and whether the mark is protected where the line sells.</p>
+    <div class="grid" id="contractGrid"></div>
+  </div>
+
+  <div class="card" id="qhost"></div>
+
+  <div id="err"></div>
+  <div style="display:flex;gap:14px;align-items:center">
+    <button type="button" class="btn" id="go" disabled>6 questions left</button>
+    <span class="hint" id="goNote" style="margin:0"></span>
+  </div>
+
+  <div class="res" id="res" hidden></div>
+</div>
+</div>
+
+<script src="instrument.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}); };
+  var params = new URLSearchParams(location.search);
+  var code = (params.get('code')||'').trim();
+  var L = window.UI_LINE;
+  var C = (window.UI&&window.UI.brand&&window.UI.brand.context)||{};
+  var CONTRACT_LABELS = {
+    rateBasis:'Rate basis', minimum:'Minimum guarantee', territory:'Territory',
+    exclusivity:'Exclusivity', renewal:'Next renewal', audit:'Audit status',
+    trademark:'Trademark coverage where this line sells'
+  };
+  var state = { answers:{}, sending:false, brandId:(params.get('brandId')||'').trim(), lineId:(params.get('lineId')||'').trim() };
+
+  if (!code){ $('gate').hidden = false; return; }
+
+  fetch('/api/partner?code='+encodeURIComponent(code))
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
+    .then(function(res){
+      if (!res.ok || !res.j.valid){ $('gate').hidden=false; $('gateMsg').textContent = res.j.error || 'That access code was not recognised.'; return; }
+      if (res.j.atCapacity){ $('gate').hidden=false; $('gateMsg').textContent = res.j.message; return; }
+      state.partner = res.j;
+      if (res.j.partnerName) $('partnerName').textContent = res.j.partnerName.toUpperCase();
+      if (res.j.badgeLabel && /marquee/i.test((res.j.badgeLabel||'')+(res.j.partnerName||''))) document.body.setAttribute('data-theme','marquee');
+      $('app').hidden = false;
+      build();
+      // Arriving from the dashboard: the brand and line come pre-filled so
+      // the owner answers questions, not admin.
+      var qb=(params.get('brand')||'').trim(), ql=(params.get('line')||'').trim();
+      if (qb) $('c_brand').value = qb.slice(0,120);
+      if (ql) $('c_line').value = ql.slice(0,80);
+      if (qb||ql) paint();
+    })
+    .catch(function(){ $('gate').hidden=false; $('gateMsg').textContent='Could not reach the server. Check your connection and reload.'; });
+
+  function build(){
+    function options(id,values){$(id).innerHTML='<option value="">Select&hellip;</option>'+(values||[]).map(function(x){return '<option>'+esc(x)+'</option>'}).join('');}
+    options('o_type',C.lineTypes); options('o_model',C.lineOperatingModels); options('o_status',C.lineStatuses);
+    options('o_verification',(C.ontology||{}).verificationStatus);
+    $('contractGrid').innerHTML = Object.keys(L.contract).map(function(k){
+      return '<label class="fld'+(k==='trademark'?' full':'')+'"><span>'+esc(CONTRACT_LABELS[k])+'</span>'
+        + '<select id="ct_'+k+'"><option value="">Select&hellip;</option>'
+        + L.contract[k].map(function(o){ return '<option>'+esc(o)+'</option>'; }).join('')
+        + '</select></label>';
+    }).join('');
+
+    $('qhost').innerHTML = '<h2>Six questions</h2><p class="hint">Every level is anchored to something observable. Pick the one that is actually true today, not the one the line is working toward.</p>'
+      + L.domains.map(function(d){
+          return (L.questions[d.key]||[]).map(function(q,j){
+            return '<div class="q"><p class="ql">'+esc(q[0])+' &middot; '+esc(d.name)+'</p><p class="qt">'+esc(q[1])+'</p>'
+              + q[2].map(function(lv,i){
+                  return '<button type="button" class="opt" aria-pressed="false" data-d="'+d.key+'" data-q="'+(j===0?'a':'b')+'" data-lv="'+(i+1)+'">'
+                    + '<span class="lv">'+(i+1)+'</span><span><b>'+esc(lv[0])+'</b><span class="st">'+esc(lv[1])+'</span>'
+                    + '<span class="ob">Observable: '+esc(lv[2])+'</span></span></button>';
+                }).join('')
+              + '</div>';
+          }).join('');
+        }).join('');
+
+    document.querySelectorAll('.opt').forEach(function(b){
+      b.onclick = function(){
+        state.answers[b.dataset.d] = state.answers[b.dataset.d]||{};
+        state.answers[b.dataset.d][b.dataset.q] = Number(b.dataset.lv);
+        paint();
+      };
+    });
+    ['c_brand','c_line','o_type','o_model','o_status','o_territory','o_verification'].forEach(function(id){ $(id).oninput = paint; $(id).onchange=paint; });
+    $('go').onclick = submit;
+    paint();
+  }
+
+  function answeredCount(){
+    var n=0;
+    L.domains.forEach(function(d){ var a=state.answers[d.key]||{}; if(a.a)n++; if(a.b)n++; });
+    return n;
+  }
+
+  function paint(){
+    document.querySelectorAll('.opt').forEach(function(b){
+      var a = state.answers[b.dataset.d]||{};
+      b.setAttribute('aria-pressed', String(a[b.dataset.q]===Number(b.dataset.lv)));
+    });
+    var n = answeredCount();
+    var named = $('c_brand').value.trim() && $('c_line').value.trim();
+    var ontology = $('o_type').value && $('o_model').value && $('o_status').value && $('o_territory').value.trim() && $('o_verification').value;
+    var ready = n===6 && named && ontology && !state.sending;
+    $('go').disabled = !ready;
+    $('go').textContent = state.sending ? 'Sending…' : (n<6 ? (6-n)+' questions left' : (!named ? 'Name the brand and line' : (!ontology ? 'Complete line identity' : 'Submit the line cut')));
+  }
+
+  function contract(){
+    var out={};
+    Object.keys(L.contract).forEach(function(k){ out[k] = $('ct_'+k).value || ''; });
+    return out;
+  }
+
+  function submit(){
+    if (state.sending) return;
+    state.sending = true; $('err').innerHTML=''; paint();
+    fetch('/api/submit', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        instrument:'line',
+        partnerCode: state.partner.partnerCode,
+        brand: { name: $('c_brand').value.trim(), brandId:state.brandId },
+        line:  { name: $('c_line').value.trim(), lineId:state.lineId, contract: contract(),
+          offeringType:$('o_type').value, operatingModel:$('o_model').value,
+          commercialStatus:$('o_status').value, territory:$('o_territory').value.trim(),
+          partner:$('o_partner').value.trim(), channel:$('o_channel').value.trim(),
+          verificationStatus:$('o_verification').value, verifiedAt:$('o_verified').value,
+          sourceLabel:$('o_source').value.trim(), sourceUrl:$('o_url').value.trim() },
+        respondent: { name:$('c_rname').value.trim(), role:$('c_rrole').value.trim(), email:$('c_email').value.trim() },
+        answers: state.answers
+      })})
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
+      .then(function(res){
+        state.sending=false;
+        if(!res.ok || !res.j.saved){ paint(); $('err').innerHTML='<div class="err"><b>Not submitted.</b> '+esc(res.j.error||'Try again.')+'</div>'; return; }
+        render(res.j.result);
+      })
+      .catch(function(){ state.sending=false; paint(); $('err').innerHTML='<div class="err"><b>Not submitted.</b> Could not reach the server; nothing was lost. Try again.</div>'; });
+  }
+
+  function render(r){
+    if(!r){ $('res').hidden=false; $('res').innerHTML='<h2>Received</h2><p class="note">The line cut has been recorded against '+esc($('c_brand').value)+'.</p>'; return; }
+    var flags = (r.flags||[]).map(function(f){ return '<span class="fchip">'+esc(f)+'</span>'; }).join('')
+             || '<span class="fchip ok">No contract flags raised</span>';
+    $('res').hidden=false;
+    $('res').innerHTML = '<h2>'+esc(r.lineName)+' &middot; '+esc(r.brandName)+'</h2>'
+      + '<p class="sub">Three reads on one line. The lowest read'+((r.weakestCandidates||[]).length>1?'s are tied; investigate both before selecting an intervention.':' is the candidate to investigate first.')+'</p>'
+      + r.domains.map(function(d){
+          var weak=(r.weakestCandidates||[r.weakestKey]).indexOf(d.key)>=0;
+          return '<div class="read'+(weak?' weak':'')+'"><div class="nm">'+esc(d.name)
+            + (weak?'<small>'+(r.weakestCandidates&&r.weakestCandidates.length>1?'Tied lowest candidate':'Lowest candidate on this line')+'</small>':'')
+            + '</div><div class="sc">'+d.score+'</div></div>';
+        }).join('')
+      + '<div class="chiprow">'+flags+'</div>'
+      + '<p class="note">Reads sit on the same 20&ndash;100 scale as domain scores, so a line read can be laid beside the brand’s domain score to see whether this line is better or worse than the brand overall. No index is produced at line level by design.</p>';
+    $('res').scrollIntoView({behavior:'smooth'});
+    document.querySelectorAll('.opt,.btn,select,input').forEach(function(el){ el.disabled = true; });
+  }
+})();
+</script>
+</body>
+</html>

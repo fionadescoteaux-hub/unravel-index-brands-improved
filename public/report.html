@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Illustrative brand report — Unravel Index</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#081330; --steel:#2D5175; --ink:#0F1B2E; --body:#3C4A5C; --faint:#7C8B9C;
+  --line:#DCE4EC; --paper:#F4F6F9; --tint:#EEF3F8; --track:#E7EDF3;
+  --gold:#A2712F; --goldbg:#FBF6EC; --goldline:#E8D8BE; --frag:#B0413A; --fragbg:#FBEAE8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#E9EDF2;color:var(--body);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.sheet{max-width:880px;margin:0 auto;background:#fff;box-shadow:0 2px 26px rgba(8,19,48,.09)}
+a{color:var(--steel);font-weight:500;text-decoration:none;border-bottom:1px solid #C8D9E8}
+a:hover{color:var(--navy);border-bottom-color:var(--steel)}
+
+.runner{background:var(--navy);color:rgba(255,255,255,.72);padding:9px 40px;font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.runner .r{color:rgba(255,255,255,.5)}
+.pad{padding:34px 40px 40px}
+
+.warn{background:var(--goldbg);border-bottom:1px solid var(--goldline);color:var(--gold);padding:11px 40px;font-size:12px;display:flex;gap:9px;align-items:flex-start}
+.warn i{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto;margin-top:6px}
+
+.kicker{font-family:'Jost',Helvetica,sans-serif;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--steel);font-weight:500;margin:0 0 10px}
+h1{font-family:'Jost',Helvetica,sans-serif;font-weight:300;font-size:33px;line-height:1.14;color:var(--navy);margin:0 0 6px;letter-spacing:-.01em}
+.sub{font-size:13px;color:var(--faint);margin:0}
+
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:22px 0 26px}
+.meta .l{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.meta .v{font-size:12.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+.head{display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:2px solid var(--navy);padding-bottom:15px}
+.idx{font-family:'Jost',Helvetica,sans-serif;font-size:62px;line-height:.95;font-weight:300;color:var(--navy);font-variant-numeric:tabular-nums}
+.idx small{font-size:15px;font-weight:400;color:var(--faint);margin-left:4px}
+.bandwrap{flex:1;min-width:230px;padding-bottom:4px}
+.band{display:inline-block;font-family:'Jost',Helvetica,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:#fff;background:var(--steel);border-radius:2px;padding:4px 11px}
+.scale{display:flex;gap:2px;margin-top:11px}
+.scale i{flex:1;height:5px;background:var(--track);border-radius:2px}
+.scale i.on{background:var(--steel)}
+.slab{display:flex;gap:2px;margin-top:5px}
+.slab span{flex:1;font-family:'Jost',Helvetica,sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.slab span.on{color:var(--steel);font-weight:600}
+
+.cons{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--frag);border-radius:6px;padding:18px 22px}
+.cons .h{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--frag);font-weight:600;margin-bottom:8px}
+.cons .n{font-family:'Jost',Helvetica,sans-serif;font-size:23px;color:var(--ink);line-height:1.2;font-weight:400}
+.cons .s{font-size:12.5px;color:var(--faint);margin-top:3px;font-variant-numeric:tabular-nums}
+.cons p{font-size:12.5px;margin:11px 0 0;max-width:74ch}
+.cons p:last-child{margin-bottom:0}
+.ok{color:var(--steel);font-weight:600}
+
+h2{font-family:'Jost',Helvetica,sans-serif;font-weight:400;font-size:18px;color:var(--navy);margin:34px 0 4px}
+.h2n{font-size:11px;color:var(--faint);font-family:'Jost',Helvetica,sans-serif;letter-spacing:.18em;text-transform:uppercase;margin:34px 0 6px}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:500;text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--navy)}
+th.r{text-align:right}
+td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+td:last-child,th:last-child{padding-right:0}
+td.dn{color:var(--ink);font-weight:600;width:29%}
+td.dn em{display:block;font-style:normal;font-weight:400;font-size:10.5px;color:var(--faint);margin-top:2px;letter-spacing:.03em}
+td.bar{width:44%}
+.trk{height:7px;background:var(--track);border-radius:4px;overflow:hidden}
+.trk i{display:block;height:100%;background:var(--steel);border-radius:4px}
+td.v{text-align:right;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;width:9%}
+tr.bind td.dn{color:var(--frag)}
+tr.bind .trk i{background:var(--frag)}
+tr.bind td.v{color:var(--frag)}
+.chip{display:inline-block;font-family:'Jost',Helvetica,sans-serif;font-size:8px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;border-radius:2px;padding:2px 6px;margin-left:7px;vertical-align:middle}
+.chip.c{background:var(--fragbg);color:var(--frag)}
+.chip.v{background:var(--goldbg);color:var(--gold)}
+
+.move{margin-top:14px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.move .mh{background:var(--tint);padding:13px 18px;font-size:13px;color:var(--ink);border-bottom:1px solid var(--line)}
+.move .mh b{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:5px;font-weight:600}
+.move ol{margin:0;padding:6px 18px 6px 40px}
+.move li{padding:11px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink)}
+.move li:last-child{border-bottom:0}
+.move li span{display:block;font-size:10.5px;color:var(--faint);margin-top:3px;font-family:'Jost',Helvetica,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.mf{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.mf div{padding:13px 18px;font-size:12px}
+.mf div:first-child{border-right:1px solid var(--line)}
+.mf b{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px;font-weight:500}
+
+.note{background:var(--paper);border-left:3px solid var(--steel);padding:16px 20px;margin:20px 0 0;font-size:12.5px}
+.note .h{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);font-weight:600;margin-bottom:7px}
+.note p{margin:0 0 9px;max-width:76ch}
+.note p:last-child{margin:0}
+
+.next{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;border-top:1px solid var(--line);padding-top:22px}
+.next a{flex:1;min-width:230px;border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:block;border-bottom:1px solid var(--line)}
+.next a:hover{border-color:var(--steel);background:var(--paper)}
+.next a b{font-family:'Jost',Helvetica,sans-serif;font-size:14px;color:var(--navy);font-weight:400;display:block;margin-bottom:4px}
+.next a span{font-size:11.5px;color:var(--faint);display:block;line-height:1.5}
+
+.foot{background:var(--navy);color:rgba(255,255,255,.62);padding:24px 40px;font-size:11px;line-height:1.6}
+.foot .wm{font-family:Georgia,'Times New Roman',serif;font-size:14px;font-weight:700;letter-spacing:-.02em;color:#fff;display:inline-flex;align-items:center;gap:7px;margin-bottom:8px}
+.foot .wm .u{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:3px;background:var(--steel);color:#fff;font-size:11px;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
+.foot .wm .ix{font-weight:400;color:#7A97B2;margin-left:-3px}
+@media(max-width:700px){.pad{padding:24px 18px}.runner,.warn,.foot{padding-left:18px;padding-right:18px}
+  h1{font-size:25px}.idx{font-size:48px}.mf{grid-template-columns:1fr}.mf div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+  td.dn{width:auto}td.bar{display:none}}
+/* ── Section-by-section drop-downs ─────────────────────────── */
+h2{font-family:'Jost',Helvetica,sans-serif;font-weight:400;font-size:19px;color:var(--navy);margin:36px 0 6px}
+.lead{font-size:12.5px;color:var(--body);max-width:78ch;margin:0 0 14px}
+.ctrl{display:flex;gap:8px;margin:0 0 10px}
+.ctrl button{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--steel);background:#fff;border:1px solid var(--line);border-radius:3px;padding:6px 11px;cursor:pointer}
+.ctrl button:hover{background:var(--tint);border-color:#C8D9E8}
+.ctrl button:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+
+details.dm{border:1px solid var(--line);border-radius:6px;margin-bottom:8px;background:#fff}
+details.dm[open]{border-color:#C8D9E8}
+details.dm.bind{border-left:3px solid var(--frag)}
+details.dm summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr 130px 150px 40px;gap:14px;align-items:center;padding:13px 16px}
+details.dm summary::-webkit-details-marker{display:none}
+details.dm summary:hover{background:var(--paper)}
+details.dm summary:focus-visible{outline:2px solid var(--steel);outline-offset:-2px}
+.dmn{font-family:'Jost',Helvetica,sans-serif;font-size:14px;color:var(--ink);font-weight:500}
+details.dm.bind .dmn{color:var(--frag)}
+.dmw{font-size:10px;font-family:'Jost',Helvetica,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.dmb{height:7px;background:var(--track);border-radius:4px;overflow:hidden}
+.dmb i{display:block;height:100%;background:var(--steel);border-radius:4px}
+details.dm.bind .dmb i{background:var(--frag)}
+.dmv{font-size:14px;font-weight:600;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+details.dm.bind .dmv{color:var(--frag)}
+
+.dmi{padding:4px 16px 18px;border-top:1px solid var(--line)}
+.dmt{font-size:12.5px;color:var(--body);margin:13px 0 14px;max-width:78ch}
+.lab{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 8px}
+
+.qr{border-left:2px solid var(--line);padding:0 0 0 13px;margin-bottom:12px}
+.ql{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);font-weight:500;margin-bottom:3px}
+.qa{font-size:12.5px;color:var(--ink)}
+.qt{font-size:11px;color:var(--faint);margin-top:2px;font-style:italic}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.col{border-radius:6px;padding:13px 15px}
+.col.ok{background:var(--tint)}
+.col.ch{background:var(--goldbg)}
+.col.ok .lab{color:var(--steel)}
+.col.ch .lab{color:var(--gold)}
+.col ul{margin:0;padding-left:16px}
+.col li{font-size:12px;line-height:1.55;margin-bottom:9px;color:var(--body)}
+.col li:last-child{margin-bottom:0}
+.col.ok li b{color:var(--ink)}
+.col.ch li b{color:#6B4C00}
+.col li i{font-style:normal;font-weight:600;color:var(--ink)}
+.ob{display:block;font-size:10.5px;color:var(--faint);margin-top:3px;font-style:italic}
+.none{font-size:12px;margin:0;color:var(--body)}
+
+.mv{margin-top:16px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.mvh{background:var(--tint);padding:13px 16px;font-size:12.5px;color:var(--ink);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mvh .stp{margin-left:auto;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:var(--ink);color:#fff;border-radius:3px;padding:2px 8px;white-space:nowrap}
+.mvf{margin:0;padding:12px 16px 0;font-size:12.5px;line-height:1.5;color:var(--body)}
+.mvh b{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:5px;font-weight:600}
+.mv ol{margin:0;padding:4px 16px 4px 36px}
+.mv li{padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink)}
+.mv li:last-child{border-bottom:0}
+.mv li span{display:block;font-size:10px;color:var(--faint);margin-top:3px;font-family:'Jost',Helvetica,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.mf{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.mf div{padding:12px 16px;font-size:11.5px}
+.mf div:first-child{border-right:1px solid var(--line)}
+.mf b{font-family:'Jost',Helvetica,sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px;font-weight:500}
+
+@media(max-width:760px){
+  details.dm summary{grid-template-columns:1fr 44px;gap:8px}
+  .dmw,.dmb{display:none}
+  .two{grid-template-columns:1fr}
+  .mf{grid-template-columns:1fr}
+  .mf div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+}
+.also{font-size:11.5px;color:var(--faint);margin:16px 0 0;max-width:78ch;line-height:1.6}
+.also a{font-weight:500}
+.mw{border-top:1px solid var(--line);padding:11px 16px;font-size:11.5px;color:var(--body);line-height:1.55}
+.mw b{font-family:'Jost',Helvetica,sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px;font-weight:500}
+
+/* ── Revenue lines and context findings ─────────────────────────────────── */
+.lines,.finds{border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:0 0 18px;background:#fff}
+.lnh{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:11px}
+.lnhead,.lnrow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) minmax(0,1.3fr) minmax(0,.9fr) minmax(0,1.1fr);gap:10px;padding:7px 0;align-items:baseline}
+.lnhead{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:700;border-bottom:1px solid var(--line)}
+.lnrow{border-bottom:1px solid var(--tint)}
+.lnrow.hit{background:#FBEFEE;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:4px}
+.lnn{font-size:12.5px;font-weight:700;color:var(--ink)}
+.lnn .bt{display:inline-block;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#8A2F2A;
+  background:#fff;border:1px solid #E9CBC8;border-radius:999px;padding:1px 7px;margin-left:7px;vertical-align:middle;font-weight:700}
+.lnm{font-size:12px;color:var(--body)}
+.lnm.warn{color:#8A2F2A;font-weight:700}
+.lnnote{font-size:12px;color:var(--body);line-height:1.5;margin:11px 0 0}
+.lnnote.warn{color:#8A2F2A}
+.finds .find{border-left:3px solid var(--steel);padding:2px 0 2px 13px;margin-bottom:14px}
+.finds .find.high{border-left-color:var(--frag,#B0413A)}
+.finds .find:last-child{margin-bottom:0}
+.finds .ft{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.finds .fs{font-size:12.5px;color:var(--body);line-height:1.5;margin-bottom:8px}
+.finds ol{margin:0;padding-left:17px;font-size:12.5px;color:var(--body)}
+.finds ol li{margin-bottom:5px;line-height:1.45}
+.finds ol li span{display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel,#2D5175);
+  background:var(--tint);border:1px solid var(--line);border-radius:3px;padding:1px 6px;margin-left:6px;vertical-align:middle;font-weight:700}
+.finds .fm{font-size:11.5px;color:var(--faint);margin-top:8px}
+@media(max-width:820px){.lnhead{display:none}.lnrow{grid-template-columns:1fr 1fr}}
+
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="runner">
+    <span>Illustrative brand report</span>
+    <span class="r">Unravel Index · brand-licensing adaptation</span>
+  </div>
+
+  <div class="warn"><i></i><div><b>Illustrative throughout.</b> These are made-up answers used to show the shape of a report. No assessment of any Marquee brand has been carried out, and nothing here is an estimate of how any brand would score.</div></div>
+
+  <div class="pad">
+    <p class="kicker">Constraint report · one brand</p>
+    <h1>Body Glove</h1>
+    <p class="sub">Brand Commercial Engine · nine weighted domains · one constraint candidate to validate</p>
+
+    <div class="meta">
+      <div><div class="l">Platform</div><div class="v">Active &amp; Outdoor</div></div>
+      <div><div class="l">Cycle</div><div class="v">Baseline</div></div>
+      <div><div class="l">Assessed</div><div class="v">15 August 2026</div></div>
+      <div><div class="l">Questions</div><div class="v">18 of 18</div></div>
+      <div><div class="l">Instrument</div><div class="v">unravel-v1.0</div></div>
+    </div>
+
+    <div class="head">
+      <div class="idx">54<small>/ 100</small></div>
+      <div class="bandwrap">
+        <span class="band">Emerging</span>
+        <div class="scale"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+        <div class="slab"><span class="">Fragile</span><span class="on">Emerging</span><span class="">Defined</span><span class="">Embedded</span><span class="">Optimised</span></div>
+      </div>
+    </div>
+
+    <div class="cons">
+      <div class="h">Priority constraint candidate</div>
+      <div class="n">Market Focus &amp; Demand</div>
+      <div class="s">30 / 100 — the lowest-scoring domain, carrying 10% of the index</div>
+      <p>Whether the customer for this brand is defined and demand is evidenced rather than assumed. The score makes this the candidate to investigate first; the affected-line placement below establishes materiality, while a later measured outcome is still needed to validate causality.</p>
+      <p>Heritage brands are especially prone to being sold on memory. Without a baseline, brand debate is opinion and investment goes where advocacy is loudest.</p>
+      <p><span class="ok">This matches what the brand team named</span> as the biggest challenge before they answered. Agreement is useful — it means the conversation can start at the move rather than at the diagnosis.</p>
+      <p><b>Three-test status:</b> material — shown on Apparel and Electronics accessories; actionable — move, owners, horizon and proof are specified below; causal — not yet validated against a post-intervention commercial outcome.</p>
+    </div>
+
+    <h2>Section by section</h2>
+    <p class="lead">Every domain below opens. Each one shows what the answers actually said, what is holding up, and what would have to become observably true to move it up a level. The wording is the instrument's own thresholds, not commentary written afterwards.</p>
+    <div class="ctrl"><button type="button" id="openAll">Open all nine</button><button type="button" id="shutAll">Close all</button></div>
+
+<div class="lines">
+    <div class="lnh">How this brand earns · 4 lines</div>
+    <div class="lnhead"><div>Line</div><div>Type</div><div>Share of brand income</div><div>Licensees</div><div>Next renewal</div></div>
+    <div class="lnrow"><div class="lnn">Wetsuits &amp; swim</div><div class="lnm">Licensed product</div><div class="lnm">26–50%</div><div class="lnm">2–3 licensees</div><div class="lnm">2–3 years</div></div><div class="lnrow hit"><div class="lnn">Apparel<span class="bt">constraint bites</span></div><div class="lnm">Licensed product</div><div class="lnm">26–50%</div><div class="lnm">4–10 licensees</div><div class="lnm warn">Within 12 months</div></div><div class="lnrow hit"><div class="lnn">Electronics accessories<span class="bt">constraint bites</span></div><div class="lnm">Licensed product</div><div class="lnm">10–25%</div><div class="lnm">2–3 licensees</div><div class="lnm">1–2 years</div></div><div class="lnrow"><div class="lnn">Water sports gear</div><div class="lnm">Licensed product</div><div class="lnm">10–25%</div><div class="lnm">2–3 licensees</div><div class="lnm">Over 3 years</div></div>
+    <p class="lnnote"><b>The constraint is not brand-wide.</b> Market Focus &amp; Demand bites in Apparel and Electronics accessories — together roughly half of what this brand earns. That is where the move belongs and who owns it, rather than the brand in general.</p>
+    <p class="lnnote warn"><b>Renewal inside twelve months:</b> Apparel. Terms are only genuinely open at renewal. A constraint still undiagnosed by that date gets locked in for another term.</p>
+  </div>
+<div class="finds">
+    <div class="lnh">What the answers and the revenue structure say together</div>
+    <div class="find">
+      <div class="ft">The book is wider than the service standard can carry</div><div class="fs">Approvals, samples and reviews scale with categories. A book this wide on a reactive service function produces drag that never appears as a cost — it appears later as licensee underperformance, and gets attributed to the licensee.</div>
+      <ol><li>Measure approval turnaround and queue age by category for one month<span>Ops</span></li><li>Triage: define which submissions are fast-tracked and which need full review<span>Ops</span></li><li>Resource to the standard, or narrow the book to what can be serviced<span>Platform lead</span></li></ol>
+      <div class="fm"><b>Proof it moved:</b> Turnaround inside standard across the whole book, not only the largest partners</div></div>
+  </div>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Strategy &amp; Commercial Intent</span>
+        <span class="dmw">10% · evidenced</span>
+        <span class="dmb"><i style="width:40%"></i></span>
+        <span class="dmv">40</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether this brand is being run to a commercial plan, or to a renewal schedule</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q1A · Commercial plan</div><div class="qa"><b>Aspirational</b> — Ambitions have been discussed but nothing is documented or agreed.</div><div class="qt">Threshold met: Plan discussed, not documented</div></div><div class="qr"><div class="ql">Q1B · Decision discipline</div><div class="qa"><b>Informal</b> — Discussed case by case; the outcome depends on who is in the room.</div><div class="qt">Threshold met: No written criteria</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Commercial plan</b> — from <i>Aspirational</i> to <i>Documented</i>.<br>A plan exists but is not used to decide where time and money go.<span class="ob">Observable when: Plan not referenced in the last major decision</span></li><li><b>Decision discipline</b> — from <i>Informal</i> to <i>Loose priorities</i>.<br>A general sense of what fits, but exceptions are frequent on larger deals.<span class="ob">Observable when: Criteria overridden on most large deals</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Grow the base: deliberate category and territory choices instead of renewal-by-default<span class="stp">Level 2 &rarr; 3</span></div>
+        <p class="mvf">The intent exists in people’s heads and holds while they are in the room. It becomes useful the moment it is written down and can be argued with.</p>
+        <ol><li>Turn the working assumptions into a three-year plan with a revenue target for each priority category<span>Brand lead</span></li><li>Write the deal criteria — fit, economics, channel — and the decline rule, before the next approach arrives<span>Brand lead · Commercial</span></li><li>Record the next three inbound decisions against the criteria, including the declines<span>Commercial</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Plan in 6–8 weeks · effect from the next deal cycle</div><div><b>Proof it moved</b>Decisions taken and declined against written criteria, on record</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>A brand without a plan defaults to renewing what exists. Every decision becomes a reaction to whoever approached, and the brand grows only at the rate other people think of it.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Business Model &amp; Revenue Mix</span>
+        <span class="dmw">15% · evidenced</span>
+        <span class="dmb"><i style="width:60%"></i></span>
+        <span class="dmv">60</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether the income mix is diversified and predictable, or resting on a few guarantees</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q2A · Income structure</div><div class="qa"><b>Genuine mix</b> — A real spread across licensees, though income moves unpredictably between them.</div><div class="qt">Threshold met: Spread exists, forecasting unreliable</div></div><div class="qr"><div class="ql">Q2B · Concentration risk</div><div class="qa"><b>Painful but survivable</b> — We would cover a period while finding an alternative.</div><div class="qt">Threshold met: Alternative would take quarters</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Income structure</b> — from <i>Genuine mix</i> to <i>Diversifying</i>.<br>Several material licensees with overage growing; forward visibility is reasonable.<span class="ob">Observable when: Overage across most of the book</span></li><li><b>Concentration risk</b> — from <i>Painful but survivable</i> to <i>Manageable</i>.<br>Other licensees would keep the brand stable while we adjusted.<span class="ob">Observable when: Other partners can absorb it</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Protect and diversify income: reduce single-licensee dependence and convert guarantees into overage<span class="stp">Level 3 &rarr; 4</span></div>
+        <p class="mvf">Dependency is managed, but income is still floored by guarantees rather than earned through sell-through. Guarantees pay the same whether the brand sells or not.</p>
+        <ol><li>Model the next renewal both ways — lower guarantee with a real overage rate, against the current structure — before opening it<span>Commercial · Finance</span></li><li>Open two new licensee conversations before the dominant renewal window, not during it<span>Commercial</span></li><li>Track overage as a share of royalty quarterly; it is the measure that says the brand is actually selling<span>Finance</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Ahead of the next renewal window</div><div><b>Proof it moved</b>Overage share of royalty rising against a fixed baseline</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>A brand whose income is one licensee’s guarantee has no negotiating position. Concentration is invisible while everyone is happy and decisive the moment they are not.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Products &amp; Unit Economics</span>
+        <span class="dmw">15% · evidenced</span>
+        <span class="dmb"><i style="width:60%"></i></span>
+        <span class="dmv">60</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether the true economics of each category are known, and priced accordingly</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q3A · Cost and margin visibility</div><div class="qa"><b>Direct costs known</b> — Royalty and direct costs understood; management, creative and legal time not allocated.</div><div class="qt">Threshold met: Overheads unallocated</div></div><div class="qr"><div class="ql">Q3B · Portfolio decisions</div><div class="qa"><b>Occasional review</b> — Reviewed sometimes, but exiting a category feels too difficult.</div><div class="qt">Threshold met: Review happens; action rarely follows</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Cost and margin visibility</b> — from <i>Direct costs known</i> to <i>Fully costed</i>.<br>True contribution per category understood including cost to serve, and used in decisions.<span class="ob">Observable when: Contribution per category calculated</span></li><li><b>Portfolio decisions</b> — from <i>Occasional review</i> to <i>Annual cycle</i>.<br>Rates reviewed annually against evidence. Underperforming categories have been dropped.<span class="ob">Observable when: Category dropped or repriced in the last year</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Improve rate and mix: price every category on its true contribution and exit the ones that lose money<span class="stp">Level 3 &rarr; 4</span></div>
+        <p class="mvf">The view exists and is trusted, but decisions still happen beside it rather than from it. Bring it into the room where terms are set.</p>
+        <ol><li>Take contribution by category into the next three renewal conversations as the opening position<span>Commercial</span></li><li>Reprice or restructure the two lowest-contributing categories and record what changed<span>Commercial</span></li><li>Report contribution alongside royalty in the quarterly pack so both are seen together<span>Finance</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Next three renewals</div><div><b>Proof it moved</b>Terms changed on contribution evidence, on record</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>Licensing looks like pure margin until you count approvals, creative, legal and management time. Some categories in most books lose money once serviced properly, and nobody can name which.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm bind" open>
+      <summary>
+        <span class="dmn">Market Focus &amp; Demand<span class="chip c">constraint</span></span>
+        <span class="dmw">10% · evidenced</span>
+        <span class="dmb"><i style="width:30%"></i></span>
+        <span class="dmv">30</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether the customer for this brand is defined and demand is evidenced rather than assumed</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q4A · Customer definition</div><div class="qa"><b>Assumed</b> — We describe the customer from heritage. No current evidence.</div><div class="qt">Threshold met: No current consumer data</div></div><div class="qr"><div class="ql">Q4B · Demand evidence</div><div class="qa"><b>Flat or unclear</b> — Stable at best; any growth comes from new doors rather than demand.</div><div class="qt">Threshold met: Growth attributable to distribution only</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Customer definition</b> — from <i>Assumed</i> to <i>Broad</i>.<br>A general description everyone would state slightly differently.<span class="ob">Observable when: Definition varies across the team</span></li><li><b>Demand evidence</b> — from <i>Flat or unclear</i> to <i>Pockets of growth</i>.<br>Growing somewhere, but not by design and not measured consistently.<span class="ob">Observable when: Growth unplanned</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>The move against this constraint</b>Protect equity and pricing power: a defined consumer and an evidenced demand baseline<span class="stp">Level 1 &rarr; 2</span></div>
+        <p class="mvf">The brand is being sold on memory. Without a defined consumer and a baseline, category debate is opinion and investment follows whoever argues hardest.</p>
+        <ol><li>Write the consumer definition in one page from current data — sell-through, retailer data, branded search, social — not from heritage<span>Brand lead · Insight</span></li><li>Choose three demand signals to track and fix a start date<span>Insight</span></li><li>Show the definition to the two largest licensees and record where they disagree<span>Commercial</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Definition in four weeks · baseline start dated</div><div><b>Proof it moved</b>A written consumer definition and three signals with a fixed start date</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>Heritage brands are especially prone to being sold on memory. Without a baseline, brand debate is opinion and investment goes where advocacy is loudest.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Go-To-Market &amp; Sales</span>
+        <span class="dmw">10% · evidenced</span>
+        <span class="dmb"><i style="width:60%"></i></span>
+        <span class="dmv">60</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether new licensees and territories are pursued deliberately, or arrive by approach</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q5A · Pipeline</div><div class="qa"><b>Partly targeted</b> — Some categories or territories actively pursued; most deals reactive.</div><div class="qt">Threshold met: Minority of deals originated</div></div><div class="qr"><div class="ql">Q5B · Route to market</div><div class="qa"><b>Directionally right</b> — Mostly appropriate, with known gaps or misfits unaddressed.</div><div class="qt">Threshold met: Standard exists, not enforced</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Pipeline</b> — from <i>Partly targeted</i> to <i>Designed</i>.<br>White space mapped and pursued deliberately, with a pipeline reviewed on a cycle.<span class="ob">Observable when: Pipeline reviewed on a fixed cycle</span></li><li><b>Route to market</b> — from <i>Directionally right</i> to <i>Managed</i>.<br>A channel plan per territory, with distribution approved and checked.<span class="ob">Observable when: Approval required in material licences</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Add licences: originate white-space deals and get out of channels that erode the rate<span class="stp">Level 3 &rarr; 4</span></div>
+        <p class="mvf">Origination is systematic but still shaped by who is available rather than by the plan.</p>
+        <ol><li>Rebuild the target list from the three-year category plan rather than from who has approached<span>Commercial</span></li><li>Run structured approaches into the top five gaps with a defined pitch and terms range<span>Commercial</span></li><li>Track origination cost per closed licence and use it to size next year’s effort<span>Finance</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Next origination cycle</div><div><b>Proof it moved</b>Closed licences traceable to named plan gaps</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>An inbound pipeline caps the brand at the rate other people think of it. Designed origination sets that rate yourself.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Operations &amp; Delivery Capacity</span>
+        <span class="dmw">10% · evidenced</span>
+        <span class="dmb"><i style="width:60%"></i></span>
+        <span class="dmv">60</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether the brand can be serviced properly at its current size, and at the next one</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q6A · Capacity to service</div><div class="qa"><b>Adequate</b> — Capacity meets current demand but nothing more.</div><div class="qt">Threshold met: No headroom for growth</div></div><div class="qr"><div class="ql">Q6B · Delivery consistency</div><div class="qa"><b>Partly standardised</b> — A process exists and is followed for larger licensees.</div><div class="qt">Threshold met: Standard applied to majors only</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Capacity to service</b> — from <i>Adequate</i> to <i>Resourced</i>.<br>Capacity is planned against the licence book, with a defined service standard.<span class="ob">Observable when: Written service standard, resourced</span></li><li><b>Delivery consistency</b> — from <i>Partly standardised</i> to <i>Consistent</i>.<br>One standard applied across the book, with turnaround measured.<span class="ob">Observable when: Turnaround measured against a target</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Grow the base by servicing it properly: approvals, reviews and licensee support to a standard<span class="stp">Level 3 &rarr; 4</span></div>
+        <p class="mvf">The standard is met, but the function is reactive — it approves what arrives instead of shaping what is submitted.</p>
+        <ol><li>Move from approving submissions to briefing categories ahead of them<span>Brand lead</span></li><li>Run a structured review with the top five licensees twice a year against agreed measures<span>Commercial</span></li><li>Track where approvals are rejected and fix the brief that produced them<span>Ops</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Two review cycles</div><div><b>Proof it moved</b>Rejection rate falling against an unchanged standard</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>Capacity is the quietest constraint: nothing visibly fails, the important work simply never happens. Approvals slip, reviews are skipped, and quality drifts without a single decision being taken.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Financial Management &amp; Cash</span>
+        <span class="dmw">15% · evidenced</span>
+        <span class="dmb"><i style="width:60%"></i></span>
+        <span class="dmv">60</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether royalty income is verified and forecastable, or self-reported and extrapolated</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q7A · Royalty visibility and verification</div><div class="qa"><b>Timely for majors</b> — Current on the largest licensees; the tail is opaque.</div><div class="qt">Threshold met: Tail lagging or unverified</div></div><div class="qr"><div class="ql">Q7B · Forecasting</div><div class="qa"><b>Partly modelled</b> — Modelled for the major licensees only.</div><div class="qt">Threshold met: Tail excluded from the forecast</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Royalty visibility and verification</b> — from <i>Timely for majors</i> to <i>Current and verified</i>.<br>Timely across the book with a standing audit programme and tracked recoveries.<span class="ob">Observable when: Standing audit programme with recoveries</span></li><li><b>Forecasting</b> — from <i>Partly modelled</i> to <i>Modelled</i>.<br>Built bottom-up per licensee and tracked against actuals.<span class="ob">Observable when: Forecast tracked against actuals</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Stop the leakage: verified royalties, audit recovery and a forecast that survives a renewal negotiation<span class="stp">Level 3 &rarr; 4</span></div>
+        <p class="mvf">The majors are current and the tail is opaque — which is where unverified income usually sits.</p>
+        <ol><li>Close the tail: bring the smaller licensees onto the same cadence and format<span>Finance</span></li><li>Set audit triggers — underperformance against forecast, category expansion, pre-renewal<span>Finance</span></li><li>Report royalty against forecast monthly for the top ten, not quarterly<span>Finance</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Two quarters</div><div><b>Proof it moved</b>Whole book on one cadence, with audit triggers defined</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>Unverified self-reporting is money left on the table and a forecast nobody can defend. Audit recovery usually pays for the programme; the forecast is what makes the next renewal negotiable.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Governance &amp; Decision-Making</span>
+        <span class="dmw">7.5% · evidenced</span>
+        <span class="dmb"><i style="width:60%"></i></span>
+        <span class="dmv">60</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether renewal and investment decisions follow criteria, or follow the relationship</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q8A · Renewal discipline</div><div class="qa"><b>Selective</b> — Action taken in a crisis rather than to criteria.</div><div class="qt">Threshold met: Action only in crisis</div></div><div class="qr"><div class="ql">Q8B · Decision rhythm</div><div class="qa"><b>Periodic</b> — Regular but inconsistent in format and follow-through.</div><div class="qt">Threshold met: Format varies; actions untracked</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Renewal discipline</b> — from <i>Selective</i> to <i>Criteria-led</i>.<br>Written criteria govern renewal and exit, applied consistently.<span class="ob">Observable when: Written criteria applied at renewal</span></li><li><b>Decision rhythm</b> — from <i>Periodic</i> to <i>Standing rhythm</i>.<br>A defined cycle on consistent measures, with decisions recorded.<span class="ob">Observable when: Same measures each cycle, decisions recorded</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Improve the book at every renewal: criteria before the conversation, exits on schedule<span class="stp">Level 3 &rarr; 4</span></div>
+        <p class="mvf">Criteria are stated but applied unevenly, and criteria never enforced are not criteria.</p>
+        <ol><li>Put renewal decisions on a fixed calendar, with the decision date twelve months before expiry<span>Legal</span></li><li>Require an evidenced score on each criterion; opinion alone does not carry a renewal<span>Brand lead</span></li><li>Execute at least one non-renewal where the criteria fail<span>Platform lead</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Next renewal cycle</div><div><b>Proof it moved</b>Decisions dated twelve months out and evidenced against each criterion</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>A book that renews by default accumulates its weakest partners. Criteria agreed in advance change the outcome; criteria discussed during a negotiation do not.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="dm">
+      <summary>
+        <span class="dmn">Systems &amp; Data</span>
+        <span class="dmw">7.5% · evidenced</span>
+        <span class="dmb"><i style="width:40%"></i></span>
+        <span class="dmv">40</span>
+      </summary>
+      <div class="dmi">
+        <p class="dmt">Whether the data needed to run this brand is joined up, or assembled by hand each time</p>
+        <div class="lab">Where it stands</div>
+        <div class="qr"><div class="ql">Q9A · Data infrastructure</div><div class="qa"><b>With effort</b> — Possible, manually, over days.</div><div class="qt">Threshold met: Answer takes days</div></div><div class="qr"><div class="ql">Q9B · Decision use</div><div class="qa"><b>Referenced</b> — Data appears in the paper but rarely changes the outcome.</div><div class="qt">Threshold met: Outcome unchanged by data</div></div>
+        <div class="two">
+          <div class="col ok"><div class="lab">What is holding up</div>
+            <p class="none">Neither answer in this domain has reached an evidenced level. Nothing here is yet dependable enough to build on.</p></div>
+          <div class="col ch"><div class="lab">What needs to change</div>
+            <ul><li><b>Data infrastructure</b> — from <i>With effort</i> to <i>Partly</i>.<br>Some questions answerable from a reporting pack; most are not.<span class="ob">Observable when: Reporting covers part of the question set</span></li><li><b>Decision use</b> — from <i>Referenced</i> to <i>Some decisions</i>.<br>Certain decisions use it; others do not.<span class="ob">Observable when: Applied inconsistently</span></li></ul></div>
+        </div>
+        
+      <div class="mv">
+        <div class="mvh"><b>How to move it</b>Make every other lever faster: one current view of royalty, sell-through and contract data<span class="stp">Level 2 &rarr; 3</span></div>
+        <p class="mvf">Systems exist but do not speak, so entitlement and receipt are compared by hand if at all.</p>
+        <ol><li>Join royalty and contract records so entitlement and receipt compare automatically<span>Systems · Finance</span></li><li>Set one definition of each measure so brand, finance and platform report the same number<span>Finance</span></li><li>Automate the quarterly pack; the effort of assembly is what stops it being current<span>Systems</span></li></ol>
+        <div class="mf"><div><b>Horizon</b>Two quarters</div><div><b>Proof it moved</b>Automated variance between entitlement and receipt</div></div>
+        <div class="mw"><b>Why this is the way to do it</b>When assembling a brand view takes days, it happens quarterly at best, so decisions run on memory and relationship instead of evidence.</div>
+      </div>
+      </div>
+    </details>
+
+    <div class="note">
+      <div class="h">How this report is built</div>
+      <p>Each domain is scored from two threshold-anchored questions, where every answer level is tied to an observable measure rather than an adjective. The nine domain scores are weighted into a single index between 20 and 100, which maps to one of five maturity bands.</p>
+      <p><b>The lowest-scoring domain is a constraint candidate, not causal proof.</b> Weight does not choose the candidate. Materiality, a complete intervention and post-intervention commercial evidence advance it from candidate to priority to validated.</p>
+      <p><b>The scale runs from 20 to 100 by construction, not 0 to 100.</b> A subject answering at level one on every question scores 20. Twenty is the floor, not a near miss — worth knowing before reading any single score as a percentage of what is possible.</p>
+      <p><b>Holding up</b> means an answer reached level four or five — evidenced or tracked. <b>Needs to change</b> means it sat at three or below, and what is shown is the next level up: not advice, but the next observable state the instrument recognises.</p>
+      <p>Confidence is captured per domain and reported, never applied to the score. Where a respondent scores a domain highly but flags the answer as estimated rather than evidenced, the domain is listed for verification and the flag travels with the result. On this illustrative brand every domain was flagged as evidenced, so nothing is held.</p>
+      <p>Scoring runs on the server after submission. No respondent sees a running score while answering.</p>
+    </div>
+
+    <div class="next">
+      <a href="/try-brand"><b>Take the assessment</b><span>The eighteen questions behind this report, with the threshold under every level. About thirty minutes, nothing to sign in to.</span></a>
+      <a href="/demo"><b>See the portfolio dashboard</b><span>This report is one brand. The dashboard reads nineteen of them together, across four platforms, and finds the constraints that repeat.</span></a>
+    </div>
+    <p class="also">The other two cuts of the same nine domains: the licensing house answers <a href="/try-company">/try-company</a>, and a lead licensee answers <a href="/try-licensee">/try-licensee</a> — nine questions, about ten minutes. Where a brand team and its licensee score the same domain very differently, that gap is usually the most useful thing in the read-out.</p>
+  </div>
+
+  <div class="foot">
+    <div class="wm"><span class="u" aria-hidden="true">U</span>Unravel<span class="ix">Index</span></div>
+    <div>Unravel Complexity Ltd, Ireland · fiona@unravel.ie · unravelindex.com<br>
+    Illustrative demonstration. Not an assessment of any brand, and not a commercial offer.</div>
+  </div>
+
+</div>
+<script>
+(function(){
+  var all = function(){ return document.querySelectorAll('details.dm'); };
+  var o = document.getElementById('openAll'), s = document.getElementById('shutAll');
+  if (o) o.addEventListener('click', function(){ all().forEach(function(d){ d.open = true; }); });
+  if (s) s.addEventListener('click', function(){ all().forEach(function(d){ d.open = false; }); });
+})();
+</script>
+</body>
+</html>
