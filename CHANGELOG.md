@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.9 — who is fixing what, where: delivery board on the company page
+
+- **The company page now answers "who is actually delivering this".** Below the company audit sits "Who is fixing what, where": every committed action across the book, grouped by the office delivering it, each carrying the team, the person responsible, the action itself, its status and its horizon — because a bottleneck is only alleviated by work someone owns.
+- **One progress band for the whole programme.** Actions, done, underway, committed, blocked and offices as headline counts, a stacked progress bar (gold done, steel underway, red blocked, unfilled committed), and the date of the latest update — the general "where are we" screen, on the page where the bottlenecks are named.
+- **Office and person now ride on the move record.** The eight illustrative demo actions carry offices (New York, London, Milan, Los Angeles) and role-titled owners. A live move without these fields still renders, grouped honestly under "Office not recorded" — and an account with no moves at all gets a plain explanation of what will appear, not an empty box.
+- Step-by-step tracking, notes and exports stay on the Action plan; this board is the management read of the same record.
+
 ## 0.3.8 — the brands as pictures, and each one opens as a live wheel
 
 - **The block strip is gone.** "The engine, drawn" compressed nineteen brands into proportional slivers whose constraint chips overprinted their names — unreadable at exactly the sizes most brands got. Replaced with a brand gallery: one card per brand carrying its mark (the stored brand image, with a designed monogram fallback when none exists or it fails to load), its headline income, its share of the engine, its index and maturity band, in Marquee navy and gold.
