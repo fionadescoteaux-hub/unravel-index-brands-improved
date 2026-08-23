@@ -145,10 +145,13 @@ footer b{color:#fff;font-weight:600}
   var input=document.getElementById('code'), msg=document.getElementById('hintMsg');
   var CODE='';
   function apply(){
-    var c=CODE||'';
-    document.getElementById('k1').href='/index.html'+(c?'?code='+encodeURIComponent(c):'');
-    document.getElementById('k2').href='/dashboard.html'+(c?'?code='+encodeURIComponent(c):'');
-    document.getElementById('k3').href='/line.html'+(c?'?code='+encodeURIComponent(c):'');
+    // Never a dead end: with no code confirmed yet, every card still opens —
+    // on the demonstration account — rather than landing on a page that has
+    // nothing to show.
+    var c=CODE||'BRANDS-DEMO-P8W3';
+    document.getElementById('k1').href='/index.html?code='+encodeURIComponent(c);
+    document.getElementById('k2').href='/dashboard.html?code='+encodeURIComponent(c);
+    document.getElementById('k3').href='/line.html?code='+encodeURIComponent(c);
   }
   document.getElementById('af').addEventListener('submit',function(e){
     e.preventDefault();
