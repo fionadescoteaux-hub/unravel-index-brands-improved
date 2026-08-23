@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.12 — the operational engine: every plan feeding one line of sight
+
+- **The company page now opens its delivery story with the cascade.** "The operational engine" reads the ontology spine bottom-up as delivery: products &amp; services &rarr; commercial lines &rarr; brands &rarr; the company engine &rarr; one portfolio, with the named oversight owner at the top. Each rung carries its own KPI read — actions at that altitude, done / underway / blocked as a bar, and coverage (7 of 19 brands carry a committed action; which lines are named). An action lives at exactly one altitude — the level whose constraint it addresses — and rolls up by counting, never duplication.
+- **The action record can now attach to commercial lines.** `lines` on the move (Airtable `LineNames`, additive), and the two demo actions whose text already names lines — Martha Stewart's cookware royalty audit, Cavalli's fragrance-and-eyewear renewal criteria — now carry them. No action was invented to make the cascade look fuller; the products-and-services rung says plainly that nothing is committed at that depth yet, and deepens through use (commit-from-the-line is the next phase).
+- **One person has oversight.** `OversightOwner` on the account (demo: Chief Commercial Officer), surfaced at the portfolio rung; an account without one is told to name one.
+- The full assessment — target operating model, gaps, phases, Airtable deltas — is in `docs/operational-engine.md`.
+
 ## 0.3.11 — compare brands where the brands are, and build your own report
 
 - **Compare brands moved to the Brands page** — it existed, but at the top of Insights where nobody thought to look for it. Select up to five brands and they draw as one radar (one colour per brand, matched in the legend) above the side-by-side domain table with its spread column and transfer read. Relocated and upgraded, not rebuilt: the spread analysis and its honest caveat are unchanged.
