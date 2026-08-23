@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.3.8 — the brands as pictures, and each one opens as a live wheel
+
+- **The block strip is gone.** "The engine, drawn" compressed nineteen brands into proportional slivers whose constraint chips overprinted their names — unreadable at exactly the sizes most brands got. Replaced with a brand gallery: one card per brand carrying its mark (the stored brand image, with a designed monogram fallback when none exists or it fails to load), its headline income, its share of the engine, its index and maturity band, in Marquee navy and gold.
+- **Selecting a brand opens an interactive wheel, not a static list.** The brand sits at the centre; each commercial line is an arc sized by the income it feeds in (derived from band midpoints and labelled as derived); the products and services under each line sit on the outer ring. Hovering any ring reads it into a live readout; clicking a line or a segment pins its full detail — offering type, operating model, partner, territory, renewal, verification, sources — beside the wheel; clicking a component chip inside a line's detail drills one layer further; the centre and the button open the full audit. Everything is keyboard-operable and the entrance animation respects reduced-motion.
+- **Honesty preserved in the geometry.** Outer segments subdivide their line's arc by membership only — components deliberately carry no invented value split, and the caption under the wheel says so. Lines whose share is not stated get a minimum arc and are labelled "share not stated" rather than sized by a guess.
+- Fixed in testing before ship: a function-name collision with the Commercial Map tab's own line renderer meant clicking a line arc threw instead of pinning the detail; caught by the scripted click-through, renamed, and re-verified end to end (hover, line click, component click, centre &rarr; audit) with zero console errors.
+
+## 0.3.7 — the menu reads down the ontology's own spine
+
+- **"Brand Engine" named two different entities.** On the home page it meant the whole portfolio machine ("every brand feeding one commercial engine"); in the menu and on its own page it meant the company assessed as a subject ("the commercial engine every brand feeds"). Two entities, one name, and two subtitles that were near-inversions of each other. The term now means one thing only — the whole machine — and the company subject is named for what the ontology calls it: the menu says **The company**, the page is **The company engine**, and the home page links to "the company audit".
+- **Menu order follows the entity spine.** Portfolio (Overview) &rarr; the company that runs the book &rarr; the brands beneath it &rarr; what is derived from them (action plan, insights, reports, method). The company previously sat below Brands while every line of copy described it as the house those brands run inside.
+- **No dead menu item.** An account that has never assessed the house itself was still offered the company page, leading to an empty screen; that item is now hidden unless a company subject exists. The same `display`-outranks-`hidden` trap that broke the access screens in 0.3.4 applied here too, and is guarded explicitly.
+- The count badge is gone from the company item &mdash; a permanent "1" beside a single subject was noise.
+- Commercial lines and components stay off the menu deliberately: they are levels 3 and 4 of the spine and exist only in the context of a brand, so they are reached by opening one.
+
+## 0.3.6 — the home page is the company's page
+
+The Overview carried nine competing blocks and made the reader assemble the answer. It now leads with the answer and layers the detail beneath it.
+
+- **The money answer, first.** Income today &rarr; stated target &rarr; what is still to bring in, read left to right with one bar carrying the distance. The gap is measured against the same figure shown as "today" so both ends of the bar share one basis; the company's own stated band is reported beside it rather than mixed into the arithmetic. Beneath it, three cards: what stands in the way (the licensing house's own weakest link), what is failing now, and how it gets there (live commitments).
+- **The portfolio in one shape.** A nine-domain radar drawing every assessed brand faintly, the portfolio mean over the top, and the licensing house's own engine as a dashed overlay. The spread is deliberately visible &mdash; an average alone hides it. The written read states whether the brands' shared weakness is the same one the house has, which is what decides between a group-level capability fix and a brand-by-brand one.
+- **The plan, on the home page.** The live commitments close the page, each with owner, horizon and the measure it will be judged on.
+- **Three honest layers.** Portfolio &rarr; select any brand to unfold its commercial lines, each line's share of income and the components beneath it &rarr; open the full audit. The audit now lives once, on Brands, instead of twice.
+- Constraint tally, band distribution, the portfolio readout and the KPI strip moved to Insights, where the rest of the cross-portfolio analysis already sat. The brand-by-brand grid moved to Brands. Nothing was deleted.
+- Disclosure pills tightened so they no longer push the money figures below the fold.
+
+## 0.3.5 — the access screens no longer block the page they let you into
+
+- Regression fix from 0.3.4: the redesigned access screens used a `display` rule strong enough to outrank the browser's own `hidden` behaviour, so on the questionnaire and the line review the gate stayed painted over the page after the access code checked out — a valid coded link appeared to fail. All three gates now hide explicitly, verified by rendering each page in both states.
+- Questionnaire opening rewritten: the heading now says what the assessment is for ("Find what is holding this brand back") under a "Brand assessment · nine domains" label, rather than restating the product name already in the header bar.
+- The four orientation tiles now sit as an even 2&times;2 block instead of breaking three-then-one.
+
+## 0.3.4 — fixed the front door's dead ends and the access screens' bare-dialog look
+
+- home.html's cards ("Complete an assessment", "Open the dashboard", "Review a commercial line") could lead to a dead page if you clicked one before confirming a programme code — the code comment already promised "never a dead end" via the demonstration account, but the code didn't do that. Fixed: every card now opens on the demonstration account by default when no code has been entered.
+- dashboard.html, index.html and line.html each showed their sign-in / access-code screen as a bare white box on a plain page — no branding, no visual weight, out of step with the rest of the product. Brought all three into the same visual system as the home page and dashboard: a branded background, a small wordmark, and a properly weighted card with shadow and an accent border.
+- The "This account needs its dashboard password" message on an unrecognised or unreachable account was confusing when it actually meant the server couldn't be reached — this surfaces as a real password prompt only once the account is actually confirmed to need one.
+
 ## 0.3.3 — design pass: real bugs found by rendering every screen, not just reading the code
 
 - Fixed a rendering bug that shipped raw `’`/`—`/`×` escape text on-screen instead of punctuation: the Reports page subtitle, and the "How to read this audit" guidance panel that appears on every brand and Brand Engine page. Both now render proper apostrophes, dashes and a close glyph.
