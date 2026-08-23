@@ -1016,7 +1016,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
             <button type="button" data-page="company" data-target="coVerdict">The house verdict</button>
             <button type="button" data-page="company" data-target="opsEngine">The operational engine</button>
             <button type="button" data-page="company" data-target="opsTable">The operations table</button>
-            <button type="button" data-page="company" data-target="coDelivery">Delivery per project</button>
+            <button type="button" data-page="company" data-target="coDelivery">Who is fixing what</button>
             <button type="button" data-page="company" data-target="coAuditWrap">The full audit</button>
           </div>
         </div>
@@ -1042,7 +1042,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
             <button type="button" data-page="insights" data-target="upliftSec">Scenario uplift</button>
             <button type="button" data-page="insights" data-target="domTable">Domain performance</button>
             <button type="button" data-page="insights" data-target="benchSub">Benchmarks</button>
-            <button type="button" data-page="insights" data-target="shapeSec">Portfolio shape</button>
+            <button type="button" data-page="insights" data-target="shapeSec">Portfolio distribution</button>
           </div>
         </div>
         <div class="navgrp" data-grp="reports">
@@ -1244,7 +1244,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <table class="dt"><thead><tr><th>Platform</th><th style="text-align:right">Brands</th><th style="text-align:right">Mean index</th><th>Most common constraint</th><th>Weakest domain (mean)</th></tr></thead><tbody id="platTable"></tbody></table>
           <div id="benchExt"></div>
         </div>
-        <h2 class="secttl" id="shapeSec">Portfolio shape</h2>
+        <h2 class="secttl" id="shapeSec">Portfolio distribution</h2>
         <p class="sub" style="margin-top:2px">The distribution behind the home page: how many brands sit in each maturity band, which weakness repeats most often, and what that pattern says at group level.</p>
         <div class="kpis" id="kpis"></div>
         <div class="cols">
@@ -1431,7 +1431,10 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     document.querySelectorAll('.navgrp').forEach(function(g){g.classList.toggle('open',g.dataset.grp===p)});
     if(typeof renderHints==='function') try{renderHints(p)}catch(e){}
     document.querySelectorAll('.page').forEach(function(x){x.hidden=x.dataset.page!==p});
-    window.scrollTo(0,0);
+    /* The reset to top must be INSTANT: with CSS smooth scrolling, an
+       animated reset races the section jump that follows a menu child and
+       both land wrong. behavior:'instant' overrides the CSS. */
+    try{window.scrollTo({top:0,left:0,behavior:'instant'})}catch(e){window.scrollTo(0,0)}
     if(typeof updateHelpFab==="function") try{updateHelpFab()}catch(e){}
   }
   /* ── The KPI monitor and the Action plan are two views of one record ──
@@ -3355,7 +3358,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           +flags.map(function(f){
              var mv=moveForFlag(f);
              return '<div class="ldflag"><div class="ft">'+esc(f)+'</div>'
-               +(mv?'<div class="fm"><b>The move</b> '+esc(mv.act)+'<span class="own">'+esc(mv.owner)+'</span></div>'
+               +(mv?'<div class="fm"><b>The action</b> '+esc(mv.act)+'<span class="own">'+esc(mv.owner)+'</span></div>'
                    +'<div class="fp">'+esc(mv.horizon)+' &middot; Proof: '+esc(mv.proof)+'</div>':'')
                +'</div>';
            }).join('');
@@ -3514,10 +3517,10 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       h+=(bd?'<div class="pf">'+esc(bd.band.focus)+'</div>':'')
         +'<div class="pb"><div><ol>'+acts.map(function(a,i){return '<li>'+esc(a.t)+'<span class="own">'+esc(a.owner)+'</span></li>'}).join('')+'</ol></div>'
         +'<div class="pm"><div class="k">Time to effect</div><div>'+esc(horizon)+'</div><div class="k">Proof it moved</div><div>'+esc(metric)+'</div>'
-        +'<div class="k">Commit a move</div>'
+        +'<div class="k">Commit an action</div>'
         +'<div class="commit" data-brand="'+esc(b.name)+'" data-brandid="'+esc(b.brandId||'')+'" data-subject="'+(isCompany?'company':'brand')+'" data-domain="'+esc(b.constraintKey)+'" data-score="'+b.constraintScore+'" data-index="'+b.overall+'">'
         +'<select class="cm-move">'+acts.map(function(a,i){return '<option value="'+i+'">'+(i+1)+' · '+esc(a.t.length>70?a.t.slice(0,68)+'…':a.t)+'</option>'}).join('')+'<option value="custom">Something else…</option></select>'
-        +'<input class="cm-custom" placeholder="Describe the move" style="display:none;margin-top:8px">'
+        +'<input class="cm-custom" placeholder="Describe the action" style="display:none;margin-top:8px">'
         +'<div class="cg" style="margin-top:8px"><input class="cm-owner" placeholder="Team (e.g. Finance)" value=""><input class="cm-person" placeholder="Accountable person or role" value=""></div>'
         +'<div class="cg" style="margin-top:8px"><input class="cm-office" placeholder="Office delivering it" value=""><input class="cm-horizon" placeholder="Horizon (e.g. by end Q1)" value="'+esc(horizon)+'"></div>'
         +(!isCompany&&linesOf(b).length?'<select class="cm-line" style="margin-top:8px"><option value="">Lands on the whole brand</option>'+linesOf(b).map(function(l){return '<option value="'+esc(l.name)+'">Lands on: '+esc(l.name)+'</option>'}).join('')+'</select>':'')
@@ -3618,7 +3621,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       f.querySelector('.cm-save').onclick=function(){
         var txt=sel.value==='custom'?cus.value.trim():sel.options[sel.selectedIndex].text.replace(/^\d+ · /,'');
         if(sel.value!=='custom'){var p=dom(f.dataset.domain).play; if(p&&p.actions[Number(sel.value)]) txt=p.actions[Number(sel.value)].t;}
-        if(!txt){f.querySelector('.cm-msg').textContent='Describe the move first.';return}
+        if(!txt){f.querySelector('.cm-msg').textContent='Describe the action first.';return}
         var msg=f.querySelector('.cm-msg');
         /* Governance discipline first, availability second: work without a
            single accountable person is a wish, not a commitment — the rule
@@ -4237,7 +4240,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       if(m.due&&today&&m.due<today&&m.status!=='Done') overdue++;
     });
     $('delKpis').innerHTML=[
-      {t:'Moves in flight',v:open,d:'committed and not yet done'},
+      {t:'Actions in flight',v:open,d:'committed and not yet done'},
       {t:'Actions complete',v:acts?ticks+' / '+acts:'—',d:'across every move on this page'},
       {t:'Past their date',v:overdue,d:overdue?'set a new date or close them out':'nothing overdue'}
     ].map(function(k){return '<div class="kpi"><div class="t">'+esc(k.t)+'</div><div class="v">'+esc(k.v)+'</div><div class="d">'+esc(k.d)+'</div></div>'}).join('');
@@ -4258,7 +4261,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<span class="dwn">'+done.length+'/'+a.length+'</span>'
         +'<span class="st '+esc(m.status)+'">'+esc(m.status)+'</span></summary>'
         +'<div class="dwi">'
-        +'<div class="dwm"><b>The move</b>'+esc(m.move)+'</div>'
+        +'<div class="dwm"><b>The action</b>'+esc(m.move)+'</div>'
         +'<div class="dwgrid">'
         +'<div><b>Team</b>'+esc(m.owner||'—')+'</div>'
         +'<div><b>Accountable</b>'+(m.person?esc(m.person):'<span style="color:var(--frag);font-weight:600">unassigned</span>')+'</div>'
