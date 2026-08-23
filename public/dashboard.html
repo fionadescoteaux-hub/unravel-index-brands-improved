@@ -88,7 +88,24 @@ button,input{font-family:inherit}
 .navgrp>button .cnt{margin-left:auto}
 .navgrp>button .cnt+*::after,.navgrp>button:has(.cnt)::after{margin-left:8px}
 .navgrp[hidden]{display:none}
-#homeEngine,#brandGallery,#portfolioShape,#homePlan,#opsEngine,#coDelivery,#groups,#brandTable,#compareSec,#delKpis,#moveKpis,#renewalsSec,#upliftSec,#domTable,#benchSub,#shapeSec,#reportTable,#rbSubs,#pfPrint,#methodQs{scroll-margin-top:78px}
+#homeEngine,#brandGallery,#portfolioShape,#homePlan,#coVerdict,#opsEngine,#coDelivery,#coAuditWrap,#groups,#brandTable,#compareSec,#delKpis,#moveKpis,#renewalsSec,#upliftSec,#domTable,#benchSub,#shapeSec,#reportTable,#rbSubs,#pfPrint,#methodQs{scroll-margin-top:78px}
+/* The house verdict: the audit's answer, compressed to one governance band. */
+.coverd{background:linear-gradient(120deg,#081330 0%,#0F2148 55%,#16305E 100%);border-radius:12px;padding:16px 18px;color:#fff;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 26px;align-items:center}
+.coverd .ix{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:40px;line-height:1;color:#fff}
+.coverd .ix small{display:block;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:600;margin-top:5px}
+.coverd .vb .k{font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:600}
+.coverd .vb .p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.92);margin-top:4px;max-width:78ch}
+.coverd .vb .p b{color:#EFCB86}
+.coverd .go{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:8px;padding:11px 16px;font-family:'Jost',Helvetica,sans-serif;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;cursor:pointer;white-space:nowrap}
+.coverd .go:hover{background:rgba(255,255,255,.1)}
+@media(max-width:820px){.coverd{grid-template-columns:1fr}}
+#coAuditWrap{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:#fff}
+#coAuditWrap>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:14px 18px}
+#coAuditWrap>summary::-webkit-details-marker{display:none}
+#coAuditWrap>summary::before{content:'\203A';font-size:15px;color:var(--faint);transition:transform .15s}
+#coAuditWrap[open]>summary::before{transform:rotate(90deg)}
+#coAuditWrap>summary:hover{background:var(--tint);border-radius:12px}
+.cdgrpsel{display:flex;gap:6px;margin-left:auto}
 .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
 .nav button.on{background:rgba(255,255,255,.16);color:#fff}
 .nav .cnt{margin-left:auto;font-size:10.5px;background:rgba(255,255,255,.12);border-radius:999px;padding:1px 8px}
@@ -950,9 +967,10 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <div class="navgrp" data-grp="company">
           <button type="button" data-page="company">The company</button>
           <div class="subnav">
-            <button type="button" data-page="company" data-target="companyBody">The company audit</button>
+            <button type="button" data-page="company" data-target="coVerdict">The house verdict</button>
             <button type="button" data-page="company" data-target="opsEngine">The operational engine</button>
-            <button type="button" data-page="company" data-target="coDelivery">Delivery around the globe</button>
+            <button type="button" data-page="company" data-target="coDelivery">Delivery per project</button>
+            <button type="button" data-page="company" data-target="coAuditWrap">The full audit</button>
           </div>
         </div>
         <div class="navgrp" data-grp="brands">
@@ -1015,10 +1033,13 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
 
       <div class="page" data-page="company" hidden>
         <h1 class="pg">The company engine</h1>
-        <p class="sub">The commercial engine every brand feeds — the licensing house itself, read through the same nine-domain framework with company-specific questions. Where the same weakness shows here and across several brands, that is one capability worth fixing once for the whole book.</p>
-        <div id="companyBody"></div>
+        <p class="sub">Governance of the whole engine: the house&rsquo;s own verdict, every plan at every level feeding one line of sight, and who is delivering what, where. The full nine-domain audit of the company sits beneath, one click away.</p>
+        <div id="coVerdict"></div>
         <div id="opsEngine"></div>
         <div id="coDelivery"></div>
+        <details id="coAuditWrap"><summary><span class="cmdlbl" style="color:var(--ink)">The full company audit</span><span style="font-size:11px;color:var(--faint)">the nine-domain read of the house itself &mdash; scorecard, evidence, actions, history</span></summary>
+          <div id="companyBody"></div>
+        </details>
       </div>
 
       <div class="page" data-page="brands" hidden>
@@ -1791,6 +1812,35 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         compMs.length?'<b>'+compMs.length+'</b><br>at product level':'none committed at this depth yet — plans deepen here as line audits commit them')
       +'</div></div>';
   }
+  /* ── The house verdict ─────────────────────────────────────────────────
+     The company audit's answer compressed to one governance band: the
+     index, the weakest link, and what is committed against it. The full
+     audit — scorecard, evidence, the commit controls — is intact one click
+     below; this band never restates what it cannot back. */
+  function renderCoVerdict(){
+    var el=$('coVerdict'); if(!el) return;
+    var co=(DATA.company||[])[0];
+    if(!co){ el.innerHTML=''; return; }
+    var cand=candidatesOf(co), d0=dom(cand[0]||co.constraintKey);
+    var houseMs=(DATA.moves||[]).filter(function(m){return m.subject==='company'&&!/dropped/i.test(m.status||'')});
+    var open=houseMs.filter(function(m){return stageOf(m.status)!=='done'}).length;
+    el.innerHTML='<div class="coverd">'
+      +'<div class="ix">'+co.overall+'<small>'+esc(co.band)+'</small></div>'
+      +'<div class="vb"><div class="k">The house verdict</div>'
+      +'<div class="p"><b>'+esc(cand.map(function(k){return dom(k).name}).join(' / '))+'</b> is the company&rsquo;s weakest link at <b>'+co.constraintScore+'</b> — the capability every brand inherits. '
+      +(houseMs.length
+        ?houseMs.length+' action'+(houseMs.length===1?'':'s')+' committed against the house'+(open?', '+open+' still open':', all closed out')+'. '
+        :'Nothing is committed against the house yet. ')
+      +'The reasoning, evidence and step-by-step route are in the full audit below.</div></div>'
+      +'<button type="button" class="go" data-cov-audit>Open the full audit &darr;</button>'
+      +'</div>';
+    var g=el.querySelector('[data-cov-audit]');
+    if(g) g.onclick=function(){var w=$('coAuditWrap');if(w){w.open=true;setTimeout(function(){w.scrollIntoView({behavior:'smooth',block:'start'})},60)}};
+  }
+  /* Delivery groups two ways: by the office doing the work, or by the
+     project (the brand or the house) the work is for. Same records, same
+     counts — only the lens moves. */
+  var CD_GROUP='office';
   function renderCoDelivery(){
     var el=$('coDelivery'); if(!el) return;
     if(!(DATA.company||[]).length){ el.innerHTML=''; return; }
@@ -1805,10 +1855,14 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var blocked=MV.filter(function(m){return stageOf(m.status)==='blocked'}).length;
     var open=MV.length-done-under-blocked;
     var latest=MV.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
+    var byProject=CD_GROUP==='project';
+    var fallback=byProject?'Project not recorded':'Office not recorded';
     var offices={};
-    MV.forEach(function(m){var o=m.office||'Office not recorded';(offices[o]=offices[o]||[]).push(m)});
+    MV.forEach(function(m){
+      var o=byProject?(m.brand||(m.subject==='company'?'The house':'')||fallback):(m.office||fallback);
+      (offices[o]=offices[o]||[]).push(m)});
     var okeys=Object.keys(offices).sort(function(a,b){
-      if(a==='Office not recorded')return 1; if(b==='Office not recorded')return -1;
+      if(a===fallback)return 1; if(b===fallback)return -1;
       return offices[b].length-offices[a].length||a.localeCompare(b)});
     var band='<div class="cdband"><div class="cdhead"><span class="t">Delivery around the globe</span>'
       +'<span class="s">every committed action, the office delivering it, the team and person responsible, and where it stands'+(latest?' · latest update '+esc(latest.slice(0,10)):'')+'</span></div>'
@@ -1818,7 +1872,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'<span class="cdk"><span class="n">'+under+'</span> <span class="l">underway</span></span>'
       +'<span class="cdk"><span class="n">'+open+'</span> <span class="l">committed</span></span>'
       +(blocked?'<span class="cdk"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></span>':'')
-      +'<span class="cdk"><span class="n">'+okeys.filter(function(k){return k!=='Office not recorded'}).length+'</span> <span class="l">offices</span></span>'
+      +'<span class="cdk"><span class="n">'+okeys.filter(function(k){return k!==fallback}).length+'</span> <span class="l">'+(byProject?'projects':'offices')+'</span></span>'
       +'</div>'
       +'<div class="cdbar"><i class="done" style="width:'+(done/MV.length*100)+'%"></i><i class="under" style="width:'+(under/MV.length*100)+'%"></i><i class="blocked" style="width:'+(blocked/MV.length*100)+'%"></i></div>'
       +'<div class="cdlegend"><span><i class="done" style="background:#EFCB86"></i>done</span><span><i style="background:#7FB4DD"></i>underway</span>'+(blocked?'<span><i style="background:#E0766C"></i>blocked</span>':'')+'<span>unfilled = committed, not yet started</span></div>'
@@ -1840,10 +1894,14 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<div class="ofbar"><i class="done" style="width:'+(od/ms.length*100)+'%;background:#D9A441"></i><i style="width:'+(ou/ms.length*100)+'%;background:#7FB4DD"></i><i style="width:'+(ob/ms.length*100)+'%;background:#E0766C"></i></div>'
         +rows+'</div>';
     }).join('');
-    el.innerHTML='<div class="codel"><h2 class="secttl">Who is fixing what, where</h2>'
-      +'<p class="sub" style="margin-top:2px">The bottlenecks named above are only alleviated by work someone owns. This is that work: grouped by office, carried by a team and a person, judged against the measure recorded when it was committed. Progress notes and step-by-step tracking live on the Action plan.</p>'
+    el.innerHTML='<div class="codel"><div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap"><h2 class="secttl" style="margin-bottom:6px">Who is fixing what, where</h2>'
+      +'<span class="cdgrpsel"><button type="button" class="ghost'+(byProject?'':' on')+'" data-cdg="office">By office</button><button type="button" class="ghost'+(byProject?' on':'')+'" data-cdg="project">By project</button></span></div>'
+      +'<p class="sub" style="margin-top:2px">The bottlenecks named above are only alleviated by work someone owns. This is the operational plan for every action, grouped by '+(byProject?'the project it serves — each brand, and the house itself':'the office doing the work')+', carried by a team and a person, judged against the measure recorded when it was committed. Progress notes and step-by-step tracking live on the Action plan.</p>'
       +band
       +'<div class="ofgrid">'+cards+'</div></div>';
+    el.querySelectorAll('[data-cdg]').forEach(function(btn){
+      btn.onclick=function(){CD_GROUP=btn.dataset.cdg;renderCoDelivery();};
+    });
   }
   function renderHomePlan(){
     var el=$('homePlan'); if(!el) return;
@@ -1992,6 +2050,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     if(ovt) ovt.textContent=(((DATA.company||[])[0]||{}).name)||name;
     $('bCount').textContent=b.length;
     if((DATA.company||[]).length) safely('company view', renderCompany);
+    safely('house verdict', renderCoVerdict);
     safely('operational engine', renderOpsEngine);
     safely('company delivery', renderCoDelivery);
     safely('brands table', renderBrandTable);
