@@ -1018,14 +1018,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
             <button type="button" data-page="company" data-target="opsTable">The operations table</button>
             <button type="button" data-page="company" data-target="coDelivery">Who is fixing what</button>
             <button type="button" data-page="company" data-target="coAuditWrap">The full audit</button>
-          </div>
-        </div>
-        <div class="navgrp" data-grp="brands">
-          <button type="button" data-page="brands">Brands<span class="cnt" id="bCount">0</span></button>
-          <div class="subnav">
-            <button type="button" data-page="brands" data-target="groups">The portfolio, brand by brand</button>
-            <button type="button" data-page="brands" data-target="brandTable">Every brand, ranked</button>
-            <button type="button" data-page="brands" data-target="compareSec">Compare brands</button>
+            <button type="button" data-page="delivery">Action plan &rarr;</button>
           </div>
         </div>
         <div class="navgrp" data-grp="delivery">
@@ -1034,6 +1027,14 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
             <button type="button" data-page="delivery" data-target="delKpis">The work</button>
             <button type="button" data-page="delivery" data-target="moveKpis">The record</button>
             <button type="button" data-page="delivery" data-target="renewalsSec">Renewals</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="brands">
+          <button type="button" data-page="brands">Brands<span class="cnt" id="bCount">0</span></button>
+          <div class="subnav">
+            <button type="button" data-page="brands" data-target="groups">The portfolio, brand by brand</button>
+            <button type="button" data-page="brands" data-target="brandTable">Every brand, ranked</button>
+            <button type="button" data-page="brands" data-target="compareSec">Compare brands</button>
           </div>
         </div>
         <div class="navgrp" data-grp="insights">
@@ -1119,8 +1120,9 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
 
       <div class="page" data-page="delivery" hidden>
         <h1 class="pg">Action plan</h1>
-        <p class="sub">Everything this account has committed to do, in one place. Each item opens into its steps — tick them off, put a date on them, keep notes as work completes. The commitment and its status live on the record; the working notes stay in this browser until you save a summary back or export.</p>
+        <p class="sub">The delivery arm of the company engine: everything this account has committed to do, in one place. Each item opens into its steps — tick them off, put a date on them, keep notes as work completes. The commitment and its status live on the record; the numbers roll up to the <button type="button" class="ghostlink" data-gov-monitor>KPI monitor on the governance page &rarr;</button></p>
         <div class="kpis" id="delKpis"></div>
+        <div class="otfilters" id="delFilters"></div>
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
             <div><h2 style="margin:0">The work</h2><div class="cs" style="margin-top:4px">Tick, date and note here, then press <b>Save shared progress</b> to store it to the shared record. <span id="delSaved" style="color:var(--steel)"></span></div></div>
@@ -1797,7 +1799,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       var late=/blocked|at risk/i.test(m.status||'');
       var cls=late?'warn':(/progress|started|underway/i.test(m.status||'')?'go':'');
       return '<div class="hprow"><span class="hpst '+cls+'">'+esc(m.status||'Committed')+'</span>'
-        +'<span class="hpb"><b>'+esc(m.brand||m.subject||'Portfolio')+' &middot; '+esc(dom(m.domainKey).short)+'</b>'
+        +'<span class="hpb"><button type="button" data-plan-open="'+esc(m.id)+'" style="all:unset;cursor:pointer"><b>'+esc(m.brand||m.subject||'Portfolio')+' &middot; '+esc(dom(m.domainKey).short)+'</b></button>'
         +'<span>'+esc(m.move||'')+'</span>'
         +'<span>'+[m.owner?'owner '+esc(m.owner):'',m.horizon?esc(m.horizon):''].filter(Boolean).join(' &middot; ')+'</span></span></div>';
     }).join('');
@@ -1913,11 +1915,13 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +(houseMs.length
         ?houseMs.length+' action'+(houseMs.length===1?'':'s')+' committed against the house'+(open?', '+open+' still open':', all closed out')+'. '
         :'Nothing is committed against the house yet. ')
-      +'The reasoning, evidence and step-by-step route are in the full audit below.</div></div>'
+      +'The reasoning, evidence and step-by-step route are in the full audit below &middot; <button type="button" class="ghostlink" data-cov-ops style="color:#EFCB86">every action, on the operations table &rarr;</button></div></div>'
       +'<button type="button" class="go" data-cov-audit>Open the full audit &darr;</button>'
       +'</div>';
     var g=el.querySelector('[data-cov-audit]');
     if(g) g.onclick=function(){var w=$('coAuditWrap');if(w){w.open=true;setTimeout(function(){w.scrollIntoView({behavior:'smooth',block:'start'})},60)}};
+    var oo=el.querySelector('[data-cov-ops]');
+    if(oo) oo.onclick=function(){var t=$('opsTable');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})};
   }
   /* ── The operations table ──────────────────────────────────────────────
      Every action across the book, one row each, under one KPI monitor.
@@ -1933,6 +1937,16 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     return m.subject==='company'?'company':'brand';
   }
   var ALT_LABEL={all:'every level',company:'the company engine',brand:'brand level',line:'commercial lines',product:'products & services'};
+  /* One status vocabulary, shared by the KPI monitor and the Action plan —
+     a filter chosen on one side means exactly the same rows on the other. */
+  function statusMatch(m,fil){
+    if(fil==='all') return true;
+    if(fil==='stalled') return freshness(m).cls==='r';
+    if(fil==='unassigned') return stageOf(m.status)!=='done'&&!(m.person||'').trim();
+    return stageOf(m.status)===fil;
+  }
+  var STATUS_CHIPS=[['all','All'],['open','Committed'],['under','Underway'],['done','Done'],['blocked','Blocked'],['stalled','Stalled'],['unassigned','Unassigned']];
+  var DEL={status:'all'};
   function freshness(m){
     if(stageOf(m.status)==='done') return {cls:'x',word:'closed',days:null};
     var t=Date.parse(m.updatedAt||m.createdAt||'');
@@ -1963,10 +1977,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var latest=ALL.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
     var rows=ALL.filter(function(m){
       if(OPS.alt!=='all'&&altitudeOf(m)!==OPS.alt) return false;
-      if(OPS.status==='all') return true;
-      if(OPS.status==='stalled') return freshness(m).cls==='r';
-      if(OPS.status==='unassigned') return stageOf(m.status)!=='done'&&!(m.person||'').trim();
-      return stageOf(m.status)===OPS.status;
+      return statusMatch(m,OPS.status);
     });
     function key(m){
       if(OPS.sort==='project') return (m.brand||m.subject||'').toLowerCase();
@@ -1975,7 +1986,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       return m.updatedAt||m.createdAt||'';
     }
     rows=rows.slice().sort(function(a,b){var ka=key(a),kb=key(b);return ka<kb?OPS.dir:ka>kb?-OPS.dir:0});
-    var chips=[['all','All'],['open','Committed'],['under','Underway'],['done','Done'],['blocked','Blocked'],['stalled','Stalled'],['unassigned','Unassigned']];
+    var chips=STATUS_CHIPS;
     var trs=rows.map(function(m){
       var f=freshness(m), alt=altitudeOf(m), st=stageOf(m.status);
       var lvl=alt==='company'?'<span class="otalt house">the house</span>'
@@ -2016,6 +2027,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +chips.map(function(c){return '<button type="button" class="rbchip'+(OPS.status===c[0]?' on':'')+'" data-ots="'+c[0]+'">'+c[1]+'</button>'}).join('')
       +'<span class="lbl" style="margin-left:10px">at</span><span class="rbchip on" style="cursor:default">'+esc(ALT_LABEL[OPS.alt])+'</span>'
       +(OPS.alt!=='all'?'<button type="button" class="ghostlink" data-ota-clear>show every level</button>':'')
+      +(OPS.status!=='all'?'<button type="button" class="ghostlink" data-ops-toplan style="margin-left:auto">work these on the Action plan &rarr;</button>':'')
       +'</div>'
       +'<div class="card" style="margin-top:0"><div style="overflow-x:auto"><table class="dt" id="opsTbl"><thead><tr>'
       +'<th>Freshness</th><th>The action</th>'
@@ -2034,6 +2046,9 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     /* The monitor's numbers are filters; its rows link to their plan cards;
        its status column is live on a signed-in account. */
     el.querySelectorAll('[data-kpi]').forEach(function(b){b.onclick=function(){OPS.status=b.dataset.kpi;renderOpsTable()}});
+    var tp=el.querySelector('[data-ops-toplan]');
+    if(tp) tp.onclick=function(){DEL.status=OPS.status;safely('delivery',renderDelivery);go('delivery');
+      setTimeout(function(){var t=$('delFilters');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);};
     el.querySelectorAll('[data-plan-open]').forEach(function(b){b.onclick=function(){goPlanItem(b.dataset.planOpen)}});
     el.querySelectorAll('#opsTbl .mv-status').forEach(function(sel){
       sel.onchange=function(){var id=sel.dataset.id;
@@ -2100,6 +2115,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var el=$('homePlan'); if(!el) return;
     el.innerHTML=homePlanHTML();
     el.querySelectorAll('[data-plan-go]').forEach(function(b){b.onclick=function(){go('delivery')}});
+    el.querySelectorAll('[data-plan-open]').forEach(function(b){b.onclick=function(){goPlanItem(b.dataset.planOpen)}});
   }
   function renderPortfolioShape(){
     var el=$('portfolioShape'); if(!el) return;
@@ -4245,12 +4261,33 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       {t:'Past their date',v:overdue,d:overdue?'set a new date or close them out':'nothing overdue'}
     ].map(function(k){return '<div class="kpi"><div class="t">'+esc(k.t)+'</div><div class="v">'+esc(k.v)+'</div><div class="d">'+esc(k.d)+'</div></div>'}).join('');
 
+    /* The same status vocabulary as the KPI monitor: arriving from a
+       monitor number lands here with that filter already applied. */
+    var df=$('delFilters');
+    if(df){
+      df.innerHTML='<span class="lbl">Showing</span>'
+        +STATUS_CHIPS.map(function(c){
+          var n=ms.filter(function(m){return statusMatch(m,c[0])}).length;
+          return '<button type="button" class="rbchip'+(DEL.status===c[0]?' on':'')+'" data-dels="'+c[0]+'">'+c[1]+(c[0]==='all'?'':' '+n)+'</button>';
+        }).join('');
+      df.querySelectorAll('[data-dels]').forEach(function(b){b.onclick=function(){DEL.status=b.dataset.dels;renderDelivery()}});
+    }
+    var gm=document.querySelector('[data-gov-monitor]');
+    if(gm) gm.onclick=function(){go('company');
+      setTimeout(function(){var t=$('opsTable');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);};
+
     if(!ms.length){
-      host.innerHTML='<div class="empty"><h2 style="font-size:17px;text-transform:none;letter-spacing:0;color:var(--navy)">Nothing committed yet</h2><p style="max-width:52ch;margin:12px auto 0">Open a brand, confirm the priority constraint, and commit a move. It appears here as shared work with actions, an outcome test and evidence.</p></div>';
+      host.innerHTML='<div class="empty"><h2 style="font-size:17px;text-transform:none;letter-spacing:0;color:var(--navy)">Nothing committed yet</h2><p style="max-width:52ch;margin:12px auto 0">Open a brand, confirm the priority constraint, and commit an action. It appears here as shared work with steps, an outcome test and evidence.</p></div>';
+      return;
+    }
+    var shown=ms.filter(function(m){return statusMatch(m,DEL.status)});
+    if(!shown.length){
+      host.innerHTML='<div class="empty"><p style="max-width:52ch;margin:12px auto 0;color:var(--body)">Nothing matches this view — choose another filter above.</p></div>';
       return;
     }
 
-    host.innerHTML=ms.map(function(m){
+    host.innerHTML=(DEL.status!=='all'?'<div style="font-size:11px;color:var(--faint);margin:2px 0 10px">'+shown.length+' of '+ms.length+' shown</div>':'')
+      +shown.map(function(m){
       var a=actionsFor(m.domainKey, m.baselineScore), done=m.progress||[];
       var d=dom(m.domainKey);
       var pct=a.length?Math.round(done.length/a.length*100):0;
