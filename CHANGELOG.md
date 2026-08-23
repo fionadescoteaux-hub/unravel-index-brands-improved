@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.15 — the cascade clicks into a full operations table with a KPI monitor
+
+- **The rungs are now filters.** Selecting any level of the operational engine — portfolio, the company engine, brands, commercial lines, products &amp; services — focuses the new operations table below on exactly that altitude, and carries the reader to it. Keyboard-operable; the selected rung is marked.
+- **The operations table: every action, one row each.** What it is, the team · person · measure beneath it, the project it serves, the level it works at (with the actual line names as chips), the office, the status and the last update. Filter chips for state; sortable by project, office, status and updated.
+- **The KPI monitor, with computed freshness.** Alongside done / underway / committed / blocked, the monitor now reads what is actually moving: an open action updated within a week is <i>moving</i>, quiet at 8–21 days, and <b>stalled</b> beyond three weeks — computed from the record's own updates, never asserted, whatever the status field says. The distinction between "committed" and "moving" is exactly what this table exists to show.
+- The programme-level KPI band moved up from the delivery lens onto the table, so state is counted once; the by-office / by-project cards keep their per-group bars.
+
 ## 0.3.14 — the company page is a governance dashboard
 
 - **The five-tab audit no longer fronts the company page.** At company level it forced brand furniture onto the screen (a Commercial Map tab that could only say "this belongs to individual brands"). The page now reads as governance: **the house verdict** — one band with the index, the weakest link at its score, and what is committed against the house — then the operational engine cascade, then delivery. The full nine-domain audit is intact beneath, collapsed behind one click, so the scorecard, evidence and the commit controls all still work exactly as before.
