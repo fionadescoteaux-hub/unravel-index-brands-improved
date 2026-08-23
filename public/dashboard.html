@@ -95,7 +95,7 @@ button,input{font-family:inherit}
 .navgrp.open .subnav{display:flex;flex-direction:column;gap:1px}
 .subnav button{font-size:11.5px;padding:6.5px 10px;color:rgba(255,255,255,.55);letter-spacing:.02em}
 .subnav button:hover{color:#fff;background:rgba(255,255,255,.08)}
-.subnav button.on{color:#fff;background:rgba(255,255,255,.12)}
+.subnav button.on{color:#EFCB86;background:rgba(217,164,65,.14);box-shadow:inset 2px 0 0 #D9A441;font-weight:600}
 .navgrp>button::after{content:'\203A';margin-left:auto;font-size:13px;opacity:.45;transform:rotate(0deg);transition:transform .15s}
 .navgrp.open>button::after{transform:rotate(90deg)}
 .navgrp>button .cnt{margin-left:auto}
@@ -122,7 +122,7 @@ button,input{font-family:inherit}
 /* Clickable rungs: a rung is a filter on the operations table below it. */
 .oerung{cursor:pointer;border-radius:8px;transition:background .12s}
 .oerung:hover{background:var(--tint)}
-.oerung.sel{background:var(--tint);box-shadow:inset 3px 0 0 var(--gold)}
+.oerung.sel{background:#FBF6EC;box-shadow:inset 3px 0 0 #D9A441}
 .oerung:focus-visible{outline:2px solid var(--steel);outline-offset:-2px}
 /* ── The operations table: every action, one row, one KPI monitor ── */
 .otwrap{margin-top:20px}
@@ -145,7 +145,7 @@ button,input{font-family:inherit}
 #opsTbl .mv{max-width:36ch;line-height:1.5}
 #opsTbl .who{font-size:11px;color:var(--faint)}
 .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
-.nav button.on{background:rgba(255,255,255,.16);color:#fff}
+.nav button.on{background:linear-gradient(90deg,rgba(217,164,65,.30),rgba(255,255,255,.08));color:#fff;box-shadow:inset 3px 0 0 #D9A441}
 .nav .cnt{margin-left:auto;font-size:10.5px;background:rgba(255,255,255,.12);border-radius:999px;padding:1px 8px}
 .sidefoot{margin-top:auto;font-size:10.5px;color:rgba(255,255,255,.45);line-height:1.6}
 .sidefoot b{font-family:Georgia,serif;color:rgba(255,255,255,.7)}
@@ -767,6 +767,31 @@ tr.rowflash td{animation:rfl 1.6s ease}
 details.rowflash{animation:rfl 1.6s ease}
 @keyframes rfl{0%,55%{background:#F8F1E2}100%{background:transparent}}
 @media(prefers-reduced-motion:reduce){tr.rowflash td,details.rowflash{animation:none;background:#F8F1E2}}
+/* You are here: the card or row being worked on KEEPS its mark — it moves only
+   when another card or row takes it, so mid-task the eye always has an anchor. */
+details.dw.isfocus{position:relative;margin-top:16px;border-color:#D9A441;border-left:5px solid #D9A441;
+  background:linear-gradient(180deg,#FDF7E9,#FFFFFF 72%);box-shadow:0 6px 18px rgba(4,10,26,.09)}
+details.dw.isfocus::before{content:'You are here';position:absolute;top:-9px;left:12px;
+  font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:#D9A441;border-radius:999px;padding:3px 9px}
+tr.isfocus>td{background:#FBF3DF}
+tr.isfocus>td:first-child{box-shadow:inset 4px 0 0 #D9A441}
+/* Close down a section: every section the menu lists carries a fold control,
+   so a page can be read one block at a time instead of everything at once.
+   What you close stays closed in this browser until you reopen it. */
+.foldwrap{display:flex;justify-content:flex-end;margin:0 0 2px}
+.foldwrap .foldbtn{border:0;background:transparent;cursor:pointer;font-family:'Jost',Helvetica,sans-serif;
+  font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);
+  padding:4px 9px;border-radius:6px}
+.foldwrap .foldbtn:hover{color:var(--navy);background:var(--tint)}
+.foldwrap.closed{justify-content:flex-start;margin:0 0 12px}
+.foldwrap.closed .foldbtn{width:100%;text-align:left;background:#fff;border:1px dashed #D9B87A;color:var(--gold);
+  padding:12px 15px;border-radius:10px;font-size:10.5px;letter-spacing:.1em}
+.foldwrap.closed .foldbtn:hover{background:#FBF6EC;color:var(--gold)}
+.datafolded{display:none!important}
+/* No control over nothing: a section that rendered empty hides its fold bar. */
+.foldwrap:has(+ div:empty){display:none}
+@media print{.foldwrap{display:none}}
 .cdbar{height:9px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:11px;display:flex}
 .cdbar i{height:100%}
 .cdbar .done{background:linear-gradient(90deg,#D9A441,#EFCB86)}
@@ -1032,7 +1057,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <div class="navgrp" data-grp="delivery">
           <button type="button" data-page="delivery">Action plan<span class="cnt" id="dCount">0</span></button>
           <div class="subnav">
-            <button type="button" data-page="delivery" data-target="delKpis">The work</button>
+            <button type="button" data-page="delivery" data-target="workSec">The work</button>
             <button type="button" data-page="delivery" data-target="moveKpis">The record</button>
             <button type="button" data-page="delivery" data-target="renewalsSec">Renewals</button>
           </div>
@@ -1117,18 +1142,21 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div style="overflow-x:auto"><table class="dt" id="brandTable"></table></div>
         </div>
         <div id="detail2"></div>
-        <h2 class="secttl" id="compareSec">Compare brands</h2>
+        <div id="compareSec">
+        <h2 class="secttl">Compare brands</h2>
         <p class="sub" style="margin-top:2px">Select up to five brands and read them against each other &mdash; the same nine domains, drawn as one shape and scored side by side. A wide spread is a transfer hypothesis: check whether the stronger brand has evidenced practice that can be reused.</p>
         <div class="card">
           <div style="font-size:11px;color:var(--body);margin-bottom:9px">Select up to five brands. <span id="cmpCount" style="color:var(--faint)"></span></div>
           <div id="cmpPick" style="display:flex;gap:7px;flex-wrap:wrap"></div>
           <div id="cmpOut"></div>
         </div>
+        </div>
       </div>
 
       <div class="page" data-page="delivery" hidden>
         <h1 class="pg">Action plan</h1>
         <p class="sub">The delivery arm of the company engine: everything this account has committed to do, in one place. Each item opens into its steps — tick them off, put a date on them, keep notes as work completes. The commitment and its status live on the record; the numbers roll up to the <button type="button" class="ghostlink" data-gov-monitor>KPI monitor on the governance page &rarr;</button></p>
+        <div id="workSec">
         <div class="kpis" id="delKpis"></div>
         <div class="otfilters" id="delFilters"></div>
         <div class="card">
@@ -1138,9 +1166,11 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           </div>
           <div id="delList" style="margin-top:14px"></div>
         </div>
+        </div>
         <div class="card"><h2>The record</h2><div class="cs">Every commitment with its status. The next assessment is read against this list — movement where a commitment was made is evidence; movement where none was made is noise.</div><div class="kpis" id="moveKpis" style="margin-top:12px"></div><div id="moveList"></div>
           </div>
-        <h2 class="secttl" id="renewalsSec">Renewals &mdash; the moment terms are open</h2>
+        <div id="renewalsSec">
+        <h2 class="secttl">Renewals &mdash; the moment terms are open</h2>
         <p class="sub">Licence renewals read against each brand&rsquo;s constraint candidate, commercial concentration and verification status. Imminent renewals with no written criteria go to the front of the plan.</p>
         <div class="card">
           <h2>Load the renewal calendar</h2>
@@ -1153,7 +1183,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div style="overflow-x:auto"><table class="dt" id="renTable"></table></div>
           <div class="policy" id="renRead" style="margin-top:14px"></div>
         </div>
-      
+        </div>
       </div>
       <div class="page" data-page="reports" hidden>
         <h1 class="pg">Reports</h1>
@@ -1223,7 +1253,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       <div class="page" data-page="insights" hidden>
         <h1 class="pg">Insights</h1>
         <p class="sub">Patterns that only appear when the same instrument runs across the whole portfolio.</p>
-        <h2 class="secttl" id="upliftSec">Scenario uplift &mdash; where to investigate first</h2>
+        <div id="upliftSec">
+        <h2 class="secttl">Scenario uplift &mdash; where to investigate first</h2>
         <p class="sub" style="margin-top:2px">A diagnostic scenario showing how the index would move if every lowest-scoring candidate reached Embedded (75). It supports sequencing; it is not recoverable revenue or a forecast.</p>
         <div class="card">
           <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
@@ -1241,7 +1272,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div class="card"><h2>Income at risk</h2><div class="cs">Brands where half or more of income sits on one licensee or category. Here the constraint is not only a ceiling — it is downside if that relationship moves. These go to the front of the queue regardless of index points.</div><div class="rows" id="planRisk"></div></div>
           <div class="card"><h2>Leakage exposure</h2><div class="cs">Brands reporting no royalty audit in two years, or income that is almost entirely guaranteed minimums. Unverified self-reporting is the most direct money left on the table; guarantee-only income means the renewal is the only lever.</div><div class="rows" id="planLeak"></div></div>
         </div>
-      
+        </div>
         <div class="card"><h2>Domain performance across all brands</h2>
           <table class="dt"><thead><tr><th>Domain</th><th>Role</th><th>Portfolio mean</th><th style="text-align:right">Brands constrained</th></tr></thead><tbody id="domTable"></tbody></table>
         </div>
@@ -1254,7 +1285,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <table class="dt"><thead><tr><th>Platform</th><th style="text-align:right">Brands</th><th style="text-align:right">Mean index</th><th>Most common constraint</th><th>Weakest domain (mean)</th></tr></thead><tbody id="platTable"></tbody></table>
           <div id="benchExt"></div>
         </div>
-        <h2 class="secttl" id="shapeSec">Portfolio distribution</h2>
+        <div id="shapeSec">
+        <h2 class="secttl">Portfolio distribution</h2>
         <p class="sub" style="margin-top:2px">The distribution behind the home page: how many brands sit in each maturity band, which weakness repeats most often, and what that pattern says at group level.</p>
         <div class="kpis" id="kpis"></div>
         <div class="cols">
@@ -1269,6 +1301,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <div class="card"><h2>The group-level read</h2>
           <div class="policy"><b class="h">Where the leverage sits</b><span id="lever"></span></div>
           <div class="policy"><b class="h">What this is not</b>A diagnostic of each brand's commercial engine, not a valuation and not a market forecast. It names the leading constraint candidate for each brand today. It does not say what the brand is worth, or what the category will do next.</div>
+        </div>
         </div>
       </div>
     </main>
@@ -1425,9 +1458,11 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     n.onclick=function(){
       go(n.dataset.page);
       /* A child jumps straight to its section; the section may be rendered
-         after go() shows the page, so the scroll waits a beat. */
+         after go() shows the page, so the scroll waits a beat. A folded
+         section reopens on the way — the menu never lands on nothing. */
       if(n.dataset.target){
         document.querySelectorAll('.subnav button').forEach(function(x){x.classList.toggle('on',x===n)});
+        unfoldForTarget(n.dataset.target);
         setTimeout(function(){var t=document.getElementById(n.dataset.target);
           if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);
       } else {
@@ -1435,6 +1470,51 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       }
     };
   });
+  /* ── Close down the data ──
+     Every section the menu lists can be folded to a single named bar and
+     reopened from it; the choice is remembered per browser (never sent
+     anywhere). Folding hides a reading of the data, never the data itself —
+     reopening always shows the live render. */
+  var FOLDS={};
+  function sectionFor(id){
+    var el=document.getElementById(id); if(!el) return null;
+    var c=el.closest?el.closest('.card'):null;
+    return (c&&c!==el)?c:el;
+  }
+  function setFold(id,closed,save){
+    var f=FOLDS[id]; if(!f) return;
+    f.sec.classList.toggle('datafolded',closed);
+    f.bar.classList.toggle('closed',closed);
+    f.btn.innerHTML=closed?('▸ '+esc(f.name)+' — closed · open it'):('Close '+esc(f.name.toLowerCase())+' ▴');
+    f.btn.setAttribute('aria-expanded',closed?'false':'true');
+    if(save) memSet('fold_'+id, closed?'1':'0');
+  }
+  function unfoldForTarget(id){
+    var t=document.getElementById(id); if(!t) return;
+    for(var k in FOLDS){ var f=FOLDS[k];
+      if(f.sec===t||f.sec.contains(t)){ if(f.sec.classList.contains('datafolded')) setFold(k,false,true); }
+    }
+  }
+  function initFolds(){
+    /* coAuditWrap is already a collapsible details; brandGallery lives inside
+       the money answer's render and folds with it. */
+    var skip={coAuditWrap:1,brandGallery:1};
+    document.querySelectorAll('.subnav button[data-target]').forEach(function(b){
+      var id=b.dataset.target;
+      if(skip[id]||FOLDS[id]) return;
+      var sec=sectionFor(id); if(!sec) return;
+      var name=b.textContent.replace(/\s+/g,' ').replace(/\d+$/,'').replace(/\s*→\s*$/,'').trim();
+      var bar=document.createElement('div'); bar.className='foldwrap';
+      var btn=document.createElement('button'); btn.type='button'; btn.className='foldbtn';
+      btn.setAttribute('aria-controls',id);
+      bar.appendChild(btn);
+      sec.parentNode.insertBefore(bar,sec);
+      FOLDS[id]={sec:sec,bar:bar,btn:btn,name:name};
+      btn.onclick=function(){ setFold(id, !sec.classList.contains('datafolded'), true); };
+      setFold(id, memGet('fold_'+id)==='1', false);
+    });
+  }
+  initFolds();
   function go(p){
     document.querySelectorAll('.nav>.navgrp>button').forEach(function(x){x.classList.toggle('on',x.dataset.page===p)});
     /* Accordion: the active page's group is the open one. */
@@ -1451,9 +1531,31 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
      goPlanItem: from a governance row to that action's step-by-step card.
      goOpsRow: from a plan card to that action's row on the monitor, with
      filters cleared so the row cannot be hidden by them. */
-  function flashEl(el){ if(!el) return; el.classList.remove('rowflash'); void el.offsetWidth; el.classList.add('rowflash'); }
+  /* markEl: the persistent you-are-here mark — one holder at a time. FOCUS
+     remembers it so a re-render (status change, filter, refresh) puts the mark
+     straight back instead of losing your place.
+     flashEl: mark it AND announce the arrival with the entrance flash. */
+  var FOCUS={kind:null,id:null};
+  function markEl(el){
+    if(!el) return;
+    if(el.matches&&el.matches('details.dw')){FOCUS={kind:'plan',id:el.dataset.id||null}}
+    else if(el.id&&el.id.indexOf('ops-')===0){FOCUS={kind:'ops',id:el.id.slice(4)}}
+    if(el.classList.contains('isfocus')) return;
+    var prev=document.querySelectorAll('.isfocus');
+    for(var i=0;i<prev.length;i++) prev[i].classList.remove('isfocus');
+    el.classList.add('isfocus');
+  }
+  function reapplyFocus(){
+    if(!FOCUS.id) return;
+    var el=FOCUS.kind==='plan'
+      ? document.querySelector('details.dw[data-id="'+FOCUS.id+'"]')
+      : document.getElementById('ops-'+FOCUS.id);
+    if(el && !el.classList.contains('isfocus')) el.classList.add('isfocus');
+  }
+  function flashEl(el){ if(!el) return; markEl(el); el.classList.remove('rowflash'); void el.offsetWidth; el.classList.add('rowflash'); }
   function goPlanItem(id){
     go('delivery');
+    unfoldForTarget('workSec');
     setTimeout(function(){
       var d=document.querySelector('.dw[data-id="'+id+'"]'); if(!d) return;
       d.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); flashEl(d);
@@ -1461,6 +1563,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
   }
   function goOpsRow(id){
     go('company');
+    unfoldForTarget('opsTable');
     OPS.alt='all'; OPS.status='all';
     if(typeof renderOpsEngine==='function') try{renderOpsEngine()}catch(e){}
     if(typeof renderOpsTable==='function') try{renderOpsTable()}catch(e){}
@@ -1967,7 +2070,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var g=el.querySelector('[data-cov-audit]');
     if(g) g.onclick=function(){var w=$('coAuditWrap');if(w){w.open=true;setTimeout(function(){w.scrollIntoView({behavior:'smooth',block:'start'})},60)}};
     var oo=el.querySelector('[data-cov-ops]');
-    if(oo) oo.onclick=function(){var t=$('opsTable');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})};
+    if(oo) oo.onclick=function(){unfoldForTarget('opsTable');var t=$('opsTable');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})};
   }
   /* ── The operations table ──────────────────────────────────────────────
      Every action across the book, one row each, under one KPI monitor.
@@ -2028,6 +2131,14 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
   function renderOpsTable(){
     var el=$('opsTable'); if(!el) return;
     if(!(DATA.company||[]).length){ el.innerHTML=''; return; }
+    /* Same follow-the-work mark as the Action plan: touching a row keeps it
+       marked so the register never loses your place. Wired once. */
+    if(!el._focusWired){
+      el._focusWired=1;
+      var followRow=function(e){var r=e.target&&e.target.closest?e.target.closest('tr[id^="ops-"]'):null;if(r)markEl(r)};
+      el.addEventListener('click',followRow);
+      el.addEventListener('focusin',followRow);
+    }
     var ALL=(DATA.moves||[]).filter(function(m){return !/dropped/i.test(m.status||'')});
     if(!ALL.length){
       el.innerHTML='<div class="otwrap"><h2 class="secttl">The operations table</h2>'
@@ -2123,6 +2234,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     el.querySelectorAll('[data-otv]').forEach(function(b){b.onclick=function(){OPS.view=b.dataset.otv;renderOpsTable()}});
     var tp=el.querySelector('[data-ops-toplan]');
     if(tp) tp.onclick=function(){DEL.status=OPS.status;safely('delivery',renderDelivery);go('delivery');
+      unfoldForTarget('workSec');
       setTimeout(function(){var t=$('delFilters');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);};
     el.querySelectorAll('[data-plan-open]').forEach(function(b){b.onclick=function(){goPlanItem(b.dataset.planOpen)}});
     el.querySelectorAll('#opsTbl .mv-status').forEach(function(sel){
@@ -2136,6 +2248,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     el.querySelectorAll('[data-otsort]').forEach(function(h){h.onclick=function(){
       if(OPS.sort===h.dataset.otsort)OPS.dir=-OPS.dir;else{OPS.sort=h.dataset.otsort;OPS.dir=h.dataset.otsort==='updated'?1:-1}
       renderOpsTable()}});
+    reapplyFocus();
   }
   function renderHomePlan(){
     var el=$('homePlan'); if(!el) return;
@@ -4274,6 +4387,15 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
   }
   function renderDelivery(){
     var host=$('delList'); if(!host) return;
+    /* The mark follows the work: touching any card — opening it, ticking a
+       step, typing a note — moves the you-are-here mark onto it. Wired once;
+       innerHTML rewrites do not remove host-level listeners. */
+    if(!host._focusWired){
+      host._focusWired=1;
+      var follow=function(e){var d=e.target&&e.target.closest?e.target.closest('details.dw'):null;if(d)markEl(d)};
+      host.addEventListener('click',follow);
+      host.addEventListener('focusin',follow);
+    }
     var ms=(DATA.moves||[]).filter(function(m){return m.status!=='Dropped'})
       .sort(function(a,b){return (a.status==='Done')-(b.status==='Done') || String(a.brand).localeCompare(String(b.brand))});
     var open=ms.filter(function(m){return m.status!=='Done'}).length;
@@ -4304,6 +4426,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     }
     var gm=document.querySelector('[data-gov-monitor]');
     if(gm) gm.onclick=function(){go('company');
+      unfoldForTarget('opsTable');
       setTimeout(function(){var t=$('opsTable');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);};
 
     if(!ms.length){
@@ -4388,6 +4511,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         });
       };
     });
+    reapplyFocus();
   }
 
   /* ── Integration-ready action export ────────────────────────────────────

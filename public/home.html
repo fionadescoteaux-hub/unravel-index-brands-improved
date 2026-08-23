@@ -20,6 +20,7 @@
   --ink:#0F1B2E;--body:#4E5F73;--faint:#8FA1B5;--line:rgba(255,255,255,.14);
   --card:#FFFFFF;--frag:#C6564F;--steel:#7FB4DD;--green:#4C9A72;}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0;padding:0}
 body{font-family:'Source Sans 3','Helvetica Neue',Helvetica,Arial,sans-serif;color:#fff;
   background:linear-gradient(118deg,var(--navy) 0%,var(--navy2) 52%,var(--navy3) 100%);min-height:100vh;
@@ -71,6 +72,15 @@ main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;
 .card .go{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #E3E9F0;padding-top:11px}
 .card .tag{font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#A2712F}
 .card.c2 .tag{color:#2D5175}.card.c3 .tag{color:#4A5FA5}.card.c4 .tag{color:#2E7D63}
+.card.lead{margin-bottom:18px;padding:24px 26px 18px;border-left-width:6px;
+  background:linear-gradient(135deg,#FFFFFF 0%,#F4FAF7 100%)}
+.card.lead h3{font-size:24px}
+.card.lead p{font-size:14px;max-width:56ch}
+.start{display:inline-block;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:var(--green);border-radius:999px;padding:4px 11px;margin-left:10px;vertical-align:2px}
+.cards.enter{animation:cardsIn .35s ease}
+@keyframes cardsIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.cards.enter{animation:none}}
 .card .ar{width:34px;height:34px;border:1.5px solid #DCE4EC;border-radius:50%;display:grid;place-items:center;font-size:15px;color:var(--ink);transition:background .15s,border-color .15s}
 .card:hover .ar{background:var(--navy);border-color:var(--navy);color:#fff}
 .ic{position:absolute;top:18px;right:20px;color:#B9C6D6}
@@ -97,14 +107,20 @@ footer b{color:#fff;font-weight:600}
     </section>
     <section class="panel">
       <h2>What do you need to do?</h2>
-      <p class="sub">Choose a workspace. Live tools use your programme access code — the demonstration needs nothing.</p>
+      <p class="sub">The demonstration is open to anyone. On the programme? Confirm your access code and your live workspaces appear.</p>
+      <a class="card c4 lead" id="k4" href="/demo">
+        <svg class="ic" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 8l3.5 2-3.5 2V8z" fill="currentColor"/></svg>
+        <span class="n">Explore<span class="start">Start here</span></span><h3>View the demonstration</h3>
+        <p>The full platform on an illustrative 19-brand portfolio — the money answer, the brand engine, the operations register and the in-depth Martha Stewart audit.</p>
+        <span class="go"><span class="tag">No sign-in required</span><span class="ar">&rarr;</span></span>
+      </a>
       <form class="access" id="af">
         <label for="code">Programme access</label>
         <input id="code" placeholder="Enter your access code" autocomplete="off" maxlength="60">
         <button type="submit">Confirm access</button>
       </form>
-      <div class="hint"><i></i><span id="hintMsg">Enter your code once, then choose where to go. No code? Card 04 opens the demonstration.</span></div>
-      <div class="cards">
+      <div class="hint"><i></i><span id="hintMsg">Confirm your code and the live workspaces — assessment, dashboard, line review — open below.</span></div>
+      <div class="cards" id="liveCards" hidden>
         <a class="card" id="k1" href="/index.html">
           <svg class="ic" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 6.5h7M6.5 10h7M6.5 13.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           <span class="n">01 · Diagnose</span><h3>Complete an assessment</h3>
@@ -123,12 +139,6 @@ footer b{color:#fff;font-weight:600}
           <p>Run the focused line cut for a contract, channel or income stream that needs a sharper answer.</p>
           <span class="go"><span class="tag">8-minute line review</span><span class="ar">&rarr;</span></span>
         </a>
-        <a class="card c4" id="k4" href="/demo">
-          <svg class="ic" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 8l3.5 2-3.5 2V8z" fill="currentColor"/></svg>
-          <span class="n">04 · Explore</span><h3>View the demonstration</h3>
-          <p>Explore the illustrative 19-brand portfolio, including the in-depth Martha Stewart audit.</p>
-          <span class="go"><span class="tag">No sign-in required</span><span class="ar">&rarr;</span></span>
-        </a>
       </div>
     </section>
   </main>
@@ -138,29 +148,31 @@ footer b{color:#fff;font-weight:600}
   </footer>
 </div>
 <script>
-/* One code, every door. Confirm stores the code for this visit and rewrites
-   the card links; without one, the working prototype opens as the
-   demonstration account so there is never a dead end. */
+/* The demonstration is the open door; the live workspaces appear only once a
+   code is confirmed, so a first-time visitor sees one clear action instead of
+   four. Confirm stores the code for this visit and writes it onto the three
+   live-card links. */
 (function(){
   var input=document.getElementById('code'), msg=document.getElementById('hintMsg');
-  var CODE='';
-  function apply(){
-    // Never a dead end: with no code confirmed yet, every card still opens —
-    // on the demonstration account — rather than landing on a page that has
-    // nothing to show.
-    var c=CODE||'BRANDS-DEMO-P8W3';
+  var cards=document.getElementById('liveCards');
+  function apply(c){
     document.getElementById('k1').href='/index.html?code='+encodeURIComponent(c);
     document.getElementById('k2').href='/dashboard.html?code='+encodeURIComponent(c);
     document.getElementById('k3').href='/line.html?code='+encodeURIComponent(c);
   }
   document.getElementById('af').addEventListener('submit',function(e){
     e.preventDefault();
-    CODE=input.value.trim();
-    if(CODE){ msg.textContent='Code set for this visit — every workspace below now opens on it.'; }
-    else { msg.textContent='No code entered — the workspaces open as the demonstration account.'; }
-    apply();
+    var CODE=input.value.trim();
+    if(CODE){
+      apply(CODE);
+      cards.removeAttribute('hidden');
+      cards.classList.add('enter');
+      msg.textContent='Code set for this visit — your three live workspaces are open below.';
+    } else {
+      cards.setAttribute('hidden','');
+      msg.textContent='No code entered — the demonstration above is open to you; a code opens the live workspaces.';
+    }
   });
-  apply();
 })();
 </script>
 </body>
