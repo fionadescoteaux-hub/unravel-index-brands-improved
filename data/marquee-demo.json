@@ -1,4 +1,5 @@
 {
+ "oversightOwner": "Chief Commercial Officer",
  "partnerName": "Marquee Brands · Illustrative Demo",
  "badgeLabel": "Marquee Brands",
  "vertical": "brand-licensing",
@@ -2835,6 +2836,7 @@
    "domainKey": "model",
    "move": "Commission a royalty audit on the cookware licensee before the renewal window opens",
    "owner": "Finance",
+   "lines": ["Cookware & kitchen"],
    "office": "New York",
    "person": "Royalty Audit Manager",
    "horizon": "Findings within a quarter",
@@ -2851,6 +2853,7 @@
    "domainKey": "governance",
    "move": "Write renewal criteria for the fragrance and eyewear licences before terms open",
    "owner": "Commercial",
+   "lines": ["Fragrance & beauty","Eyewear"],
    "office": "Milan",
    "person": "EMEA Licensing Director",
    "horizon": "Before the renewal window opens",
