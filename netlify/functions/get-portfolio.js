@@ -257,6 +257,7 @@ exports.handler = async (event) => {
         return {
           id: r.id, subject: m.Subject || '', brand: m.Brand || '', brandId:m.BrandID||'', domainKey: m.DomainKey || '',
           move: m.Move || '', owner: m.Owner || '', office: m.Office || '', person: m.Person || '',
+          lines: String(m.LineNames||'').split(',').map(s => s.trim()).filter(Boolean),
           horizon: m.Horizon || '', metric: m.Metric || '',
           status: m.Status || 'Committed', note: m.Note || '',
           baselineScore: Number(m.BaselineScore) || null, baselineIndex: Number(m.BaselineIndex) || null,
@@ -313,6 +314,7 @@ exports.handler = async (event) => {
     // against its own instrument.
     return ok({
       partnerName: partner.fields.PartnerName || '',
+      oversightOwner: partner.fields.OversightOwner || '',
       badgeLabel: partner.fields.BadgeLabel || '',
       readOnly: isDemo,
       portfolioBrandCount: Number(partner.fields.PortfolioBrandCount) || null,
