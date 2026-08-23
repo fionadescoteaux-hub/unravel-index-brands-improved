@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.16 — first-look guidance that retires itself, and a polish pass
+
+- **First look.** Eleven slim guidance strips narrate the ontology in plain language exactly where a first-time reader meets it — the money answer, the brand cards, the radar, the governance page, the five altitudes, the operations table, comparison, the action plan, scenario uplift, the report builder. Each appears the first three times its page is opened, then retires itself; "Got it" retires one immediately. Stored per browser, like the tour; nothing leaves the page.
+- **The welcome tour caught up with the product.** Its four cards now describe what ships today: the money answer and the brand cards that unfold, the menu as the map of how the business is built (with the governance page and operations table named), and acting from any audit — landing work on the plan, the table and the KPI monitor.
+- **Polish pass.** Cards gain a soft two-layer shadow; section titles carry the gold tick the navy bands already use; tables get row hover and tabular numerals; pages fade in gently and scrolling is smooth — both stilled under reduced-motion.
+
 ## 0.3.15 — the cascade clicks into a full operations table with a KPI monitor
 
 - **The rungs are now filters.** Selecting any level of the operational engine — portfolio, the company engine, brands, commercial lines, products &amp; services — focuses the new operations table below on exactly that altitude, and carries the reader to it. Keyboard-operable; the selected rung is marked.
