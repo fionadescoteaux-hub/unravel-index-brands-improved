@@ -11,7 +11,7 @@
  * or 401. POST so credentials never land in a URL or a log.
  *
  *   action: 'create'  move: { subject, brand, domainKey, move, owner, horizon, metric,
- *                             baselineScore, baselineIndex }
+ *                             baselineScore, baselineIndex, person, office, lineNames, due }
  *   action: 'update'  move: { id, status, due, progress, workingNote,
  *                             outcomeStatus, outcomeEvidence }
  *
@@ -89,7 +89,7 @@ exports.handler = async (event) => {
         BaselineIndex: num(m.baselineIndex),
         CreatedAt: now,
         UpdatedAt: now,
-        Due: '',
+        Due: cleanDate(m.due),
         Progress: '[]',
         WorkingNote: '',
         OutcomeStatus: 'Not tested',
