@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.11 — compare brands where the brands are, and build your own report
+
+- **Compare brands moved to the Brands page** — it existed, but at the top of Insights where nobody thought to look for it. Select up to five brands and they draw as one radar (one colour per brand, matched in the legend) above the side-by-side domain table with its spread column and transfer read. Relocated and upgraded, not rebuilt: the spread analysis and its honest caveat are unchanged.
+- **Report builder under Reports.** Choose any subjects (the company and/or any brands) and any of the five sections (Executive Audit, Commercial Map, Evidence, Actions, History), and build one document: a cover stating exactly what was chosen and when, then each subject's audit with only the chosen sections, page-broken per subject, previewed on screen and printable to PDF. It assembles the same audit the screens render — nothing is written for the report that is not in the product, and leaving a section out never changes the rest. Workspace furniture (tab strips, guidance banners, print buttons) is stripped from the built document.
+
 ## 0.3.10 — the live dashboard's delivery board fills in
 
 - get-portfolio now passes each move's `Office` and `Person` through to the dashboard, so the delivery board groups live accounts by real offices instead of "Office not recorded". The two fields were added to the Airtable Moves table (additive — nothing existing touched), and the demonstration account was seeded with the eight illustrative actions so the live board matches the walkthrough.
