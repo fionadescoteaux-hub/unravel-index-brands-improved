@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.20 — the Action plan is the delivery arm of the company engine, and the platform is one connected loop
+
+- **The Action plan moved under The company.** It keeps its own page and menu entry, but now sits directly beneath the governance group — and appears inside The company's own drop-down as "Action plan &rarr;" — because the plan is the delivery arm of the engine, not a sibling of it. Its page says so, and links straight back to the KPI monitor.
+- **A KPI number now takes you to the relevant actions.** Click any number on the monitor — done, blocked, stalled, unassigned — and a "work these on the Action plan &rarr;" link carries that exact filter across: the plan opens showing precisely those cards, its own chip row already set. The plan gained the same seven status chips as the monitor, with counts, backed by one shared filter vocabulary so a filter means identical rows on both sides.
+- **More threads in the weave.** The house verdict links to the operations table; every action on the home page's "plan, live" opens its exact card on the Action plan; the plan's subtitle links back to the monitor. With the row&rarr;card and card&rarr;row links from 0.3.18, every view of an action now reaches every other view of it in one click.
+
 ## 0.3.19 — comprehension audit: one name per thing, and every menu child lands true
 
 A first-time-user audit of ontology, architecture and navigation, fixing what it found rather than asserting all was well.
