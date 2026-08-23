@@ -25,6 +25,9 @@ button,input{font-family:inherit}
 
 /* ── Sign in ── */
 .gate{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;margin:0;padding:48px 20px;background:linear-gradient(135deg,var(--navy) 0%,#0F2148 55%,#16305E 100%)}
+/* The display rule above outranks the browser's own [hidden] behaviour, so the
+   gate must be told explicitly to disappear once sign-in succeeds. */
+.gate[hidden]{display:none}
 .gate .brandmark{display:flex;align-items:center;gap:9px;font-family:'Jost',Helvetica,sans-serif}
 .gate .brandmark .u{width:28px;height:28px;border:1px solid rgba(255,255,255,.4);border-radius:7px;display:grid;place-items:center;font-weight:600;font-size:13px;color:#fff}
 .gate .brandmark b{color:#fff;font-size:13px;letter-spacing:.02em}
@@ -69,6 +72,9 @@ button,input{font-family:inherit}
 .wm .ix{font-weight:400;color:var(--steel-3);margin-left:-3px}
 .nav{display:flex;flex-direction:column;gap:2px}
 .nav button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:0;font-family:'Jost',Helvetica,sans-serif;font-size:12.5px;letter-spacing:.04em;padding:10px 12px;border-radius:4px;cursor:pointer;background:transparent;color:rgba(255,255,255,.7)}
+/* The display rule above outranks the browser's own [hidden] behaviour, so a
+   nav item with no subject behind it must be told explicitly to disappear. */
+.nav button[hidden]{display:none}
 .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
 .nav button.on{background:rgba(255,255,255,.16);color:#fff}
 .nav .cnt{margin-left:auto;font-size:10.5px;background:rgba(255,255,255,.12);border-radius:999px;padding:1px 8px}
@@ -82,7 +88,11 @@ main{padding:26px 32px 70px;max-width:1320px;width:100%;margin-inline:auto;min-w
 h1.pg{font-family:'Jost',Helvetica,sans-serif;font-size:29px;font-weight:300;letter-spacing:-.01em;color:var(--navy);margin:4px 0 8px}
 p.sub{font-size:14px;color:var(--body);max-width:76ch;margin:0 0 16px;line-height:1.6}
 .lead{font-size:19px;line-height:1.6;color:var(--navy);max-width:70ch;margin:12px 0 18px;text-wrap:pretty}
-.flag{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);color:var(--body);border-radius:999px;padding:6px 13px;font-size:11px;margin-bottom:18px}
+/* Disclosure pills: they must be present and readable, but they are context
+   for the answer, not the answer — kept tight so they never push the money
+   figures below the fold. */
+#flag{margin-bottom:15px}
+.flag{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);color:var(--body);border-radius:999px;padding:4px 11px;font-size:10.5px;line-height:1.45;margin:0 5px 6px 0}
 .flag i{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
 
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
@@ -532,6 +542,52 @@ details.dw summary{grid-template-columns:1fr 90px}.dwd,.dwp{display:none}}
 .cmdttl::after{content:'';display:block;width:44px;height:3px;background:#D9A441;border-radius:2px;margin-top:5px}
 .cmdsub{font-size:12px;color:rgba(255,255,255,.72);max-width:64ch;line-height:1.5}
 .cmdgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;position:relative;z-index:1}
+/* ── The money answer ──
+   Income today, the stated target and the distance between them, read left
+   to right with one bar carrying the whole story. Every figure is a band or
+   a band midpoint from the questionnaire; nothing here is a forecast. */
+.gaphero{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px 18px;position:relative;z-index:1;margin:0 2px 16px}
+.ghc .k{font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:600}
+.ghc .v{font-family:'Jost',Helvetica,sans-serif;font-size:clamp(26px,3.1vw,38px);font-weight:600;line-height:1.08;color:#fff;margin-top:5px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.ghc .v.gold{color:#EFCB86}.ghc .v.warn{color:#F0A9A2}
+.ghc .m{font-size:11.5px;color:rgba(255,255,255,.66);margin-top:6px;max-width:34ch;line-height:1.5}
+.ghsep{font-size:19px;color:rgba(255,255,255,.32);align-self:center;line-height:1}
+.gapbar{position:relative;z-index:1;margin:0 2px 16px}
+.gbtrack{height:12px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden;display:flex}
+.gbfill{background:linear-gradient(90deg,#D9A441,#EFCB86);height:100%;border-radius:999px 0 0 999px}
+.gbmarks{display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:rgba(255,255,255,.62);margin-top:7px;font-family:'Jost',Helvetica,sans-serif;letter-spacing:.04em}
+@media(max-width:820px){.gaphero{grid-template-columns:1fr;gap:14px}.ghsep{display:none}}
+/* ── The portfolio in one shape ──
+   Nine axes, one polygon per brand drawn faintly so the spread is visible,
+   the portfolio mean over the top, and the licensing house's own engine
+   beside it — where those two shapes differ is the group-level finding. */
+.shape{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 18px}
+.shapegrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:center;margin-top:6px}
+.shapegrid svg{width:100%;height:auto;display:block}
+.rgring{fill:none;stroke:var(--line);stroke-width:1}
+.rgaxis{stroke:var(--line);stroke-width:1}
+.rgbrand{fill:none;stroke:var(--steel-3);stroke-width:1;opacity:.28}
+.rgmean{fill:rgba(162,113,47,.16);stroke:#A2712F;stroke-width:2.5;stroke-linejoin:round}
+.rgco{fill:none;stroke:var(--navy);stroke-width:2;stroke-dasharray:5 4;stroke-linejoin:round}
+.rglab{font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.06em;fill:var(--body);text-transform:uppercase}
+.rglab.low{fill:var(--frag);font-weight:600}
+.rgkey{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.rgk{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--body);line-height:1.5}
+.rgk i{width:22px;height:3px;border-radius:2px;flex:none;margin-top:7px}
+.rgk b{color:var(--ink);font-weight:600}
+.rgread{border-top:1px solid var(--line);margin-top:14px;padding-top:12px;font-size:13px;color:var(--body);line-height:1.6}
+.rgread b{color:var(--ink)}
+@media(max-width:860px){.shapegrid{grid-template-columns:1fr;gap:14px}}
+/* ── The plan, on the home page ── */
+.hplan{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 18px}
+.hprow{display:flex;gap:11px;align-items:flex-start;border-top:1px solid var(--line);padding:11px 0}
+.hprow:first-of-type{border-top:0;padding-top:4px}
+.hpst{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:3px 9px;flex:none;margin-top:1px;border:1px solid var(--line);color:var(--body);background:var(--paper)}
+.hpst.go{background:#EDF6F1;border-color:#CBE3D8;color:#2E7D63}
+.hpst.warn{background:#FBEFEE;border-color:#E9CBC8;color:#8A2F2A}
+.hpb{min-width:0}
+.hpb b{display:block;font-size:13px;color:var(--ink);font-weight:600}
+.hpb span{display:block;font-size:11.5px;color:var(--faint);margin-top:2px}
 .cmdc{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-top-width:3px;border-radius:9px;padding:13px 16px;text-align:left}
 .cmdc.gold{border-top-color:#D9A441}
 .cmdc.blue{border-top-color:#7FB4DD}
@@ -557,16 +613,60 @@ button.cmdgo:focus-visible{outline:2px solid #fff;outline-offset:2px}
 /* The money map: proportional, clickable portfolio diagram */
 .emap{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 18px}
 .emhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:12px}
-.emrow{display:flex;gap:4px;align-items:stretch;min-height:74px}
-.emb{flex-basis:0;min-width:64px;border:0;border-radius:6px;cursor:pointer;position:relative;padding:8px 9px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:filter .12s,outline-color .12s;outline:2px solid transparent;outline-offset:2px}
-.emb.sm{min-width:22px;padding:0;align-items:center;justify-content:center}
-.emb:hover{filter:brightness(1.12)}
-.emb.on{outline-color:var(--navy)}
-.emb:focus-visible{outline-color:var(--steel)}
-.emn{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:11.5px;color:#fff;line-height:1.2;text-shadow:0 1px 2px rgba(8,19,48,.35);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.emm{font-size:10px;color:rgba(255,255,255,.92);font-variant-numeric:tabular-nums;text-shadow:0 1px 2px rgba(8,19,48,.35);white-space:nowrap}
-.emc{position:absolute;top:5px;right:6px;font-size:7.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(8,19,48,.4);border-radius:3px;padding:1px 5px;max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.emi{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:10px;color:rgba(255,255,255,.88);text-shadow:0 1px 2px rgba(8,19,48,.35);writing-mode:vertical-rl}
+/* ── Brand gallery: one picture card per brand, headline income on each ── */
+.bgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:12px}
+.bcard{position:relative;display:flex;flex-direction:column;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:0 0 11px;cursor:pointer;overflow:hidden;transition:transform .16s,box-shadow .16s,border-color .16s}
+.bcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(8,19,48,.14)}
+.bcard:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.bcard.on{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy)}
+.bimg{position:relative;height:84px;background:var(--tint);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bimg img{max-width:76%;max-height:70%;object-fit:contain}
+.bimg .bmono{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:21px;letter-spacing:.1em;color:var(--steel)}
+.bimg .bmono{display:none}
+.bimg.noimg img{display:none}
+.bimg.noimg .bmono{display:block}
+.bstrip{height:3px;width:100%}
+.bcard .bname{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:12.5px;color:var(--ink);padding:9px 12px 0;line-height:1.25}
+.bcard .bmoney{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:17px;color:var(--gold);padding:3px 12px 0;font-variant-numeric:tabular-nums}
+.bcard .bmoney i{font-style:normal;font-weight:400;font-size:10.5px;color:var(--faint);letter-spacing:0}
+.bcard .bmeta{display:flex;align-items:center;gap:6px;padding:6px 12px 0;font-size:10.5px;color:var(--body);line-height:1.4}
+.bidx{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:10.5px;color:#fff;border-radius:4px;padding:1px 6px;flex:none}
+/* ── The brand, opened: interactive line-and-component wheel ── */
+.bpanel{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:0 10px 10px 0;background:var(--bg);padding:13px 16px;animation:bpin .26s ease}
+@keyframes bpin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.bpgrid{display:grid;grid-template-columns:minmax(0,410px) minmax(0,1fr);gap:18px;align-items:start;margin-top:11px}
+.sbwrap svg{width:100%;max-width:410px;height:auto;display:block;margin:0 auto}
+.sbg1,.sbg2{transform-box:fill-box;transform-origin:center;animation:arcin .45s ease both}
+.sbg2{animation-delay:.12s}
+@keyframes arcin{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.arcL{cursor:pointer;stroke:#fff;stroke-width:1.5;transition:filter .15s}
+.arcL:hover,.arcL.on{filter:brightness(1.15)}
+.arcL:focus-visible,.arcC:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.arcL.hit{stroke:var(--frag);stroke-width:2}
+.arcC{cursor:pointer;stroke:#fff;stroke-width:1;transition:filter .15s}
+.arcC:hover,.arcC.on{filter:brightness(.9)}
+.sbcent{cursor:pointer}
+.sbcent circle{fill:#fff;stroke:var(--line);transition:stroke .15s}
+.sbcent:hover circle{stroke:var(--navy)}
+.sbnm{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:15px;fill:var(--ink)}
+.sbgo{font-family:'Jost',Helvetica,sans-serif;font-size:8.5px;letter-spacing:.1em;fill:var(--steel);text-transform:uppercase}
+.sbnote{font-size:10.5px;color:var(--faint);margin-top:8px;text-align:center;line-height:1.5}
+.sbinfo{min-height:38px;font-size:12px;color:var(--body);background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.5}
+.sbinfo b{color:var(--ink)}
+.sbleg{display:flex;flex-direction:column;gap:3px;margin-top:10px}
+.sblr{display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:var(--body);background:transparent;border:0;text-align:left;cursor:pointer;padding:4px 6px;border-radius:6px;width:100%}
+.sblr:hover,.sblr.on{background:var(--tint)}
+.sblr i{width:11px;height:11px;border-radius:3px;flex:none;align-self:center}
+.sblr b{color:var(--ink);font-weight:600;font-size:11.5px}
+.sblr .v{margin-left:auto;font-family:'Jost',Helvetica,sans-serif;font-variant-numeric:tabular-nums;color:var(--gold);font-weight:600}
+.sblr .hitf{color:var(--frag);font-size:10px}
+.sbdetail{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--body);line-height:1.55}
+.sbdetail h3{margin:0 0 7px;font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:13.5px;color:var(--ink)}
+.sbkv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:11.5px;margin-top:6px}
+.sbkv span{color:var(--faint)}
+.sbkv b{color:var(--ink);font-weight:600}
+@media(max-width:860px){.bpgrid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.bpanel,.sbg1,.sbg2{animation:none}.bcard,.bcard:hover{transform:none;transition:none}}
 .emx{margin-top:10px;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:0 8px 8px 0;background:var(--bg);padding:12px 16px}
 .emxh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--body);margin-bottom:9px}
 .emxh b{font-family:'Jost',Helvetica,sans-serif;font-size:14.5px;color:var(--ink)}
@@ -593,7 +693,7 @@ details.emld summary>span{flex-basis:100%;font-size:10.5px;color:var(--faint)}
 details.emld .emcs{padding:0 11px 9px}
 .emcs{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .emcs i{font-style:normal;font-size:10px;color:var(--body);background:var(--tint);border:1px solid #C8D9E8;border-radius:999px;padding:2px 8px}
-@media(max-width:820px){.emrow{flex-wrap:wrap}.emb{min-height:56px;flex-basis:110px}}
+@media(max-width:820px){.bgal{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 /* The brand map: clickable brand › line › component diagram */
 .bmap{margin:14px 26px 18px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:16px 18px}
 .bm-brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;background:var(--navy);border-radius:8px;margin-bottom:2px}
@@ -738,9 +838,15 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       </div>
       <div class="powered">Powered by<span class="wm"><span class="u" aria-hidden="true">U</span>Unravel<span class="ix">Index</span></span></div>
       <nav class="nav" id="nav" aria-label="Dashboard sections">
+        <!-- The menu descends the ontology's own spine: the portfolio, then
+             the subjects assessed within it (the company that runs the book,
+             then each brand), then what is derived from them. Commercial
+             lines and components are levels 3 and 4 of the spine and are
+             deliberately not menu items — they exist only in the context of
+             a brand and are reached by opening one. -->
         <button type="button" class="on" data-page="overview">Overview</button>
+        <button type="button" data-page="company">The company</button>
         <button type="button" data-page="brands">Brands<span class="cnt" id="bCount">0</span></button>
-        <button type="button" data-page="company">Brand Engine<span class="cnt" id="cCount">0</span></button>
         <button type="button" data-page="delivery">Action plan<span class="cnt" id="dCount">0</span></button>
         <button type="button" data-page="insights">Insights</button>
         <button type="button" data-page="reports">Reports</button>
@@ -750,13 +856,29 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     </aside>
 
     <main id="main">
+      <!-- The grand home page: the company's own commercial answer first —
+           what the book brings in, what it is aiming at, what stands in the
+           way — then the portfolio's shape, then every brand as a way in.
+           Secondary analysis lives on Insights; the brand-by-brand grid and
+           the full audits live on Brands. -->
       <div class="page" data-page="overview">
-        <h1 class="pg">Portfolio overview</h1>
-        <p class="lead" id="readoutTop" hidden></p>
-        <p class="sub">Where each brand's commercial engine stands, what constrains it, and which constraints repeat across the portfolio — the ones worth solving once at group level rather than brand by brand.</p>
+        <h1 class="pg" id="ovTitle">The commercial engine</h1>
+        <p class="sub">What the whole book brings in today, what it is aiming at, and what stands in the way &mdash; then every brand beneath it. Select any brand to open its commercial lines and the products and services under them.</p>
         <div id="flag"></div>
         <div id="homeEngine"></div>
-        <div class="kpis" id="kpis"></div>
+        <div id="portfolioShape"></div>
+        <div id="homePlan"></div>
+      </div>
+
+      <div class="page" data-page="company" hidden>
+        <h1 class="pg">The company engine</h1>
+        <p class="sub">The commercial engine every brand feeds — the licensing house itself, read through the same nine-domain framework with company-specific questions. Where the same weakness shows here and across several brands, that is one capability worth fixing once for the whole book.</p>
+        <div id="companyBody"></div>
+      </div>
+
+      <div class="page" data-page="brands" hidden>
+        <h1 class="pg">Brands</h1>
+        <p class="sub">Every assessed brand, ranked by index. The constraint column shows each brand’s lowest-scoring domain — its leading constraint candidate.</p>
         <div class="card">
           <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
             <div>
@@ -768,25 +890,6 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div id="groups"></div>
         </div>
         <div id="detail"></div>
-        <div class="cols">
-          <div class="card"><h2>Constraint candidates</h2><div class="cs">How many brands point to each area as their weakest link. <b>What this is for:</b> when the same area keeps appearing across brands, one group-level fix may release more than fixing brand by brand — so the tallest bar is where a single portfolio intervention is most worth testing. Counts include only clear-cut cases; genuine ties are reported separately.</div>
-            <div class="cap"><span>Domain</span><span>Brands</span></div><div class="rows" id="consList"></div></div>
-          <div class="card"><h2>Where the portfolio sits</h2><div class="cs">Distribution across the maturity bands.</div>
-            <div class="dist" id="dist"></div><div class="legend" id="legend"></div></div>
-        </div>
-        <div class="card"><h2>What this says at portfolio level</h2>
-          <div class="policy"><b class="h">Portfolio pattern</b><span id="readout"></span></div></div>
-      </div>
-
-      <div class="page" data-page="company" hidden>
-        <h1 class="pg">The Brand Engine</h1>
-        <p class="sub">The commercial engine every brand feeds — the licensing house itself, read through the same nine-domain framework with company-specific questions. Where the same weakness shows here and across several brands, that is one capability worth fixing once for the whole book.</p>
-        <div id="companyBody"></div>
-      </div>
-
-      <div class="page" data-page="brands" hidden>
-        <h1 class="pg">Brands</h1>
-        <p class="sub">Every assessed brand, ranked by index. The constraint column shows each brand’s lowest-scoring domain — its leading constraint candidate.</p>
         <div class="card">
           <div style="overflow-x:auto"><table class="dt" id="brandTable"></table></div>
         </div>
@@ -909,6 +1012,18 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <table class="dt"><thead><tr><th>Platform</th><th style="text-align:right">Brands</th><th style="text-align:right">Mean index</th><th>Most common constraint</th><th>Weakest domain (mean)</th></tr></thead><tbody id="platTable"></tbody></table>
           <div id="benchExt"></div>
         </div>
+        <h2 class="secttl">Portfolio shape</h2>
+        <p class="sub" style="margin-top:2px">The distribution behind the home page: how many brands sit in each maturity band, which weakness repeats most often, and what that pattern says at group level.</p>
+        <div class="kpis" id="kpis"></div>
+        <div class="cols">
+          <div class="card"><h2>Constraint candidates</h2><div class="cs">How many brands point to each area as their weakest link. <b>What this is for:</b> when the same area keeps appearing across brands, one group-level fix may release more than fixing brand by brand &mdash; so the tallest bar is where a single portfolio intervention is most worth testing. Counts include only clear-cut cases; genuine ties are reported separately.</div>
+            <div class="cap"><span>Domain</span><span>Brands</span></div><div class="rows" id="consList"></div></div>
+          <div class="card"><h2>Where the portfolio sits</h2><div class="cs">Distribution across the maturity bands.</div>
+            <div class="dist" id="dist"></div><div class="legend" id="legend"></div></div>
+        </div>
+        <div class="card"><h2>What this says at portfolio level</h2>
+          <div class="policy"><b class="h">Portfolio pattern</b><span id="readout"></span></div></div>
+
         <div class="card"><h2>The group-level read</h2>
           <div class="policy"><b class="h">Where the leverage sits</b><span id="lever"></span></div>
           <div class="policy"><b class="h">What this is not</b>A diagnostic of each brand's commercial engine, not a valuation and not a market forecast. It names the leading constraint candidate for each brand today. It does not say what the brand is worth, or what the category will do next.</div>
@@ -1114,13 +1229,35 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var conflicts=B.reduce(function(t,b){return t+renewalConflicts(b).length},0);
     var unaud=B.filter(unaudited).length, conc=B.filter(concHigh).length;
     var soon=B.filter(function(b){return linesOf(b).some(function(l){return l.renewal==='Within 12 months'&&candidateDomainsForLine(b,l.name).length>0})});
+    /* The money answer, read left to right: what comes in, what is being
+       aimed at, and the distance between the two. The distance is measured
+       against the same figure shown as "today" so the two ends of the bar
+       share one basis; the company's own stated band is reported beside it
+       rather than mixed into the arithmetic. */
+    var tgt=parseMoney(coc.royaltyTargetBand);
+    var gap=(tgt!==null&&total)?Math.max(0,Math.round(tgt-total)):null;
+    var pct=(tgt&&total)?Math.max(4,Math.min(100,Math.round(total/tgt*100))):null;
+    var MV=(DATA.moves||[]);
+    var activeN=MV.filter(function(m){return m.status!=='Dropped'&&m.status!=='Done'}).length;
+    var doneN=MV.filter(function(m){return m.status==='Done'}).length;
     var h='<div class="cmdband">'
       +'<div class="cmdhead"><span class="cmdttl">The Brand Engine</span><span class="cmdsub">Every brand — and every product and service beneath it — feeding one commercial engine. This is where it stands today.</span></div>'
+      +'<div class="gaphero">'
+        +'<div class="ghc"><div class="k">Bringing in today</div><div class="v gold">&asymp;&nbsp;$'+total+'M</div>'
+          +'<div class="m">reported royalty across '+roy.length+' brand'+(roy.length===1?'':'s')+' · sum of band midpoints'+(DATA.readOnly?' · illustrative':'')+(coc.royaltyBand?' · the company itself states '+esc(coc.royaltyBand):'')+'</div></div>'
+        +'<div class="ghsep" aria-hidden="true">&rarr;</div>'
+        +'<div class="ghc"><div class="k">Stated target</div><div class="v">'+(coc.royaltyTargetBand?esc(coc.royaltyTargetBand):'Not set')+'</div>'
+          +'<div class="m">'+(coc.royaltyTargetBand?'management-stated'+(coc.targetHorizon?' · '+esc(coc.targetHorizon).toLowerCase():'')+' · never scored':'capture it in the company questionnaire and the gap reads here')+'</div></div>'
+        +'<div class="ghsep" aria-hidden="true">=</div>'
+        +'<div class="ghc"><div class="k">Still to bring in</div><div class="v'+(gap?' warn':'')+'">'+(gap===null?'&mdash;':(gap?'&asymp;&nbsp;$'+gap+'M':'At target'))+'</div>'
+          +'<div class="m">'+(gap!==null?'to the midpoint of the stated target band'+(tgtN?' · '+tgtN+' brand'+(tgtN===1?'':'s')+' carry a target of their own'+(climbs?', '+climbs+' band'+(climbs===1?'':'s')+' to climb':''):' · no brand carries a target of its own yet'):'no company target recorded yet')+'</div></div>'
+      +'</div>'
+      +(pct!==null?'<div class="gapbar"><div class="gbtrack"><i class="gbfill" style="width:'+pct+'%"></i></div>'
+        +'<div class="gbmarks"><span>today &asymp;$'+total+'M &middot; '+pct+'% of the target midpoint</span><span>target midpoint &asymp;$'+Math.round(tgt)+'M</span></div></div>':'')
       +'<div class="cmdgrid">'
-      +'<div class="cmdc gold"><div class="k">Commercial income today</div><div class="v">&asymp; $'+total+'M</div><div class="m">reported royalty across '+roy.length+' brands · sum of band midpoints'+(DATA.readOnly?' · illustrative':'')+(coc.royaltyBand?' · company states '+esc(coc.royaltyBand):'')+'</div></div>'
-      +'<div class="cmdc blue"><div class="k">The forecast</div><div class="v">'+(coc.royaltyTargetBand?esc(coc.royaltyTargetBand):(tgtN?tgtN+' targets':'—'))+'</div><div class="m">'+(coc.royaltyTargetBand?'company target'+(coc.targetHorizon?' · '+esc(coc.targetHorizon).toLowerCase():'')+' · ':'')+(tgtN?tgtN+' subject'+(tgtN===1?'':'s')+' with a stated target'+(climbs?' · '+climbs+' band'+(climbs===1?'':'s')+' to climb':''):'no targets recorded yet')+' · management-stated, never scored</div></div>'
-      +(co?'<button type="button" class="cmdc green cmdgo" data-cmd-company><div class="k">The engine itself</div><div class="v">'+co.overall+' · '+esc(co.band)+'</div><div class="m">how the house that runs every brand scores on its own engine · weakest link '+esc(candidatesOf(co).map(function(k){return dom(k).short}).join(' / '))+' — open the Brand Engine audit →</div></button>':'')
+      +(co?'<button type="button" class="cmdc green cmdgo" data-cmd-company><div class="k">What stands in the way</div><div class="v">'+esc(candidatesOf(co).map(function(k){return dom(k).short}).join(' / '))+'</div><div class="m">the weakest link in the house that runs every brand — it scores '+co.overall+' ('+esc(co.band)+') on its own engine, '+co.constraintScore+' here · open the company audit →</div></button>':'')
       +'<div class="cmdc warn"><div class="k">Failing now</div><div class="v">'+failing.length+' brand'+(failing.length===1?'':'s')+'</div><div class="m">below the Defined level'+(soon.length?' · '+soon.length+' with a constrained line renewing inside 12 months':'')+(conflicts?' · '+conflicts+' record conflict'+(conflicts===1?'':'s')+' to reconcile':'')+'</div></div>'
+      +'<button type="button" class="cmdc blue cmdgo" data-cmd-plan><div class="k">How it gets there</div><div class="v">'+activeN+' action'+(activeN===1?'':'s')+' live</div><div class="m">'+(MV.length?doneN+' completed so far · every commitment carries an owner, a horizon and the measure it will be judged on':'nothing committed yet — the plan is built from the constraint each audit names')+' · open the action plan →</div></button>'
       +'</div></div>';
     /* Act-here-first strip: the three most urgent failures, one click each. */
     var acts=[];
@@ -1136,35 +1273,36 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +acts.map(function(a){return '<button type="button" class="cmdact" data-cmd-open="'+a.id+'"><b>'+a.t+'</b><span>'+a.m+'</span></button>'}).join('')
         +'</div>';
     }
-    h+=engineMapHTML();
+    h+=brandGalleryHTML();
     return h;
   }
-  /* ── The engine, drawn ─────────────────────────────────────────────────
-     A money map of the whole book: every brand a block sized by the income
-     it feeds into the engine (band midpoints), coloured by its health band,
-     carrying its momentum. Selecting a brand unfolds its commercial lines
-     and mapped components right here; one more click opens the full audit.
-     Size, colour and position carry the message before a word is read. */
-  function engineMapHTML(){
+  /* ── The brands, pictured ──────────────────────────────────────────────
+     One card per brand: its mark, its headline income, its index. Selecting
+     a card opens the brand as an interactive wheel — commercial lines as
+     rings sized by the income they feed in, the products and services
+     beneath them on the outer ring — and one more click opens the audit. */
+  function brandGalleryHTML(){
     var rows=(DATA.brands||[]).map(function(b){return {b:b,v:parseMoney(ctx(b).royaltyBand)}})
-      .filter(function(x){return x.v!==null}).sort(function(x,y){return y.v-x.v});
+      .sort(function(x,y){return (y.v===null?-1:y.v)-(x.v===null?-1:x.v)});
     if(!rows.length) return '';
-    var total=rows.reduce(function(t,x){return t+x.v},0);
-    var blocks=rows.map(function(x){
-      var b=x.b, pct=x.v/total*100, cand=candidatesOf(b);
-      var d=delta(b), sm=pct<4.5;
-      var initials=b.name.split(/\s+/).map(function(w){return w.charAt(0)}).join('').toUpperCase().slice(0,4);
-      return '<button type="button" class="emb'+(sm?' sm':'')+'" style="flex-grow:'+Math.max(3,Math.round(pct*10))+';background:'+bc(b.overall)+'" data-em="'+esc(b.id)+'" aria-expanded="false" aria-label="'+esc(b.name)+', index '+b.overall+', about $'+Math.round(x.v)+' million" title="'+esc(b.name)+' · index '+b.overall+' · '+esc(ctx(b).royaltyBand||'')+'">'
-        +(sm?'<span class="emi">'+esc(initials)+'</span>':'<span class="emn">'+esc(b.name)+'</span>'
-          +'<span class="emm">&asymp;$'+Math.round(x.v)+'M · '+b.overall+(d!==null?(d>0?' ▲':d<0?' ▼':''):'')+'</span>'
-          +(cand.length?'<span class="emc">'+esc(dom(cand[0]).short)+(cand.length>1?' +':'')+'</span>':''))
+    var total=rows.reduce(function(t,x){return t+(x.v||0)},0);
+    var cards=rows.map(function(x){
+      var b=x.b, c=ctx(b), cand=candidatesOf(b);
+      var pct=(x.v!==null&&total)?Math.round(x.v/total*100):null;
+      var mono=b.name.split(/\s+/).map(function(w){return w.charAt(0)}).join('').toUpperCase().slice(0,3);
+      return '<button type="button" class="bcard" data-bopen="'+esc(b.id)+'" aria-expanded="false" aria-label="'+esc(b.name)+', index '+b.overall+(x.v!==null?', about $'+Math.round(x.v)+' million reported royalty':'')+'">'
+        +'<span class="bimg'+(b.imageUrl?'':' noimg')+'">'+(b.imageUrl?'<img src="'+esc(b.imageUrl)+'" alt="" loading="lazy">':'')+'<span class="bmono">'+esc(mono)+'</span></span>'
+        +'<span class="bstrip" style="background:'+bc(b.overall)+'"></span>'
+        +'<span class="bname">'+esc(b.name)+'</span>'
+        +'<span class="bmoney">'+(x.v!==null?'&asymp;$'+Math.round(x.v)+'M':'&mdash;')+' <i>'+(pct!==null?'· '+pct+'% of engine':'royalty band not stated')+'</i></span>'
+        +'<span class="bmeta"><i class="bidx" style="background:'+bc(b.overall)+'">'+b.overall+'</i>'+esc(b.band)+(cand.length?' · weakest '+esc(dom(cand[0]).short):'')+'</span>'
         +'</button>';
     }).join('');
     return '<div class="emap">'
-      +'<div class="emhead"><span class="cmdlbl" style="color:var(--ink)">The engine, drawn — every brand, sized by the income it feeds in</span>'
-      +'<span style="font-size:11px;color:var(--faint)">block width = share of reported royalty (band midpoints) · colour = maturity band · select a brand to unfold its lines and components</span></div>'
-      +'<div class="emrow">'+blocks+'</div>'
-      +'<div id="emExpand" hidden></div>'
+      +'<div class="emhead"><span class="cmdlbl" style="color:var(--ink)">The brands — every one a business feeding the engine</span>'
+      +'<span style="font-size:11px;color:var(--faint)">reported royalty (band midpoints) · colour strip = maturity band · select a brand to open the products and services it holds</span></div>'
+      +'<div class="bgal">'+cards+'</div>'
+      +'<div id="bPanel" hidden></div>'
       +'</div>';
   }
   /* Every item carries its value toward the total: a line's ≈$ is the brand
@@ -1175,11 +1313,100 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var v=parseMoney(ctx(b).royaltyBand), w=shareWeight(l.share);
     return (v!==null&&w)?v*w/100:null;
   }
-  function emExpandHTML(b){
-    var L=linesOf(b), cand=candidatesOf(b), c=ctx(b), d0=dom(cand[0]||b.constraintKey);
-    /* Headline economics: what this brand brings in, its share of the whole
-       engine, the stated target, and what is left to bring in — everything
-       from the questionnaire, everything in bands or band midpoints. */
+  /* ── The brand wheel ───────────────────────────────────────────────────
+     Brand at the centre; each commercial line an arc sized by the income it
+     feeds in (royalty midpoint × share midpoint — derived, and labelled as
+     derived); each product or service a segment on the outer ring, shown by
+     membership only, because components deliberately carry no invented
+     value split. Everything is live: touch reads, click pins, the centre
+     opens the audit. */
+  var LCOL=['#2D5175','#A2712F','#4A7295','#C08A3E','#16305E','#8A5F26','#7A97B2','#B98A3B','#0F2148','#9C7434'];
+  function arcPath(cx,cy,r0,r1,a0,a1){
+    var la=(a1-a0)>Math.PI?1:0;
+    function P(r,a){return (cx+r*Math.cos(a)).toFixed(2)+' '+(cy+r*Math.sin(a)).toFixed(2)}
+    return 'M'+P(r1,a0)+' A'+r1+' '+r1+' 0 '+la+' 1 '+P(r1,a1)
+      +' L'+P(r0,a1)+' A'+r0+' '+r0+' 0 '+la+' 0 '+P(r0,a0)+' Z';
+  }
+  function wheelModel(b){
+    var L=linesOf(b).slice().sort(function(x,y){return shareWeight(y.share)-shareWeight(x.share)});
+    var vals=L.map(function(l){return lineValue(b,l)});
+    var known=vals.filter(function(v){return v!==null});
+    var base=known.reduce(function(t,v){return t+v},0)||1;
+    var ws=vals.map(function(v){return v!==null?v:base*0.06});
+    var tw=ws.reduce(function(t,w){return t+w},0);
+    return L.map(function(l,i){
+      return {l:l,v:vals[i],w:ws[i]/tw,hit:candidateDomainsForLine(b,l.name).length>0,
+              comps:compsForLine(b,l),col:LCOL[i%LCOL.length]};
+    });
+  }
+  function fmtM(v){return v===null?null:('&asymp;$'+(v<1?v.toFixed(1):Math.round(v))+'M')}
+  function wheelSVG(b){
+    var M=wheelModel(b);
+    if(!M.length) return '<div class="lnnote">No commercial lines captured for this brand yet.</div>';
+    var C=210,R0=80,R1=138,S0=142,S1=164,PAD=0.02,a=-Math.PI/2;
+    var mono=b.name.split(/\s+/).map(function(w){return w.charAt(0)}).join('').toUpperCase().slice(0,3);
+    var g1='',g2='';
+    M.forEach(function(m,i){
+      var sweep=Math.max(0.05,m.w*(Math.PI*2-PAD*M.length));
+      var a0=a,a1=Math.min(a+sweep,a+Math.PI*2-0.01);
+      var info=esc(m.l.name)+' · '+(m.v!==null?fmtM(m.v)+' derived':'share '+esc(m.l.share||'not stated'))
+        +(m.l.renewal?' · renews '+esc(m.l.renewal).toLowerCase():'')
+        +(m.hit?' · constraint bites here':'')
+        +' · '+m.comps.length+' component'+(m.comps.length===1?'':'s');
+      g1+='<path class="arcL'+(m.hit?' hit':'')+'" d="'+arcPath(C,C,R0,R1,a0,a1)+'" fill="'+m.col+'" data-ln="'+esc(m.l.lineId||m.l.name)+'" data-info="'+info+'" role="button" tabindex="0" aria-label="'+info+'"></path>';
+      if(m.comps.length){
+        var cs=(a1-a0-0.008*(m.comps.length-1))/m.comps.length;
+        m.comps.forEach(function(cp,j){
+          var c0=a0+j*(cs+0.008), c1=c0+cs;
+          var cinfo=esc(cp.name)+' · '+esc(cp.offeringClass||'component')+' · shown by membership — value sits at line level';
+          g2+='<path class="arcC" d="'+arcPath(C,C,S0,S1,c0,c1)+'" fill="'+(j%2?'#DCE4EC':'#E9EFF5')+'" data-cp="'+esc(cp.componentId||cp.name)+'" data-ln="'+esc(m.l.lineId||m.l.name)+'" data-info="'+cinfo+'" role="button" tabindex="0" aria-label="'+cinfo+'"></path>';
+        });
+      }
+      a=a1+PAD;
+    });
+    return '<svg viewBox="0 0 420 420" role="group" aria-label="'+esc(b.name)+': commercial lines and the products and services beneath them.">'
+      +'<g class="sbg1">'+g1+'</g><g class="sbg2">'+g2+'</g>'
+      +'<g class="sbcent" data-cmd-open="'+esc(b.id)+'" role="button" tabindex="0" aria-label="Open the full audit of '+esc(b.name)+'">'
+      +'<circle cx="210" cy="210" r="62"></circle>'
+      +'<text class="sbnm" x="210" y="206" text-anchor="middle">'+esc(mono)+'</text>'
+      +'<text class="sbgo" x="210" y="224" text-anchor="middle">open audit &rarr;</text>'
+      +'</g></svg>';
+  }
+  function findComp(b,id){
+    var all=[]; linesOf(b).forEach(function(l){compsForLine(b,l).forEach(function(c){all.push(c)})});
+    unassessedComps(b).forEach(function(c){all.push(c)});
+    return all.find(function(c){return (c.componentId||c.name)===id});
+  }
+  function wheelLineHTML(b,m){
+    var l=m.l, cut=cutFor(b,l.name), hits=candidateDomainsForLine(b,l.name);
+    var kv=[['Offering type',l.type],['Operating model',l.operatingModel],['Partner',l.partner],['Territory',l.territory],
+      ['Share of brand income',l.share],['Licensees',l.licensees],['Renewal',l.renewal],['Status',l.commercialStatus],
+      ['Verification',l.verificationStatus&&(l.verificationStatus+(l.verifiedAt?' · '+l.verifiedAt:''))]]
+      .filter(function(p){return p[1]});
+    return '<h3>'+esc(l.name)+(m.v!==null?' <span style="color:var(--gold)">'+fmtM(m.v)+'</span>':'')+'</h3>'
+      +(m.v!==null?'<div style="font-size:10.5px;color:var(--faint)">derived: brand royalty midpoint &times; this line&rsquo;s share midpoint — bands come straight from the questionnaire</div>':'')
+      +(hits.length?'<div style="margin-top:7px;color:var(--frag)"><b>Constraint bites here:</b> '+esc(hits.map(function(k){return dom(k).name}).join(', '))+'.</div>':'')
+      +(cut?'<div style="margin-top:5px">Line cut: done — the focused read of this line is on the audit.</div>':'')
+      +'<div class="sbkv">'+kv.map(function(p){return '<span>'+esc(p[0])+'</span><b>'+esc(String(p[1]))+'</b>'}).join('')+'</div>'
+      +(l.sourceUrl?'<div style="margin-top:8px;font-size:11px"><a href="'+esc(l.sourceUrl)+'" target="_blank" rel="noopener" style="color:var(--steel)">'+esc(l.sourceLabel||'Source')+' &nearr;</a></div>':'')
+      +'<div style="margin-top:10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-family:Jost,sans-serif">Products &amp; services under this line</div>'
+      +(m.comps.length?'<div class="emcs">'+m.comps.map(function(c){return '<i><button type="button" data-cp="'+esc(c.componentId||c.name)+'" style="all:unset;cursor:pointer">'+esc(c.name)+'</button></i>'}).join('')+'</div>'
+        :'<div style="font-size:11px;color:var(--faint);margin-top:5px">No components mapped to this line yet.</div>');
+  }
+  function wheelCompHTML(b,c){
+    var kv=[['Offering class',c.offeringClass],['Commercial model',c.commercialModel],['Route to market',c.routeToMarket],
+      ['Status',c.commercialStatus],['Audience',c.audience],['Unravel node',c.unravelNode],
+      ['Verification',c.verificationStatus],['In this assessment',c.includedInAssessment===false?'No — mapped, not assessed':'Yes']]
+      .filter(function(p){return p[1]});
+    return '<h3>'+esc(c.name)+'</h3>'
+      +'<div style="font-size:10.5px;color:var(--faint)">a mapped product or service — shown by membership; commercial value sits at line level, never invented per component</div>'
+      +'<div class="sbkv">'+kv.map(function(p){return '<span>'+esc(p[0])+'</span><b>'+esc(String(p[1]))+'</b>'}).join('')+'</div>'
+      +(c.coverageExamples?'<div style="margin-top:7px"><b style="color:var(--ink)">Coverage:</b> '+esc(c.coverageExamples)+'</div>':'')
+      +(c.suggestedEvidence?'<div style="margin-top:5px"><b style="color:var(--ink)">Evidence to gather:</b> '+esc(c.suggestedEvidence)+'</div>':'')
+      +(c.sourceUrl?'<div style="margin-top:8px;font-size:11px"><a href="'+esc(c.sourceUrl)+'" target="_blank" rel="noopener" style="color:var(--steel)">Source'+(c.sourceAccessedAt?' · accessed '+esc(c.sourceAccessedAt):'')+' &nearr;</a></div>':'');
+  }
+  function brandPanelHTML(b){
+    var cand=candidatesOf(b), c=ctx(b), d0=dom(cand[0]||b.constraintKey);
     var mine=parseMoney(c.royaltyBand);
     var all=(DATA.brands||[]).map(function(x){return parseMoney(ctx(x).royaltyBand)}).filter(function(v){return v!==null});
     var total=all.reduce(function(t,v){return t+v},0);
@@ -1197,50 +1424,201 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         :'<div class="emst"><span class="k">Target</span><span class="v">Not set</span><span class="m">capture it in the questionnaire — the gap then reads here and in the engine forecast</span></div>')
       +'<div class="emst how"><span class="k">How to get there</span><span class="v sm">'+esc(d0.move||('Lift '+d0.name))+'</span><span class="m">the '+esc(d0.short)+' constraint ('+b.constraintScore+') is what stands in the way · the step-by-step route is on the audit</span></div>'
       +'</div>';
-    var lines=L.slice().sort(function(x,y){return shareWeight(y.share)-shareWeight(x.share)}).map(function(l){
-      var hit=candidateDomainsForLine(b,l.name).length>0;
-      var cps=compsForLine(b,l);
-      var vl=lineValue(b,l);
-      return '<details class="emld'+(hit?' hit':'')+'"><summary><i class="chev" aria-hidden="true"></i><b>'+esc(l.name)+'</b>'+(vl!==null?'<b class="emv">&asymp;$'+(vl<1?vl.toFixed(1):Math.round(vl))+'M</b>':'')+'<span>'+esc(l.share||'')+(hit?' · constraint bites':'')+(cutFor(b,l.name)?' · cut done':'')+(cps.length?' · '+cps.length+' component'+(cps.length===1?'':'s'):'')+'</span></summary>'
-        +(cps.length?'<div class="emcs">'+cps.map(function(x){return '<i>'+esc(x.name)+'</i>'}).join('')+'</div>':'<div class="emcs" style="color:var(--faint);font-size:11px">No components mapped to this line yet.</div>')
-        +'</details>';
+    var M=wheelModel(b), extra=unassessedComps(b), nc=M.reduce(function(t,m){return t+m.comps.length},0);
+    var legend=M.map(function(m){
+      return '<button type="button" class="sblr" data-ln="'+esc(m.l.lineId||m.l.name)+'"><i style="background:'+m.col+'"></i><b>'+esc(m.l.name)+'</b>'
+        +(m.hit?'<span class="hitf">constraint bites</span>':'')
+        +'<span class="v">'+(m.v!==null?fmtM(m.v):esc(m.l.share||'—'))+'</span></button>';
     }).join('');
-    var extra=unassessedComps(b);
-    return '<div class="emx">'
-      +'<div class="emxh"><b>'+esc(b.name)+'</b> · '+b.overall+' '+esc(b.band)+' · weakest link '+esc(cand.map(function(k){return dom(k).short}).join(' / '))+' at '+b.constraintScore
-      +'<span style="margin-left:auto;display:flex;gap:12px;align-items:center"><button type="button" class="ghostlink" data-cmd-open="'+esc(b.id)+'">Open the full audit →</button><button type="button" class="ti-x" data-em-close>Close</button></span></div>'
+    return '<div class="emx" style="border:0;background:transparent;padding:0;margin:0"><div class="emxh"><b>'+esc(b.name)+'</b> · '+b.overall+' '+esc(b.band)+' · weakest link '+esc(cand.map(function(k){return dom(k).short}).join(' / '))+' at '+b.constraintScore
+      +'<span style="margin-left:auto;display:flex;gap:12px;align-items:center"><button type="button" class="ghostlink" data-cmd-open="'+esc(b.id)+'">Open the full audit →</button><button type="button" class="ti-x" data-bp-close>Close</button></span></div>'
       +stats
-      +(L.length?'<div class="emls">'+lines+'</div>':'<div class="lnnote">No commercial lines captured for this brand yet.</div>')
-      +(extra.length?'<div style="font-size:11px;color:var(--faint);margin-top:7px">+ '+extra.length+' mapped component'+(extra.length===1?'':'s')+' outside the assessment</div>':'')
-      +'</div>';
+      +'<div class="bpgrid">'
+        +'<div class="sbwrap">'+wheelSVG(b)
+          +'<div class="sbnote">ring width = the income a line feeds in, derived from band midpoints · outer segments are the products and services under each line, shown by membership, not size</div></div>'
+        +'<div><div class="sbinfo" id="sbInfo"><b>Touch any ring to read it; select to pin the detail here.</b> The centre opens the full audit.</div>'
+          +'<div class="sbdetail" id="sbDetail"><h3>What you are looking at</h3>'
+          +M.length+' commercial line'+(M.length===1?'':'s')+' mapped, '+nc+' product'+(nc===1?'':'s')+' and service'+(nc===1?'':'s')+' beneath them'
+          +(extra.length?', plus '+extra.length+' mapped outside this assessment':'')+'. Select a line or a segment for its facts, sources and verification status.</div>'
+          +'<div class="sbleg">'+legend+'</div>'
+        +'</div>'
+      +'</div></div>';
+  }
+  /* ── The portfolio in one shape ──
+     Nine axes. One faint polygon per assessed brand, so the spread of the
+     whole book is visible at once rather than averaged away; the portfolio
+     mean drawn over the top; and the licensing house's own engine beside it.
+     Where the mean and the house disagree, that difference is the finding —
+     it decides whether a weakness is inherited from the house or arising
+     brand by brand. Scores only; no money is plotted here. */
+  function portfolioShapeHTML(){
+    var D=allDoms(); if(D.length<3) return '';
+    var B=(DATA.brands||[]).filter(function(b){return b&&b.domainScores});
+    if(!B.length) return '';
+    var co=(DATA.company||[])[0]||null;
+    var keys=D.map(function(d){return d.key});
+    var W=520,H=378,cx=260,cy=190,R=128;
+    function pt(v,i){
+      var a=(-90+i*360/keys.length)*Math.PI/180;
+      var r=R*Math.max(0,Math.min(100,(typeof v==='number'?v:0)))/100;
+      return [cx+Math.cos(a)*r, cy+Math.sin(a)*r];
+    }
+    function poly(scores){
+      return keys.map(function(k,i){var p=pt(scores[k],i);return p[0].toFixed(1)+','+p[1].toFixed(1)}).join(' ');
+    }
+    var mean={};
+    keys.forEach(function(k){
+      var vs=B.map(function(b){return b.domainScores[k]}).filter(function(v){return typeof v==='number'});
+      mean[k]=vs.length?Math.round(vs.reduce(function(t,v){return t+v},0)/vs.length):0;
+    });
+    var lowKey=keys.slice().sort(function(a,b){return mean[a]-mean[b]})[0];
+    var rings=[25,50,75,100].map(function(p){
+      return '<polygon class="rgring" points="'+keys.map(function(k,i){var q=pt(p,i);return q[0].toFixed(1)+','+q[1].toFixed(1)}).join(' ')+'"/>';
+    }).join('');
+    var axes=keys.map(function(k,i){
+      var q=pt(100,i);
+      return '<line class="rgaxis" x1="'+cx+'" y1="'+cy+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'"/>';
+    }).join('');
+    var spread=B.map(function(b){return '<polygon class="rgbrand" points="'+poly(b.domainScores)+'"/>'}).join('');
+    var labels=keys.map(function(k,i){
+      var a=(-90+i*360/keys.length)*Math.PI/180, r=R+20;
+      var x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r;
+      var anc=Math.abs(Math.cos(a))<0.3?'middle':(Math.cos(a)>0?'start':'end');
+      return '<text class="rglab'+(k===lowKey?' low':'')+'" x="'+x.toFixed(1)+'" y="'+(y+3).toFixed(1)+'" text-anchor="'+anc+'">'+esc(dom(k).short)+'</text>';
+    }).join('');
+    var coCands=co?candidatesOf(co):[];
+    var shared=co&&coCands.indexOf(lowKey)>=0;
+    var read='<b>'+esc(dom(lowKey).name)+'</b> is the portfolio&rsquo;s weakest domain on average &mdash; '+mean[lowKey]+' across '+B.length+' assessed brand'+(B.length===1?'':'s')+'.'
+      +(co?' The house that runs them is weakest at <b>'+esc(coCands.map(function(k){return dom(k).short}).join(' / '))+'</b> &mdash; '
+        +(shared?'the same place. A weakness that shows in the house and repeats across its brands is a capability question to answer once at group level, not brand by brand.'
+                :'a different place. The brands&rsquo; shared weakness is not simply inherited from the house, so treat it as a brand-level pattern until the evidence says otherwise.'):'');
+    return '<div class="shape">'
+      +'<div class="emhead"><span class="cmdlbl" style="color:var(--ink)">The portfolio in one shape &mdash; every brand, all nine domains</span>'
+      +'<span style="font-size:11px;color:var(--faint)">further from the centre is stronger · 25 / 50 / 75 / 100 rings</span></div>'
+      +'<div class="shapegrid">'
+        +'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Nine-domain radar: the portfolio mean, each assessed brand and the licensing house’s own engine.">'
+          +rings+axes+spread
+          +'<polygon class="rgmean" points="'+poly(mean)+'"/>'
+          +(co?'<polygon class="rgco" points="'+poly(co.domainScores||{})+'"/>':'')
+          +labels
+        +'</svg>'
+        +'<div><div class="rgkey">'
+          +'<div class="rgk"><i style="background:#A2712F"></i><span><b>Portfolio mean</b> &mdash; the average shape across '+B.length+' assessed brand'+(B.length===1?'':'s')+'.</span></div>'
+          +(co?'<div class="rgk"><i style="background:var(--navy);height:0;border-top:3px dashed var(--navy)"></i><span><b>'+esc(co.name)+'&rsquo;s own engine</b> &mdash; the licensing house scored on the same nine domains, with company-specific questions.</span></div>':'')
+          +'<div class="rgk"><i style="background:var(--steel-3);opacity:.45"></i><span><b>Each assessed brand</b>, drawn faintly. The width of the band is the portfolio&rsquo;s real spread &mdash; an average alone would hide it.</span></div>'
+        +'</div><div class="rgread">'+read+'</div></div>'
+      +'</div></div>';
+  }
+  /* ── The plan, on the home page ──
+     Not the whole action plan — the live commitments only, so the home page
+     ends on what is being done about everything above it. */
+  function homePlanHTML(){
+    var MV=(DATA.moves||[]);
+    var active=MV.filter(function(m){return m.status!=='Dropped'&&m.status!=='Done'});
+    var head='<div class="emhead"><span class="cmdlbl" style="color:var(--ink)">How it gets there &mdash; the plan currently active</span>'
+      +'<span style="font-size:11px;color:var(--faint)">every commitment carries an owner, a horizon and the measure it will be judged on</span></div>';
+    if(!MV.length) return '<div class="hplan">'+head
+      +'<div style="font-size:12.5px;color:var(--body)">Nothing committed yet. Each brand audit names the constraint standing in that brand&rsquo;s way and offers the move against it &mdash; committing one puts it here and on the action plan.</div></div>';
+    if(!active.length) return '<div class="hplan">'+head
+      +'<div style="font-size:12.5px;color:var(--body)">No commitment is currently open. '+MV.length+' '+(MV.length===1?'has':'have')+' been closed out &mdash; the record is on the action plan.</div>'
+      +'<div style="margin-top:11px"><button type="button" class="ghostlink" data-plan-go>Open the action plan &rarr;</button></div></div>';
+    var rows=active.slice(0,5).map(function(m){
+      var late=/blocked|at risk/i.test(m.status||'');
+      var cls=late?'warn':(/progress|started|underway/i.test(m.status||'')?'go':'');
+      return '<div class="hprow"><span class="hpst '+cls+'">'+esc(m.status||'Committed')+'</span>'
+        +'<span class="hpb"><b>'+esc(m.brand||m.subject||'Portfolio')+' &middot; '+esc(dom(m.domainKey).short)+'</b>'
+        +'<span>'+esc(m.move||'')+'</span>'
+        +'<span>'+[m.owner?'owner '+esc(m.owner):'',m.horizon?esc(m.horizon):''].filter(Boolean).join(' &middot; ')+'</span></span></div>';
+    }).join('');
+    return '<div class="hplan">'+head+rows
+      +'<div style="margin-top:12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">'
+      +'<button type="button" class="ghostlink" data-plan-go>Open the action plan &rarr;</button>'
+      +(active.length>5?'<span style="font-size:11.5px;color:var(--faint)">'+(active.length-5)+' more live commitment'+(active.length-5===1?'':'s')+' on the plan</span>':'')
+      +'</div></div>';
+  }
+  function renderHomePlan(){
+    var el=$('homePlan'); if(!el) return;
+    el.innerHTML=homePlanHTML();
+    el.querySelectorAll('[data-plan-go]').forEach(function(b){b.onclick=function(){go('delivery')}});
+  }
+  function renderPortfolioShape(){
+    var el=$('portfolioShape'); if(!el) return;
+    el.innerHTML=portfolioShapeHTML();
   }
   function wireHomeEngine(){
     var host=$('homeEngine'); if(!host) return;
     host.innerHTML=homeEngineHTML();
-    function goBrand(id){open=id;renderGroups();renderDetail();
-      setTimeout(function(){var d=$('detail');if(d)d.scrollIntoView({behavior:'smooth',block:'start'})},40);}
+    /* The full audit lives on Brands, beneath the brand grid — the home page
+       goes one layer down (a brand's lines and components) and hands off
+       there rather than carrying a second copy of the audit. */
+    function goBrand(id){open=id;go('brands');renderGroups();renderDetail();
+      setTimeout(function(){var d=$('detail');if(d)d.scrollIntoView({behavior:'smooth',block:'start'})},60);}
     host.querySelectorAll('[data-cmd-open]').forEach(function(btn){
       btn.onclick=function(){goBrand(btn.dataset.cmdOpen)};
     });
     var cg=host.querySelector('[data-cmd-company]');
     if(cg) cg.onclick=function(){go('company')};
-    /* Money map: one expansion at a time; second click on the same brand
-       closes it; the expansion's own button opens the full audit. */
-    var xp=host.querySelector('#emExpand'), current=null;
-    host.querySelectorAll('.emb').forEach(function(btn){
+    var pg=host.querySelector('[data-cmd-plan]');
+    if(pg) pg.onclick=function(){go('delivery')};
+    /* A brand image that fails to load falls back to the monogram tile. */
+    host.querySelectorAll('.bimg img').forEach(function(im){
+      im.addEventListener('error',function(){var p=im.closest('.bimg');if(p)p.classList.add('noimg')});
+    });
+    /* Gallery: one brand open at a time; a second click on the same card
+       closes it. Inside the open panel everything is live — hover reads any
+       ring into the readout, click pins a line or component detail, the
+       centre and the button open the full audit. */
+    var xp=host.querySelector('#bPanel'), current=null;
+    function closePanel(){current=null;xp.hidden=true;xp.innerHTML='';
+      host.querySelectorAll('.bcard').forEach(function(x){x.setAttribute('aria-expanded','false');x.classList.remove('on')});}
+    function wirePanel(b){
+      var ob=xp.querySelectorAll('[data-cmd-open]');
+      ob.forEach(function(el){el.addEventListener('click',function(){goBrand(b.id)})});
+      var cl=xp.querySelector('[data-bp-close]');
+      if(cl) cl.onclick=closePanel;
+      var info=xp.querySelector('#sbInfo'), det=xp.querySelector('#sbDetail');
+      var M=wheelModel(b);
+      function mark(sel){
+        xp.querySelectorAll('.arcL.on,.arcC.on,.sblr.on').forEach(function(x){x.classList.remove('on')});
+        if(sel) xp.querySelectorAll('[data-ln="'+sel.ln+'"]'+(sel.cp?'[data-cp="'+sel.cp+'"]':':not([data-cp])')).forEach(function(x){x.classList.add('on')});
+      }
+      function showLine(ln){
+        var m=M.find(function(x){return (x.l.lineId||x.l.name)===ln}); if(!m) return;
+        det.innerHTML=wheelLineHTML(b,m); mark({ln:ln}); wireCompChips();
+      }
+      function showComp(cp){
+        var c=findComp(b,cp); if(!c) return;
+        det.innerHTML=wheelCompHTML(b,c); mark({ln:c.commercialLineId||'',cp:cp});
+      }
+      function wireCompChips(){
+        det.querySelectorAll('[data-cp]').forEach(function(el){
+          el.addEventListener('click',function(){showComp(el.dataset.cp)});
+        });
+      }
+      xp.addEventListener('mouseover',function(e){
+        var t=e.target.closest('[data-info]'); if(t&&info) info.innerHTML=t.dataset.info;
+      });
+      xp.addEventListener('click',function(e){
+        var cp=e.target.closest('.arcC'); if(cp){showComp(cp.dataset.cp);return;}
+        var ln=e.target.closest('.arcL,.sblr'); if(ln){showLine(ln.dataset.ln);return;}
+      });
+      xp.addEventListener('keydown',function(e){
+        if(e.key!=='Enter'&&e.key!==' ') return;
+        var t=e.target.closest('[role="button"]'); if(!t) return;
+        e.preventDefault(); t.click();
+      });
+    }
+    host.querySelectorAll('.bcard').forEach(function(btn){
       btn.onclick=function(){
-        var id=btn.dataset.em;
-        host.querySelectorAll('.emb').forEach(function(x){x.setAttribute('aria-expanded','false');x.classList.remove('on')});
-        if(current===id){ current=null; xp.hidden=true; xp.innerHTML=''; return; }
+        var id=btn.dataset.bopen;
+        if(current===id){ closePanel(); return; }
+        host.querySelectorAll('.bcard').forEach(function(x){x.setAttribute('aria-expanded','false');x.classList.remove('on')});
         current=id;
         var b=DATA.brands.find(function(x){return x.id===id}); if(!b) return;
         btn.setAttribute('aria-expanded','true'); btn.classList.add('on');
-        xp.innerHTML=emExpandHTML(b); xp.hidden=false;
-        var ob=xp.querySelector('[data-cmd-open]');
-        if(ob) ob.onclick=function(){goBrand(id)};
-        var cl=xp.querySelector('[data-em-close]');
-        if(cl) cl.onclick=function(){current=null;xp.hidden=true;xp.innerHTML='';
-          host.querySelectorAll('.emb').forEach(function(x){x.setAttribute('aria-expanded','false');x.classList.remove('on')});};
+        xp.innerHTML=brandPanelHTML(b); xp.hidden=false;
+        wirePanel(b);
+        setTimeout(function(){xp.scrollIntoView({behavior:'smooth',block:'nearest'})},60);
       };
     });
   }
@@ -1249,7 +1627,11 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     $('sideName').textContent=name.toUpperCase();
     $('avatar').textContent=name.replace(/[^A-Za-z ]/g,'').split(' ').filter(Boolean).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase()||'UI';
     $('topmeta').textContent=s.count+' assessed · scored server-side · '+(b[0]?b[0].weightingVersion:'');
-    var cc=$('cCount'); if(cc) cc.textContent=(DATA.company||[]).length;
+    /* The company is a subject like any other. If this account has never
+       assessed the house itself, the menu must not offer a page with
+       nothing on it. */
+    var cbtn=document.querySelector('.nav button[data-page="company"]');
+    if(cbtn) cbtn.hidden=!((DATA.company||[]).length);
     var dc=$('dCount'); if(dc) dc.textContent=(DATA.moves||[]).filter(function(m){return m.status!=='Dropped'&&m.status!=='Done'}).length;
     var flags=[];
     if(/demo|illustrative/i.test(name)){var lc=$('liveChip');if(lc)lc.textContent='Demonstration';flags.push('Illustrative demonstration data — the shape of the output, not actual performance');}
@@ -1295,7 +1677,10 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       ?'<b>'+esc(names[0])+'</b> is the most common unambiguous candidate — '+s.mostCommonCount+' of '+s.count+'. That is a portfolio-level capability hypothesis. Test whether one shared intervention is material across the affected lines before treating it as a group investment.'
       :names.length?names.length+' domains tie as the most common unambiguous candidate: <b>'+names.map(esc).join('</b>, <b>')+'</b>. Test whether one shared capability addresses them across brands.':'';
 
-    var rt=$('readoutTop'); if(rt){rt.innerHTML=$('readout').innerHTML; rt.hidden=!rt.innerHTML.replace(/\s/g,'');}
+    /* The home page is the company's page: title it with the company as the
+       questionnaire named it, falling back to the account name. */
+    var ovt=$('ovTitle');
+    if(ovt) ovt.textContent=(((DATA.company||[])[0]||{}).name)||name;
     $('bCount').textContent=b.length;
     if((DATA.company||[]).length) safely('company view', renderCompany);
     safely('brands table', renderBrandTable);
@@ -1309,6 +1694,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     safely('delivery', renderDelivery);
     safely('renewals', initRenewals);
     safely('command centre', wireHomeEngine);
+    safely('portfolio shape', renderPortfolioShape);
+    safely('home plan', renderHomePlan);
     reportFailures();
     safely('welcome tour', maybeTour);
   }
