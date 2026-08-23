@@ -1924,6 +1924,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var open=ALL.length-done-under-blocked;
     var stalled=ALL.filter(function(m){return freshness(m).cls==='r'}).length;
     var quiet=ALL.filter(function(m){return freshness(m).cls==='a'}).length;
+    /* Accountability: open work without a named person is flagged, not hidden. */
+    var unassigned=ALL.filter(function(m){return stageOf(m.status)!=='done'&&!(m.person||'').trim()}).length;
     var latest=ALL.map(function(m){return m.updatedAt||m.createdAt||''}).sort().pop()||'';
     var rows=ALL.filter(function(m){
       if(OPS.alt!=='all'&&altitudeOf(m)!==OPS.alt) return false;
@@ -1946,7 +1948,9 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         :alt==='product'?'<span class="otalt line">product</span>'
         :'<span class="otalt">brand</span>';
       return '<tr><td style="white-space:nowrap"><span class="fd '+f.cls+'"></span>'+f.word+(f.days!==null&&f.cls!=='x'?' <span style="color:var(--faint)">'+f.days+'d</span>':'')+'</td>'
-        +'<td><div class="mv">'+esc(m.move||'')+'</div><div class="who">'+[m.owner?esc(m.owner):'',m.person?esc(m.person):'',m.metric?'measure: '+esc(m.metric):''].filter(Boolean).join(' · ')+'</div></td>'
+        +'<td><div class="mv">'+esc(m.move||'')+'</div><div class="who">'
+          +(m.person?'<b style="color:var(--steel)">'+esc(m.person)+'</b>':(st!=='done'?'<b style="color:var(--frag)">unassigned</b>':''))
+          +[m.owner?' · '+esc(m.owner):'',m.due?' · due '+esc(m.due):'',m.metric?' · measure: '+esc(m.metric):''].join('')+'</div></td>'
         +'<td><b>'+esc(m.brand||m.subject||'—')+'</b></td>'
         +'<td>'+lvl+'</td>'
         +'<td>'+esc(m.office||'—')+'</td>'
@@ -1964,6 +1968,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +(blocked?'<span class="cdk"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></span>':'')
       +'<span class="cdk"><span class="n"'+(stalled?' style="color:#F6CFCB"':'')+'>'+stalled+'</span> <span class="l">stalled</span></span>'
       +(quiet?'<span class="cdk"><span class="n">'+quiet+'</span> <span class="l">quiet 8–21d</span></span>':'')
+      +'<span class="cdk"><span class="n"'+(unassigned?' style="color:#F6CFCB"':'')+'>'+unassigned+'</span> <span class="l">unassigned</span></span>'
       +'</div>'
       +'<div class="cdbar"><i class="done" style="width:'+(done/ALL.length*100)+'%"></i><i class="under" style="width:'+(under/ALL.length*100)+'%"></i><i class="blocked" style="width:'+(blocked/ALL.length*100)+'%"></i></div>'
       +'<div class="cdlegend"><span><i style="background:#EFCB86"></i>done</span><span><i style="background:#7FB4DD"></i>underway</span>'+(blocked?'<span><i style="background:#E0766C"></i>blocked</span>':'')+'<span>unfilled = committed, not yet started</span></div>'
@@ -3465,8 +3470,10 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<div class="commit" data-brand="'+esc(b.name)+'" data-brandid="'+esc(b.brandId||'')+'" data-subject="'+(isCompany?'company':'brand')+'" data-domain="'+esc(b.constraintKey)+'" data-score="'+b.constraintScore+'" data-index="'+b.overall+'">'
         +'<select class="cm-move">'+acts.map(function(a,i){return '<option value="'+i+'">'+(i+1)+' · '+esc(a.t.length>70?a.t.slice(0,68)+'…':a.t)+'</option>'}).join('')+'<option value="custom">Something else…</option></select>'
         +'<input class="cm-custom" placeholder="Describe the move" style="display:none;margin-top:8px">'
-        +'<div class="cg" style="margin-top:8px"><input class="cm-owner" placeholder="Owner" value=""><input class="cm-horizon" placeholder="Horizon (e.g. by end Q1)" value="'+esc(horizon)+'"></div>'
-        +'<input class="cm-metric" placeholder="Proof it moved" value="'+esc(metric)+'">'
+        +'<div class="cg" style="margin-top:8px"><input class="cm-owner" placeholder="Team (e.g. Finance)" value=""><input class="cm-person" placeholder="Accountable person or role" value=""></div>'
+        +'<div class="cg" style="margin-top:8px"><input class="cm-office" placeholder="Office delivering it" value=""><input class="cm-horizon" placeholder="Horizon (e.g. by end Q1)" value="'+esc(horizon)+'"></div>'
+        +(!isCompany&&linesOf(b).length?'<select class="cm-line" style="margin-top:8px"><option value="">Lands on the whole brand</option>'+linesOf(b).map(function(l){return '<option value="'+esc(l.name)+'">Lands on: '+esc(l.name)+'</option>'}).join('')+'</select>':'')
+        +'<input class="cm-metric" placeholder="Proof it moved" value="'+esc(metric)+'" style="margin-top:8px">'
         +'<div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button type="button" class="btn cm-save" style="padding:9px 14px">Commit</button><span class="cm-msg" style="font-size:11.5px;color:var(--body)"></span></div>'
         +'</div></div></div>';
     } else {
@@ -3479,7 +3486,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
   }
   function moveRow(m){
     return '<div class="mv" data-id="'+esc(m.id)+'"><div><div class="mt">'+esc(m.move)+'</div><div class="mm">'+esc(dom(m.domainKey).short)+(m.owner?' · '+esc(m.owner):'')+(m.horizon?' · '+esc(m.horizon):'')+(m.metric?' · proof: '+esc(m.metric):'')+(m.baselineScore!=null?' · constraint at commit '+m.baselineScore:'')+' · '+esc((m.createdAt||'').slice(0,10))+'</div></div>'
-      +'<div><select class="mv-status">'+['Committed','In progress','Done','Dropped'].map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>';
+      +'<div><select class="mv-status">'+['Committed','In progress','Blocked','Done','Dropped'].map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>';
   }
   function updateHelpFab(){
     var appVisible=!$('app').hidden, anyAudit=false;
@@ -3564,9 +3571,16 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         var txt=sel.value==='custom'?cus.value.trim():sel.options[sel.selectedIndex].text.replace(/^\d+ · /,'');
         if(sel.value!=='custom'){var p=dom(f.dataset.domain).play; if(p&&p.actions[Number(sel.value)]) txt=p.actions[Number(sel.value)].t;}
         if(!txt){f.querySelector('.cm-msg').textContent='Describe the move first.';return}
-        if(DATA.readOnly){f.querySelector('.cm-msg').textContent='The shared demonstration account is read-only.';return}
-        var msg=f.querySelector('.cm-msg'); msg.textContent='Saving…';
-        api('/api/move',{action:'create',move:{subject:f.dataset.subject,brand:f.dataset.brand,brandId:f.dataset.brandid,domainKey:f.dataset.domain,move:txt,owner:f.querySelector('.cm-owner').value,horizon:f.querySelector('.cm-horizon').value,metric:f.querySelector('.cm-metric').value,baselineScore:Number(f.dataset.score),baselineIndex:Number(f.dataset.index)}})
+        var msg=f.querySelector('.cm-msg');
+        /* Governance discipline first, availability second: work without a
+           single accountable person is a wish, not a commitment — the rule
+           holds even where saving is disabled, so the demonstration teaches
+           it too. */
+        var personEl=f.querySelector('.cm-person'), officeEl=f.querySelector('.cm-office'), lineEl=f.querySelector('.cm-line');
+        if(personEl&&!personEl.value.trim()){msg.textContent='Name the accountable person or role — unowned work stalls.';personEl.focus();return}
+        if(DATA.readOnly){msg.textContent='The shared demonstration account is read-only.';return}
+        msg.textContent='Saving…';
+        api('/api/move',{action:'create',move:{subject:f.dataset.subject,brand:f.dataset.brand,brandId:f.dataset.brandid,domainKey:f.dataset.domain,move:txt,owner:f.querySelector('.cm-owner').value,person:personEl?personEl.value:'',office:officeEl?officeEl.value:'',lineNames:lineEl?lineEl.value:'',horizon:f.querySelector('.cm-horizon').value,metric:f.querySelector('.cm-metric').value,baselineScore:Number(f.dataset.score),baselineIndex:Number(f.dataset.index)}})
           .then(function(r){if(!r.ok){msg.textContent=r.j.error||'Could not save.';return} DATA.moves=(DATA.moves||[]).concat([r.j.move]); msg.textContent='Committed.'; refreshAfterMove();})
           .catch(function(){msg.textContent='Could not reach the server.'});
       };
@@ -3624,7 +3638,13 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     b.constraintStatus=validated?'validated':(material&&actionable?'priority':'candidate');
     b.constraintTests={material:material,actionable:actionable,validated:validated,affectedLines:placed,affectedSubjects:affected};
   }
-  function refreshAfterMove(){ DATA.brands.concat(DATA.company||[]).forEach(syncConstraintState); renderDetail(); safely('delivery', renderDelivery); if($('detail2').innerHTML){var b=DATA.brands.find(function(x){return x.id===($('detail2').dataset.id||'')}); if(b){$('detail2').innerHTML=detailHTML(b,false);wireMoves($('detail2'));}} if((DATA.company||[]).length) renderCompany(); renderMoves(); }
+  /* Every commit, from any audit, must reach the governance page in the
+     same breath — the cascade, the operations table, the delivery lens, the
+     verdict's committed count and the home-page plan all re-read the moves. */
+  function refreshAfterMove(){ DATA.brands.concat(DATA.company||[]).forEach(syncConstraintState); renderDetail(); safely('delivery', renderDelivery); if($('detail2').innerHTML){var b=DATA.brands.find(function(x){return x.id===($('detail2').dataset.id||'')}); if(b){$('detail2').innerHTML=detailHTML(b,false);wireMoves($('detail2'));}} if((DATA.company||[]).length) renderCompany(); renderMoves();
+    safely('house verdict', renderCoVerdict); safely('operational engine', renderOpsEngine);
+    safely('operations table', renderOpsTable); safely('company delivery', renderCoDelivery);
+    safely('home plan', renderHomePlan); }
   function api(path,body){ return fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({},CREDS,body))}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}); }
 
   /* ── Licensee perspective beside the brand team's ── */
@@ -4310,7 +4330,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       return '<div class="grouphead"><span class="gn">'+esc(dom(k).name)+'</span><span class="gm">'+byDom[k].length+' move'+(byDom[k].length>1?'s':'')+'</span></div>'
         +byDom[k].map(function(m){var cur=DATA.brands.concat(DATA.company||[]).find(function(b){return b.name.toLowerCase()===m.brand.toLowerCase()});var now=cur?(cur.domainScores[m.domainKey]||0):null;
           return '<div class="mv" data-id="'+esc(m.id)+'"><div><div class="mt">'+esc(m.brand)+' <span class="st '+esc(m.status).replace(/\s+/g,'')+'">'+esc(m.status)+'</span></div><div class="mm">'+esc(m.move)+'</div><div class="mm">'+(m.owner?esc(m.owner)+' · ':'')+(m.horizon?esc(m.horizon)+' · ':'')+(m.metric?'proof: '+esc(m.metric)+' · ':'')+'committed '+esc((m.createdAt||'').slice(0,10))+(m.baselineScore!=null?' at constraint '+m.baselineScore:'')+(now!==null&&m.baselineScore!=null&&now!==m.baselineScore?' · <b style="color:'+(now>m.baselineScore?'var(--embe)':'var(--frag)')+'">now '+now+' ('+(now>m.baselineScore?'+':'')+(now-m.baselineScore)+')</b>':'')+'</div></div>'
-            +'<div><select class="mv-status">'+['Committed','In progress','Done','Dropped'].map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>'}).join('');
+            +'<div><select class="mv-status">'+['Committed','In progress','Blocked','Done','Dropped'].map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>'}).join('');
     }).join('');
     wireMoves($('moveList'));
   }
