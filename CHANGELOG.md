@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.19 — comprehension audit: one name per thing, and every menu child lands true
+
+A first-time-user audit of ontology, architecture and navigation, fixing what it found rather than asserting all was well.
+
+- **One name per thing.** The record the reader acts on is called an <b>action</b> everywhere a reader can see — "Actions in flight", "Commit an action", "The action" — retiring the internal word "move" from the interface (code and API names unchanged). Two different analyses no longer share one name: the Overview's radar stays "Portfolio in one shape"; the Insights distribution is now "Portfolio distribution".
+- **Menu labels match where they land.** "Delivery per project" now reads "Who is fixing what", matching the section heading it opens.
+- **Every menu child verified to land on its section.** The audit's scripted walk of all 23 drop-down children caught a real navigation bug: the smooth-scrolling polish made the page-top reset animate, racing the section jump — deep links landed short or overshot. The reset is now instant; only the landing scroll animates. All 23 re-verified.
+
 ## 0.3.18 — the KPI monitor and the Action plan are one record, linked both ways
 
 - **Monitor &rarr; plan.** Every row on the operations table carries "steps &amp; notes &rarr;": one click lands on the Action plan with that exact card opened, scrolled to and briefly highlighted. Rows also show how many steps are already ticked.
