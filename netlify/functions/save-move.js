@@ -28,7 +28,7 @@ const { ok, badRequest, unauthorized, tooMany, serverError, preflight, rateLimit
 
 const T_PARTNERS = process.env.AIRTABLE_PARTNERS_TABLE;
 const T_MOVES = process.env.AIRTABLE_MOVES_TABLE || 'Moves';
-const STATUSES = ['Committed', 'In progress', 'Done', 'Dropped'];
+const STATUSES = ['Committed', 'In progress', 'Blocked', 'Done', 'Dropped'];
 const OUTCOMES = ['Not tested', 'In test', 'Supported', 'Not supported'];
 
 exports.handler = async (event) => {
@@ -65,6 +65,11 @@ exports.handler = async (event) => {
       if (!brandId) return badRequest('A stable brand or company ID is required for a new move.');
       const owner=clean(m.owner,120), horizon=clean(m.horizon,120), metric=clean(m.metric,300);
       if (!owner || !horizon || !metric) return badRequest('Owner, horizon and proof measure are required before a move can become actionable.');
+      // Governance fields: the accountable person, the delivering office and
+      // the commercial line(s) the action lands on. Optional at the API so
+      // older clients and quick-adds still save; the operations table shows
+      // an open action without a person as unassigned rather than hiding it.
+      const person=clean(m.person,120), office=clean(m.office,120), lineNames=clean(m.lineNames,240);
       const fields = {
         PartnerCode: partnerCode,
         Subject: clean(m.subject, 20) || 'brand',
@@ -73,6 +78,9 @@ exports.handler = async (event) => {
         DomainKey: domainKey,
         Move: move,
         Owner: owner,
+        Person: person,
+        Office: office,
+        LineNames: lineNames,
         Horizon: horizon,
         Metric: metric,
         Status: 'Committed',
@@ -138,7 +146,9 @@ exports.handler = async (event) => {
 function toMove(f) {
   return {
     subject: f.Subject || '', brand: f.Brand || '', brandId:f.BrandID||'', domainKey: f.DomainKey || '', move: f.Move || '',
-    owner: f.Owner || '', horizon: f.Horizon || '', metric: f.Metric || '', status: f.Status || 'Committed',
+    owner: f.Owner || '', person: f.Person || '', office: f.Office || '',
+    lines: String(f.LineNames || '').split(',').map(s => s.trim()).filter(Boolean),
+    horizon: f.Horizon || '', metric: f.Metric || '', status: f.Status || 'Committed',
     note: f.Note || '', baselineScore: f.BaselineScore == null ? null : Number(f.BaselineScore),
     baselineIndex: f.BaselineIndex == null ? null : Number(f.BaselineIndex),
     createdAt: f.CreatedAt || '', updatedAt: f.UpdatedAt || '',
