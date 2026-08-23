@@ -748,8 +748,17 @@ button.cmdgo:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .cdband .t::after{content:'';display:block;width:38px;height:3px;background:#D9A441;border-radius:2px;margin-top:4px}
 .cdband .s{font-size:11px;color:rgba(255,255,255,.66)}
 .cdkpis{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline}
+.cdk{background:transparent;border:0;padding:0;font:inherit;text-align:left}
+button.cdk{cursor:pointer;border-radius:6px}
+button.cdk:hover .l{color:#fff;text-decoration:underline}
+button.cdk:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .cdk .n{font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:23px;color:#EFCB86;font-variant-numeric:tabular-nums}
 .cdk .l{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);font-family:'Jost',Helvetica,sans-serif}
+/* Cross-navigation flash: the row or card you were sent to announces itself. */
+tr.rowflash td{animation:rfl 1.6s ease}
+details.rowflash{animation:rfl 1.6s ease}
+@keyframes rfl{0%,55%{background:#F8F1E2}100%{background:transparent}}
+@media(prefers-reduced-motion:reduce){tr.rowflash td,details.rowflash{animation:none;background:#F8F1E2}}
 .cdbar{height:9px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:11px;display:flex}
 .cdbar i{height:100%}
 .cdbar .done{background:linear-gradient(90deg,#D9A441,#EFCB86)}
@@ -1425,6 +1434,28 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     window.scrollTo(0,0);
     if(typeof updateHelpFab==="function") try{updateHelpFab()}catch(e){}
   }
+  /* ── The KPI monitor and the Action plan are two views of one record ──
+     goPlanItem: from a governance row to that action's step-by-step card.
+     goOpsRow: from a plan card to that action's row on the monitor, with
+     filters cleared so the row cannot be hidden by them. */
+  function flashEl(el){ if(!el) return; el.classList.remove('rowflash'); void el.offsetWidth; el.classList.add('rowflash'); }
+  function goPlanItem(id){
+    go('delivery');
+    setTimeout(function(){
+      var d=document.querySelector('.dw[data-id="'+id+'"]'); if(!d) return;
+      d.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); flashEl(d);
+    },80);
+  }
+  function goOpsRow(id){
+    go('company');
+    OPS.alt='all'; OPS.status='all';
+    if(typeof renderOpsEngine==='function') try{renderOpsEngine()}catch(e){}
+    if(typeof renderOpsTable==='function') try{renderOpsTable()}catch(e){}
+    setTimeout(function(){
+      var r=document.getElementById('ops-'+id); if(!r) return;
+      r.scrollIntoView({behavior:'smooth',block:'center'}); flashEl(r);
+    },80);
+  }
 
   /* ── Render ──
      Each panel runs inside safely(). One bad panel shows an inline error and
@@ -1931,6 +1962,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       if(OPS.alt!=='all'&&altitudeOf(m)!==OPS.alt) return false;
       if(OPS.status==='all') return true;
       if(OPS.status==='stalled') return freshness(m).cls==='r';
+      if(OPS.status==='unassigned') return stageOf(m.status)!=='done'&&!(m.person||'').trim();
       return stageOf(m.status)===OPS.status;
     });
     function key(m){
@@ -1940,35 +1972,39 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       return m.updatedAt||m.createdAt||'';
     }
     rows=rows.slice().sort(function(a,b){var ka=key(a),kb=key(b);return ka<kb?OPS.dir:ka>kb?-OPS.dir:0});
-    var chips=[['all','All'],['open','Committed'],['under','Underway'],['done','Done'],['blocked','Blocked'],['stalled','Stalled']];
+    var chips=[['all','All'],['open','Committed'],['under','Underway'],['done','Done'],['blocked','Blocked'],['stalled','Stalled'],['unassigned','Unassigned']];
     var trs=rows.map(function(m){
       var f=freshness(m), alt=altitudeOf(m), st=stageOf(m.status);
       var lvl=alt==='company'?'<span class="otalt house">the house</span>'
         :alt==='line'?(m.lines||[]).map(function(l){return '<span class="otalt line">'+esc(l)+'</span>'}).join(' ')
         :alt==='product'?'<span class="otalt line">product</span>'
         :'<span class="otalt">brand</span>';
-      return '<tr><td style="white-space:nowrap"><span class="fd '+f.cls+'"></span>'+f.word+(f.days!==null&&f.cls!=='x'?' <span style="color:var(--faint)">'+f.days+'d</span>':'')+'</td>'
+      var prog=(m.progress||[]).length;
+      return '<tr id="ops-'+esc(m.id)+'"><td style="white-space:nowrap"><span class="fd '+f.cls+'"></span>'+f.word+(f.days!==null&&f.cls!=='x'?' <span style="color:var(--faint)">'+f.days+'d</span>':'')+'</td>'
         +'<td><div class="mv">'+esc(m.move||'')+'</div><div class="who">'
           +(m.person?'<b style="color:var(--steel)">'+esc(m.person)+'</b>':(st!=='done'?'<b style="color:var(--frag)">unassigned</b>':''))
-          +[m.owner?' · '+esc(m.owner):'',m.due?' · due '+esc(m.due):'',m.metric?' · measure: '+esc(m.metric):''].join('')+'</div></td>'
+          +[m.owner?' · '+esc(m.owner):'',m.due?' · due '+esc(m.due):'',prog?' · '+prog+' step'+(prog===1?'':'s')+' ticked':'',m.metric?' · measure: '+esc(m.metric):''].join('')
+          +' · <button type="button" class="ghostlink" data-plan-open="'+esc(m.id)+'" style="font-size:11px">steps &amp; notes &rarr;</button></div></td>'
         +'<td><b>'+esc(m.brand||m.subject||'—')+'</b></td>'
         +'<td>'+lvl+'</td>'
         +'<td>'+esc(m.office||'—')+'</td>'
-        +'<td style="white-space:nowrap"><span class="stch '+st+'">'+esc(m.status||'Committed')+'</span></td>'
+        +'<td style="white-space:nowrap">'+(DATA.readOnly
+          ?'<span class="stch '+st+'">'+esc(m.status||'Committed')+'</span>'
+          :'<select class="mv-status" data-id="'+esc(m.id)+'" style="font-size:11px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)">'+['Committed','In progress','Blocked','Done','Dropped'].map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+s+'</option>'}).join('')+'</select>')+'</td>'
         +'<td style="white-space:nowrap">'+esc((m.updatedAt||m.createdAt||'').slice(0,10)||'—')+'</td></tr>';
     }).join('');
     el.innerHTML='<div class="otwrap"><h2 class="secttl">The operations table</h2>'
       +'<p class="sub" style="margin-top:2px">Every action across the book, one row each — what it is, whose it is, the level it works at and whether it is actually moving. Freshness is computed from the record&rsquo;s own updates: an open action untouched for three weeks reads as stalled, whatever its status says.</p>'
       +'<div class="cdband"><div class="cdhead"><span class="t">The KPI monitor</span><span class="s">state and freshness across all '+ALL.length+' actions'+(latest?' · latest update '+esc(latest.slice(0,10)):'')+'</span></div>'
       +'<div class="cdkpis">'
-      +'<span class="cdk"><span class="n">'+ALL.length+'</span> <span class="l">actions</span></span>'
-      +'<span class="cdk"><span class="n">'+done+'</span> <span class="l">done</span></span>'
-      +'<span class="cdk"><span class="n">'+under+'</span> <span class="l">underway</span></span>'
-      +'<span class="cdk"><span class="n">'+open+'</span> <span class="l">committed</span></span>'
-      +(blocked?'<span class="cdk"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></span>':'')
-      +'<span class="cdk"><span class="n"'+(stalled?' style="color:#F6CFCB"':'')+'>'+stalled+'</span> <span class="l">stalled</span></span>'
+      +'<button type="button" class="cdk" data-kpi="all"><span class="n">'+ALL.length+'</span> <span class="l">actions</span></button>'
+      +'<button type="button" class="cdk" data-kpi="done"><span class="n">'+done+'</span> <span class="l">done</span></button>'
+      +'<button type="button" class="cdk" data-kpi="under"><span class="n">'+under+'</span> <span class="l">underway</span></button>'
+      +'<button type="button" class="cdk" data-kpi="open"><span class="n">'+open+'</span> <span class="l">committed</span></button>'
+      +(blocked?'<button type="button" class="cdk" data-kpi="blocked"><span class="n" style="color:#F6CFCB">'+blocked+'</span> <span class="l">blocked</span></button>':'')
+      +'<button type="button" class="cdk" data-kpi="stalled"><span class="n"'+(stalled?' style="color:#F6CFCB"':'')+'>'+stalled+'</span> <span class="l">stalled</span></button>'
       +(quiet?'<span class="cdk"><span class="n">'+quiet+'</span> <span class="l">quiet 8–21d</span></span>':'')
-      +'<span class="cdk"><span class="n"'+(unassigned?' style="color:#F6CFCB"':'')+'>'+unassigned+'</span> <span class="l">unassigned</span></span>'
+      +'<button type="button" class="cdk" data-kpi="unassigned"><span class="n"'+(unassigned?' style="color:#F6CFCB"':'')+'>'+unassigned+'</span> <span class="l">unassigned</span></button>'
       +'</div>'
       +'<div class="cdbar"><i class="done" style="width:'+(done/ALL.length*100)+'%"></i><i class="under" style="width:'+(under/ALL.length*100)+'%"></i><i class="blocked" style="width:'+(blocked/ALL.length*100)+'%"></i></div>'
       +'<div class="cdlegend"><span><i style="background:#EFCB86"></i>done</span><span><i style="background:#7FB4DD"></i>underway</span>'+(blocked?'<span><i style="background:#E0766C"></i>blocked</span>':'')+'<span>unfilled = committed, not yet started</span></div>'
@@ -1992,6 +2028,18 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'</div>';
     el.querySelectorAll('[data-ots]').forEach(function(b){b.onclick=function(){OPS.status=b.dataset.ots;renderOpsTable()}});
     var cl=el.querySelector('[data-ota-clear]'); if(cl) cl.onclick=function(){OPS.alt='all';renderOpsEngine();renderOpsTable()};
+    /* The monitor's numbers are filters; its rows link to their plan cards;
+       its status column is live on a signed-in account. */
+    el.querySelectorAll('[data-kpi]').forEach(function(b){b.onclick=function(){OPS.status=b.dataset.kpi;renderOpsTable()}});
+    el.querySelectorAll('[data-plan-open]').forEach(function(b){b.onclick=function(){goPlanItem(b.dataset.planOpen)}});
+    el.querySelectorAll('#opsTbl .mv-status').forEach(function(sel){
+      sel.onchange=function(){var id=sel.dataset.id;
+        api('/api/move',{action:'update',move:{id:id,status:sel.value}}).then(function(r){
+          if(r.ok){var m=(DATA.moves||[]).find(function(x){return x.id===id});if(m){m.status=r.j.move.status;m.updatedAt=r.j.move.updatedAt||m.updatedAt;}refreshAfterMove();}
+          else{sel.blur();renderOpsTable();}
+        }).catch(function(){renderOpsTable()});
+      };
+    });
     el.querySelectorAll('[data-otsort]').forEach(function(h){h.onclick=function(){
       if(OPS.sort===h.dataset.otsort)OPS.dir=-OPS.dir;else{OPS.sort=h.dataset.otsort;OPS.dir=h.dataset.otsort==='updated'?1:-1}
       renderOpsTable()}});
@@ -4212,11 +4260,12 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<div class="dwi">'
         +'<div class="dwm"><b>The move</b>'+esc(m.move)+'</div>'
         +'<div class="dwgrid">'
-        +'<div><b>Owner</b>'+esc(m.owner||'—')+'</div>'
+        +'<div><b>Team</b>'+esc(m.owner||'—')+'</div>'
+        +'<div><b>Accountable</b>'+(m.person?esc(m.person):'<span style="color:var(--frag);font-weight:600">unassigned</span>')+'</div>'
         +'<div><b>Horizon</b>'+esc(m.horizon||'—')+'</div>'
         +'<div><b>Proof it moved</b>'+esc(m.metric||'—')+'</div>'
-        +'<div><b>Baseline</b>'+(m.baselineScore!=null?esc(m.baselineScore)+' on '+esc(d?d.short:m.domainKey):'—')+'</div>'
         +'</div>'
+        +'<div style="margin:2px 0 10px"><button type="button" class="ghostlink" data-gov-open="'+esc(m.id)+'">See this in the governance view &rarr;</button></div>'
         +'<div class="lab2">The '+(a.length===1?'action':a.length+' actions')+' behind it</div>'
         +(a.length?a.map(function(x,i){
             var on=done.indexOf(i)>-1;
@@ -4237,6 +4286,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
 
     host.querySelectorAll('details.dw').forEach(function(el){
       var id=el.dataset.id;
+      var gv=el.querySelector('[data-gov-open]');
+      if(gv) gv.onclick=function(){goOpsRow(id)};
       el.querySelectorAll('input[data-act]').forEach(function(cb){
         cb.onchange=function(){
           var m=(DATA.moves||[]).find(function(x){return x.id===id}), done=(m.progress||[]).slice(), i=Number(cb.dataset.act);
