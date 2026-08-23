@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.10 — the live dashboard's delivery board fills in
+
+- get-portfolio now passes each move's `Office` and `Person` through to the dashboard, so the delivery board groups live accounts by real offices instead of "Office not recorded". The two fields were added to the Airtable Moves table (additive — nothing existing touched), and the demonstration account was seeded with the eight illustrative actions so the live board matches the walkthrough.
+
 ## 0.3.9 — who is fixing what, where: delivery board on the company page
 
 - **The company page now answers "who is actually delivering this".** Below the company audit sits "Who is fixing what, where": every committed action across the book, grouped by the office delivering it, each carrying the team, the person responsible, the action itself, its status and its horizon — because a bottleneck is only alleviated by work someone owns.
