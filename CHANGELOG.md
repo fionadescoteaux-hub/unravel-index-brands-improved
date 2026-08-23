@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.21 — the numbers tell the truth about themselves, the cockpit simplifies, and the questionnaire never answers for you
+
+Response to the 23 August external live-site audit, plus a simplification pass on company operations. Everything the audit rated a truth-or-control defect is fixed here; platform-shape recommendations (bubble chart, per-brand routes, session auth, CRM sync) are scheduled, not shipped.
+
+- **The financial bridge no longer mixes modelled and reported money.** The headline figure is now named what it is — **"Modelled brand roll-up"**, the sum of royalty-band midpoints, labelled <i>modelled, not reported income</i> — and set against what the company itself reports, with the honest note that the bands overlap and the figure is scenario scale. The gap column became **"Unallocated scenario gap"** — <i>a scenario, not a forecast</i> — and says plainly that targets are stated for only 2 of 19 brands, so the gap is not yet allocated to anyone.
+- **"At target" can no longer come from two matching open-ended bands.** When a brand's current and target band are the same label (e.g. both "Over $50M"), the target card now reads **"Cannot assess"** — band labels cannot show a gap; record exact values to read it — instead of implying arrival.
+- **The wheel reconciles itself.** Where derived line values total more than the modelled brand figure (Martha: ≈$90M against ≈$75M), a reconciliation note appears on the brand panel: share bands overlap and are ranges, not additive parts — read line values as relative weight, never as a sum.
+- **"Overdue: 0" was hiding "overdue: unknown".** The delivery KPI now distinguishes them: with open actions carrying no due date it shows a dash and says how many are undated. And the commit form now **requires a due date** — committed work without a date cannot be judged overdue or on time — with the server storing it from birth.
+- **The questionnaire never answers for you.** Every context choice now starts blank ("Select…"); the readiness gate counts unanswered context choices alongside unanswered questions, so a submission can no longer inherit invisible defaults. Verified end-to-end: all 11 stored context keys are consumed by the dashboard — no dead questions, no silent gaps.
+- **Company operations simplified to one register.** The separate "Who is fixing what" delivery section is gone; the operations table gained **List / By office / By project** views, so every read of delivery is one table with three lenses instead of two sections with overlapping jobs. The house verdict gained an exceptions line — <b>Needs attention:</b> what is blocked, stalled, unassigned or undated — or says nothing is.
+- **A data-coverage panel says what the numbers rest on.** Lines verified, supported and unresolved; brands with stated targets; components mapped — thin coverage flagged in red, on the company page above the full audit.
+- **Language neutralised.** "Failing now" → "Requires attention"; "Where it's failing — act here first" → "Where attention is needed first". The illustrative report under Reports is now labelled **"Sample report"** — a static Body Glove example, not this portfolio's output.
+- The read-only demonstration opens directly on the answer — no welcome tour in a prospect's first ten seconds.
+- One colour language platform-wide: gold = done, steel = underway, red = blocked, grey = committed — unified across status chips, plan summaries and KPI bars (Blocked chips previously had no colour at all on some views).
+
 ## 0.3.20 — the Action plan is the delivery arm of the company engine, and the platform is one connected loop
 
 - **The Action plan moved under The company.** It keeps its own page and menu entry, but now sits directly beneath the governance group — and appears inside The company's own drop-down as "Action plan &rarr;" — because the plan is the delivery arm of the engine, not a sibling of it. Its page says so, and links straight back to the KPI monitor.
