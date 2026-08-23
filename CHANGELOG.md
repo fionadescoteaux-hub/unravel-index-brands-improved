@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.22 — one clear front door, a you-are-here mark that stays, and pages that close down to what you're reading
+
+- **The front door asks one thing, not four.** The demonstration now leads the page — one full-width card marked <b>Start here · no sign-in required</b>. The three live workspaces (assessment, dashboard, line review) appear only once a programme access code is confirmed, so a first-time visitor sees one clear action instead of choosing between four buttons, and nothing was removed — a code brings all three back with the code already on their links.
+- **The highlight you arrive on now STAYS.** Following "steps &amp; notes &rarr;" (or any cross-link) used to flash the target and fade, losing your place. The card or row you land on now keeps a gold <b>You are here</b> mark — warm tint, gold edge — and the mark follows the work: touch another card, tick a step, and it moves there. It survives filters and refreshes, and there is only ever one.
+- **More colour on where you are.** The active menu item carries a gold bar and warm wash; the active menu child is marked in gold; the selected cascade rung matches. One location language — gold — everywhere the platform says "you are here". (Filters stay navy: place is gold, choice is navy.)
+- **Close down the data.** Every section the menu lists now carries a slim fold control — close "The money answer", "Portfolio in one shape", the operations table, any of the twenty-one — and it collapses to a single named bar that reopens it. What you close stays closed in your browser until you reopen it; a menu click or cross-link that targets a folded section reopens it on the way, so navigation never lands on nothing; a section with nothing to show hides its bar entirely.
+
 ## 0.3.21 — the numbers tell the truth about themselves, the cockpit simplifies, and the questionnaire never answers for you
 
 Response to the 23 August external live-site audit, plus a simplification pass on company operations. Everything the audit rated a truth-or-control defect is fixed here; platform-shape recommendations (bubble chart, per-brand routes, session auth, CRM sync) are scheduled, not shipped.
