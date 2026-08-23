@@ -75,6 +75,20 @@ button,input{font-family:inherit}
 /* The display rule above outranks the browser's own [hidden] behaviour, so a
    nav item with no subject behind it must be told explicitly to disappear. */
 .nav button[hidden]{display:none}
+/* Drop-downs: each group opens into the sections its page actually holds.
+   The active page's group stays open (accordion); children jump straight to
+   their section. */
+.navgrp .subnav{display:none;margin:1px 0 4px;padding-left:10px;border-left:1px solid rgba(255,255,255,.14);margin-left:12px}
+.navgrp.open .subnav{display:flex;flex-direction:column;gap:1px}
+.subnav button{font-size:11.5px;padding:6.5px 10px;color:rgba(255,255,255,.55);letter-spacing:.02em}
+.subnav button:hover{color:#fff;background:rgba(255,255,255,.08)}
+.subnav button.on{color:#fff;background:rgba(255,255,255,.12)}
+.navgrp>button::after{content:'\203A';margin-left:auto;font-size:13px;opacity:.45;transform:rotate(0deg);transition:transform .15s}
+.navgrp.open>button::after{transform:rotate(90deg)}
+.navgrp>button .cnt{margin-left:auto}
+.navgrp>button .cnt+*::after,.navgrp>button:has(.cnt)::after{margin-left:8px}
+.navgrp[hidden]{display:none}
+#homeEngine,#brandGallery,#portfolioShape,#homePlan,#opsEngine,#coDelivery,#groups,#brandTable,#compareSec,#delKpis,#moveKpis,#renewalsSec,#upliftSec,#domTable,#benchSub,#shapeSec,#reportTable,#rbSubs,#pfPrint,#methodQs{scroll-margin-top:78px}
 .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
 .nav button.on{background:rgba(255,255,255,.16);color:#fff}
 .nav .cnt{margin-left:auto;font-size:10.5px;background:rgba(255,255,255,.12);border-radius:999px;padding:1px 8px}
@@ -919,17 +933,67 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       <nav class="nav" id="nav" aria-label="Dashboard sections">
         <!-- The menu descends the ontology's own spine: the portfolio, then
              the subjects assessed within it (the company that runs the book,
-             then each brand), then what is derived from them. Commercial
-             lines and components are levels 3 and 4 of the spine and are
-             deliberately not menu items — they exist only in the context of
-             a brand and are reached by opening one. -->
-        <button type="button" class="on" data-page="overview">Overview</button>
-        <button type="button" data-page="company">The company</button>
-        <button type="button" data-page="brands">Brands<span class="cnt" id="bCount">0</span></button>
-        <button type="button" data-page="delivery">Action plan<span class="cnt" id="dCount">0</span></button>
-        <button type="button" data-page="insights">Insights</button>
-        <button type="button" data-page="reports">Reports</button>
-        <button type="button" data-page="method">Method</button>
+             then each brand), then what is derived from them. Each group
+             opens into the sections its page actually holds, so nothing is
+             more than two clicks from anywhere. Commercial lines and
+             components stay off the menu — they exist only in the context
+             of a brand and are reached by opening one. -->
+        <div class="navgrp open" data-grp="overview">
+          <button type="button" class="on" data-page="overview">Overview</button>
+          <div class="subnav">
+            <button type="button" data-page="overview" data-target="homeEngine">The money answer</button>
+            <button type="button" data-page="overview" data-target="brandGallery">The brands, pictured</button>
+            <button type="button" data-page="overview" data-target="portfolioShape">Portfolio in one shape</button>
+            <button type="button" data-page="overview" data-target="homePlan">The plan, live</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="company">
+          <button type="button" data-page="company">The company</button>
+          <div class="subnav">
+            <button type="button" data-page="company" data-target="companyBody">The company audit</button>
+            <button type="button" data-page="company" data-target="opsEngine">The operational engine</button>
+            <button type="button" data-page="company" data-target="coDelivery">Delivery around the globe</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="brands">
+          <button type="button" data-page="brands">Brands<span class="cnt" id="bCount">0</span></button>
+          <div class="subnav">
+            <button type="button" data-page="brands" data-target="groups">The portfolio, brand by brand</button>
+            <button type="button" data-page="brands" data-target="brandTable">Every brand, ranked</button>
+            <button type="button" data-page="brands" data-target="compareSec">Compare brands</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="delivery">
+          <button type="button" data-page="delivery">Action plan<span class="cnt" id="dCount">0</span></button>
+          <div class="subnav">
+            <button type="button" data-page="delivery" data-target="delKpis">The work</button>
+            <button type="button" data-page="delivery" data-target="moveKpis">The record</button>
+            <button type="button" data-page="delivery" data-target="renewalsSec">Renewals</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="insights">
+          <button type="button" data-page="insights">Insights</button>
+          <div class="subnav">
+            <button type="button" data-page="insights" data-target="upliftSec">Scenario uplift</button>
+            <button type="button" data-page="insights" data-target="domTable">Domain performance</button>
+            <button type="button" data-page="insights" data-target="benchSub">Benchmarks</button>
+            <button type="button" data-page="insights" data-target="shapeSec">Portfolio shape</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="reports">
+          <button type="button" data-page="reports">Reports</button>
+          <div class="subnav">
+            <button type="button" data-page="reports" data-target="reportTable">One per subject</button>
+            <button type="button" data-page="reports" data-target="rbSubs">Report builder</button>
+            <button type="button" data-page="reports" data-target="pfPrint">Portfolio report</button>
+          </div>
+        </div>
+        <div class="navgrp" data-grp="method">
+          <button type="button" data-page="method">Method</button>
+          <div class="subnav">
+            <button type="button" data-page="method" data-target="methodQs">The questions asked</button>
+          </div>
+        </div>
       </nav>
       <div class="sidefoot"><b>Unravel Index</b> · unravelindex.com<br>Scores computed server-side. Respondent contact details and evidence text never reach this view.</div>
     </aside>
@@ -975,7 +1039,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <div style="overflow-x:auto"><table class="dt" id="brandTable"></table></div>
         </div>
         <div id="detail2"></div>
-        <h2 class="secttl">Compare brands</h2>
+        <h2 class="secttl" id="compareSec">Compare brands</h2>
         <p class="sub" style="margin-top:2px">Select up to five brands and read them against each other &mdash; the same nine domains, drawn as one shape and scored side by side. A wide spread is a transfer hypothesis: check whether the stronger brand has evidenced practice that can be reused.</p>
         <div class="card">
           <div style="font-size:11px;color:var(--body);margin-bottom:9px">Select up to five brands. <span id="cmpCount" style="color:var(--faint)"></span></div>
@@ -997,7 +1061,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         </div>
         <div class="card"><h2>The record</h2><div class="cs">Every commitment with its status. The next assessment is read against this list — movement where a commitment was made is evidence; movement where none was made is noise.</div><div class="kpis" id="moveKpis" style="margin-top:12px"></div><div id="moveList"></div>
           </div>
-        <h2 class="secttl">Renewals &mdash; the moment terms are open</h2>
+        <h2 class="secttl" id="renewalsSec">Renewals &mdash; the moment terms are open</h2>
         <p class="sub">Licence renewals read against each brand&rsquo;s constraint candidate, commercial concentration and verification status. Imminent renewals with no written criteria go to the front of the plan.</p>
         <div class="card">
           <h2>Load the renewal calendar</h2>
@@ -1080,7 +1144,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       <div class="page" data-page="insights" hidden>
         <h1 class="pg">Insights</h1>
         <p class="sub">Patterns that only appear when the same instrument runs across the whole portfolio.</p>
-        <h2 class="secttl">Scenario uplift &mdash; where to investigate first</h2>
+        <h2 class="secttl" id="upliftSec">Scenario uplift &mdash; where to investigate first</h2>
         <p class="sub" style="margin-top:2px">A diagnostic scenario showing how the index would move if every lowest-scoring candidate reached Embedded (75). It supports sequencing; it is not recoverable revenue or a forecast.</p>
         <div class="card">
           <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
@@ -1111,7 +1175,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           <table class="dt"><thead><tr><th>Platform</th><th style="text-align:right">Brands</th><th style="text-align:right">Mean index</th><th>Most common constraint</th><th>Weakest domain (mean)</th></tr></thead><tbody id="platTable"></tbody></table>
           <div id="benchExt"></div>
         </div>
-        <h2 class="secttl">Portfolio shape</h2>
+        <h2 class="secttl" id="shapeSec">Portfolio shape</h2>
         <p class="sub" style="margin-top:2px">The distribution behind the home page: how many brands sit in each maturity band, which weakness repeats most often, and what that pattern says at group level.</p>
         <div class="kpis" id="kpis"></div>
         <div class="cols">
@@ -1279,10 +1343,23 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
 
   /* ── Nav ── */
   document.querySelectorAll('.nav button').forEach(function(n){
-    n.onclick=function(){go(n.dataset.page)};
+    n.onclick=function(){
+      go(n.dataset.page);
+      /* A child jumps straight to its section; the section may be rendered
+         after go() shows the page, so the scroll waits a beat. */
+      if(n.dataset.target){
+        document.querySelectorAll('.subnav button').forEach(function(x){x.classList.toggle('on',x===n)});
+        setTimeout(function(){var t=document.getElementById(n.dataset.target);
+          if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);
+      } else {
+        document.querySelectorAll('.subnav button').forEach(function(x){x.classList.remove('on')});
+      }
+    };
   });
   function go(p){
-    document.querySelectorAll('.nav button').forEach(function(x){x.classList.toggle('on',x.dataset.page===p)});
+    document.querySelectorAll('.nav>.navgrp>button').forEach(function(x){x.classList.toggle('on',x.dataset.page===p)});
+    /* Accordion: the active page's group is the open one. */
+    document.querySelectorAll('.navgrp').forEach(function(g){g.classList.toggle('open',g.dataset.grp===p)});
     document.querySelectorAll('.page').forEach(function(x){x.hidden=x.dataset.page!==p});
     window.scrollTo(0,0);
     if(typeof updateHelpFab==="function") try{updateHelpFab()}catch(e){}
@@ -1397,7 +1474,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<span class="bmeta"><i class="bidx" style="background:'+bc(b.overall)+'">'+b.overall+'</i>'+esc(b.band)+(cand.length?' · weakest '+esc(dom(cand[0]).short):'')+'</span>'
         +'</button>';
     }).join('');
-    return '<div class="emap">'
+    return '<div class="emap" id="brandGallery">'
       +'<div class="emhead"><span class="cmdlbl" style="color:var(--ink)">The brands — every one a business feeding the engine</span>'
       +'<span style="font-size:11px;color:var(--faint)">reported royalty (band midpoints) · colour strip = maturity band · select a brand to open the products and services it holds</span></div>'
       +'<div class="bgal">'+cards+'</div>'
@@ -1862,8 +1939,8 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     /* The company is a subject like any other. If this account has never
        assessed the house itself, the menu must not offer a page with
        nothing on it. */
-    var cbtn=document.querySelector('.nav button[data-page="company"]');
-    if(cbtn) cbtn.hidden=!((DATA.company||[]).length);
+    var cgrp=document.querySelector('.navgrp[data-grp="company"]');
+    if(cgrp) cgrp.hidden=!((DATA.company||[]).length);
     var dc=$('dCount'); if(dc) dc.textContent=(DATA.moves||[]).filter(function(m){return m.status!=='Dropped'&&m.status!=='Done'}).length;
     var flags=[];
     if(/demo|illustrative/i.test(name)){var lc=$('liveChip');if(lc)lc.textContent='Demonstration';flags.push('Illustrative demonstration data — the shape of the output, not actual performance');}
