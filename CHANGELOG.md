@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.18 — the KPI monitor and the Action plan are one record, linked both ways
+
+- **Monitor &rarr; plan.** Every row on the operations table carries "steps &amp; notes &rarr;": one click lands on the Action plan with that exact card opened, scrolled to and briefly highlighted. Rows also show how many steps are already ticked.
+- **Plan &rarr; monitor.** Every Action-plan card carries "See this in the governance view &rarr;": one click lands on the company page with that exact row highlighted, filters cleared so it can never arrive hidden. The card's detail grid now shows Team and the <b>Accountable</b> person (or a red unassigned) in place of the old single Owner field.
+- **The KPI numbers are filters.** Click done, underway, committed, blocked, stalled or unassigned on the monitor and the table filters to exactly those rows, with the chip row staying in sync. Unassigned joined the filter chips.
+- **Act from the monitor.** On a signed-in account the Status column is a live control — change it there and the whole engine (cascade, monitor, delivery lens, verdict, plan) updates in the same breath; the read-only demonstration keeps the status chips.
+
 ## 0.3.17 — every commitment is governance-ready, and every commit feeds the engine in the same breath
 
 An operational review of the company engine against one rule — all actions from the brands MUST feed into this, with a responsible person on each — found four defects. All four are fixed.
