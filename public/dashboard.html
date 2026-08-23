@@ -138,6 +138,10 @@ button,input{font-family:inherit}
 .otalt.line{background:var(--tint);border-color:#C8D9E8;color:var(--steel)}
 .otalt.house{background:#F8F1E2;border-color:#E8D5AC;color:#7A5520}
 #opsTbl td{vertical-align:top}
+/* Zone accents on the governance page: each section carries its own key
+   colour, so the eye separates verdict / cascade / table / delivery. */
+#opsTable .card{border-top:3px solid var(--steel)}
+.opseng .oebody{border-top:0}
 #opsTbl .mv{max-width:36ch;line-height:1.5}
 #opsTbl .who{font-size:11px;color:var(--faint)}
 .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
@@ -376,9 +380,13 @@ details.imp summary:focus-visible{outline:2px solid var(--steel);outline-offset:
 .mv .mm{color:var(--body);font-size:11.5px;margin-top:3px}
 .mv select{border:1px solid var(--line);border-radius:4px;padding:5px 8px;font-size:11.5px;background:#fff;color:var(--ink)}
 .st{display:inline-block;font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border-radius:4px;padding:2px 7px;border:1px solid var(--line);background:#fff;color:var(--body)}
-.st.Committed{color:var(--steel);border-color:#C8D9E8;background:var(--tint)}
-.st.Inprogress{color:#7A5520;border-color:#E8D8BE;background:#FBF6EC}
-.st.Done{color:var(--embe);border-color:#BFDFCF;background:#EEF7F2}
+/* One colour language for status, everywhere an action appears — matching
+   the KPI bar and the monitor's chips: gold = done, steel blue = moving,
+   red = blocked, quiet gray = committed. */
+.st.Committed{color:var(--body);border-color:var(--line);background:var(--paper)}
+.st.Inprogress{color:var(--steel);border-color:#C8D9E8;background:var(--tint)}
+.st.Blocked{color:#8A2F2A;border-color:#E9CBC8;background:#FBEFEE}
+.st.Done{color:#7A5520;border-color:#E8D5AC;background:#F8F1E2}
 .st.Dropped{color:var(--faint)}
 .lic{margin:0 24px 22px}
 .lic table.dt td.gap{font-weight:600}
@@ -656,7 +664,7 @@ details.dw summary{grid-template-columns:1fr 90px}.dwd,.dwp{display:none}}
 .hprow{display:flex;gap:11px;align-items:flex-start;border-top:1px solid var(--line);padding:11px 0}
 .hprow:first-of-type{border-top:0;padding-top:4px}
 .hpst{font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:3px 9px;flex:none;margin-top:1px;border:1px solid var(--line);color:var(--body);background:var(--paper)}
-.hpst.go{background:#EDF6F1;border-color:#CBE3D8;color:#2E7D63}
+.hpst.go{background:var(--tint);border-color:#C8D9E8;color:var(--steel)}
 .hpst.warn{background:#FBEFEE;border-color:#E9CBC8;color:#8A2F2A}
 .hpb{min-width:0}
 .hpb b{display:block;font-size:13px;color:var(--ink);font-weight:600}
@@ -1016,7 +1024,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
             <button type="button" data-page="company" data-target="coVerdict">The house verdict</button>
             <button type="button" data-page="company" data-target="opsEngine">The operational engine</button>
             <button type="button" data-page="company" data-target="opsTable">The operations table</button>
-            <button type="button" data-page="company" data-target="coDelivery">Who is fixing what</button>
+            <button type="button" data-page="company" data-target="covSec">Data coverage</button>
             <button type="button" data-page="company" data-target="coAuditWrap">The full audit</button>
             <button type="button" data-page="delivery">Action plan &rarr;</button>
           </div>
@@ -1085,7 +1093,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         <div id="coVerdict"></div>
         <div id="opsEngine"></div>
         <div id="opsTable"></div>
-        <div id="coDelivery"></div>
+        <div id="covSec"></div>
         <details id="coAuditWrap"><summary><span class="cmdlbl" style="color:var(--ink)">The full company audit</span><span style="font-size:11px;color:var(--faint)">the nine-domain read of the house itself &mdash; scorecard, evidence, actions, history</span></summary>
           <div id="companyBody"></div>
         </details>
@@ -1179,7 +1187,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         </div>
         <div class="card"><h2>Also available</h2>
           <div class="rows">
-            <div class="row"><div class="n"><b>Illustrative brand report</b> <small>&middot; one brand, no sign-in, safe to share with a prospect</small></div><div><a class="ghostlink" href="/report" target="_blank" rel="noopener">Open</a></div></div>
+            <div class="row"><div class="n"><b>Sample report</b> <small>&middot; a static illustrative Body Glove example — not this portfolio&rsquo;s output; safe to share with a prospect</small></div><div><a class="ghostlink" href="/report" target="_blank" rel="noopener">Open</a></div></div>
             <div class="row"><div class="n"><b>Portfolio CSV</b> <small>&middot; every subject, every domain score, for your own analysis</small></div><div><button type="button" class="ghostlink" id="repCsv">Export</button></div></div>
           </div>
         </div>
@@ -1516,20 +1524,20 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     var h='<div class="cmdband">'
       +'<div class="cmdhead"><span class="cmdttl">The Brand Engine</span><span class="cmdsub">Every brand — and every product and service beneath it — feeding one commercial engine. This is where it stands today.</span></div>'
       +'<div class="gaphero">'
-        +'<div class="ghc"><div class="k">Bringing in today</div><div class="v gold">&asymp;&nbsp;$'+total+'M</div>'
-          +'<div class="m">reported royalty across '+roy.length+' brand'+(roy.length===1?'':'s')+' · sum of band midpoints'+(DATA.readOnly?' · illustrative':'')+(coc.royaltyBand?' · the company itself states '+esc(coc.royaltyBand):'')+'</div></div>'
+        +'<div class="ghc"><div class="k">Modelled brand roll-up</div><div class="v gold">&asymp;&nbsp;$'+total+'M</div>'
+          +'<div class="m">'+roy.length+' royalty-band midpoints summed — <b style="color:#EFCB86">modelled, not reported income</b>'+(DATA.readOnly?' · illustrative':'')+(coc.royaltyBand?' · the company itself reports '+esc(coc.royaltyBand)+' — bands overlap; treat as scenario scale':'')+'</div></div>'
         +'<div class="ghsep" aria-hidden="true">&rarr;</div>'
         +'<div class="ghc"><div class="k">Stated target</div><div class="v">'+(coc.royaltyTargetBand?esc(coc.royaltyTargetBand):'Not set')+'</div>'
           +'<div class="m">'+(coc.royaltyTargetBand?'management-stated'+(coc.targetHorizon?' · '+esc(coc.targetHorizon).toLowerCase():'')+' · never scored':'capture it in the company questionnaire and the gap reads here')+'</div></div>'
         +'<div class="ghsep" aria-hidden="true">=</div>'
-        +'<div class="ghc"><div class="k">Still to bring in</div><div class="v'+(gap?' warn':'')+'">'+(gap===null?'&mdash;':(gap?'&asymp;&nbsp;$'+gap+'M':'At target'))+'</div>'
-          +'<div class="m">'+(gap!==null?'to the midpoint of the stated target band'+(tgtN?' · '+tgtN+' brand'+(tgtN===1?'':'s')+' carry a target of their own'+(climbs?', '+climbs+' band'+(climbs===1?'':'s')+' to climb':''):' · no brand carries a target of its own yet'):'no company target recorded yet')+'</div></div>'
+        +'<div class="ghc"><div class="k">Unallocated scenario gap</div><div class="v'+(gap?' warn':'')+'">'+(gap===null?'&mdash;':(gap?'&asymp;&nbsp;$'+gap+'M':'&mdash;'))+'</div>'
+          +'<div class="m">'+(gap!==null?'target midpoint less the modelled roll-up — <b style="color:#F6CFCB">a scenario, not a forecast</b> · targets stated for only '+tgtN+' of '+B.length+' brands, so this gap is not yet allocated to anyone':'no company target recorded yet')+'</div></div>'
       +'</div>'
       +(pct!==null?'<div class="gapbar"><div class="gbtrack"><i class="gbfill" style="width:'+pct+'%"></i></div>'
-        +'<div class="gbmarks"><span>today &asymp;$'+total+'M &middot; '+pct+'% of the target midpoint</span><span>target midpoint &asymp;$'+Math.round(tgt)+'M</span></div></div>':'')
+        +'<div class="gbmarks"><span>modelled &asymp;$'+total+'M &middot; '+pct+'% of the target midpoint</span><span>target midpoint &asymp;$'+Math.round(tgt)+'M</span></div></div>':'')
       +'<div class="cmdgrid">'
       +(co?'<button type="button" class="cmdc green cmdgo" data-cmd-company><div class="k">What stands in the way</div><div class="v">'+esc(candidatesOf(co).map(function(k){return dom(k).short}).join(' / '))+'</div><div class="m">the weakest link in the house that runs every brand — it scores '+co.overall+' ('+esc(co.band)+') on its own engine, '+co.constraintScore+' here · open the company audit →</div></button>':'')
-      +'<div class="cmdc warn"><div class="k">Failing now</div><div class="v">'+failing.length+' brand'+(failing.length===1?'':'s')+'</div><div class="m">below the Defined level'+(soon.length?' · '+soon.length+' with a constrained line renewing inside 12 months':'')+(conflicts?' · '+conflicts+' record conflict'+(conflicts===1?'':'s')+' to reconcile':'')+'</div></div>'
+      +'<div class="cmdc warn"><div class="k">Requires attention</div><div class="v">'+failing.length+' brand'+(failing.length===1?'':'s')+'</div><div class="m">below the Defined level'+(soon.length?' · '+soon.length+' with a constrained line renewing inside 12 months':'')+(conflicts?' · '+conflicts+' record conflict'+(conflicts===1?'':'s')+' to reconcile':'')+'</div></div>'
       +'<button type="button" class="cmdc blue cmdgo" data-cmd-plan><div class="k">How it gets there</div><div class="v">'+activeN+' action'+(activeN===1?'':'s')+' live</div><div class="m">'+(MV.length?doneN+' completed so far · every commitment carries an owner, a horizon and the measure it will be judged on':'nothing committed yet — the plan is built from the constraint each audit names')+' · open the action plan →</div></button>'
       +'</div></div>';
     /* Act-here-first strip: the three most urgent failures, one click each. */
@@ -1542,7 +1550,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       acts.push({id:b.id,t:esc(b.name)+' · renewal window',m:'a constrained line renews inside 12 months — terms are only open now'});
     });
     if(acts.length){
-      h+='<div class="cmdacts"><span class="cmdlbl">Where it’s failing — act here first</span>'
+      h+='<div class="cmdacts"><span class="cmdlbl">Where attention is needed first</span>'
         +acts.map(function(a){return '<button type="button" class="cmdact" data-cmd-open="'+a.id+'"><b>'+a.t+'</b><span>'+a.m+'</span></button>'}).join('')
         +'</div>';
     }
@@ -1693,7 +1701,9 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'<div class="emst"><span class="k">Brings in</span><span class="v">'+(mine!==null?'&asymp;$'+Math.round(mine)+'M':esc(c.royaltyBand||'—'))+'</span><span class="m">'+esc(c.royaltyBand||'band not stated')+'</span></div>'
       +(pctIncome!==null?'<div class="emst"><span class="k">Of engine income</span><span class="v">'+pctIncome+'%</span><span class="m">share of reported royalty across the book</span></div>':'')
       +(c.royaltyTargetBand
-        ?'<div class="emst'+(gap?' warn':'')+'"><span class="k">Target · gap</span><span class="v">'+(gap?'&asymp;$'+gap+'M to bring in':'At target')+'</span><span class="m">'+esc(c.royaltyTargetBand)+(c.targetHorizon?' · '+esc(c.targetHorizon).toLowerCase():'')+(gap&&totGap?' · '+Math.round(gap/totGap*100)+'% of the engine’s whole stated growth':'')+'</span></div>'
+        ?(c.royaltyTargetBand===c.royaltyBand
+          ?'<div class="emst"><span class="k">Target · gap</span><span class="v sm">Cannot assess</span><span class="m">current and target are the same band ('+esc(c.royaltyBand)+') — band labels cannot show a gap; record exact values to read it</span></div>'
+          :'<div class="emst'+(gap?' warn':'')+'"><span class="k">Target · gap</span><span class="v">'+(gap?'&asymp;$'+gap+'M to bring in':'At target')+'</span><span class="m">'+esc(c.royaltyTargetBand)+(c.targetHorizon?' · '+esc(c.targetHorizon).toLowerCase():'')+(gap&&totGap?' · '+Math.round(gap/totGap*100)+'% of the engine’s whole stated growth':'')+'</span></div>')
         :'<div class="emst"><span class="k">Target</span><span class="v">Not set</span><span class="m">capture it in the questionnaire — the gap then reads here and in the engine forecast</span></div>')
       +'<div class="emst how"><span class="k">How to get there</span><span class="v sm">'+esc(d0.move||('Lift '+d0.name))+'</span><span class="m">the '+esc(d0.short)+' constraint ('+b.constraintScore+') is what stands in the way · the step-by-step route is on the audit</span></div>'
       +'</div>';
@@ -1714,6 +1724,9 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
           +M.length+' commercial line'+(M.length===1?'':'s')+' mapped, '+nc+' product'+(nc===1?'':'s')+' and service'+(nc===1?'':'s')+' beneath them'
           +(extra.length?', plus '+extra.length+' mapped outside this assessment':'')+'. Select a line or a segment for its facts, sources and verification status.</div>'
           +'<div class="sbleg">'+legend+'</div>'
+        +(function(){var sv=M.reduce(function(t,x){return t+(x.v||0)},0);
+          if(mine!==null&&sv>mine*1.02) return '<div style="font-size:10.5px;color:var(--frag);margin-top:8px;line-height:1.5"><b>Reconciliation:</b> the derived line values total &asymp;$'+Math.round(sv)+'M against a modelled brand figure of &asymp;$'+Math.round(mine)+'M — share bands overlap and are ranges, not additive parts. Read line values as relative weight, never as a sum.</div>';
+          return '';})()
         +'</div>'
       +'</div></div>';
   }
@@ -1901,6 +1914,32 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
      index, the weakest link, and what is committed against it. The full
      audit — scorecard, evidence, the commit controls — is intact one click
      below; this band never restates what it cannot back. */
+  /* ── Data coverage ─────────────────────────────────────────────────────
+     What the numbers above actually rest on — computed from the records,
+     stated plainly. Depth that exists for one brand is never implied for
+     nineteen. */
+  function renderCoverage(){
+    var el=$('covSec'); if(!el) return;
+    if(!(DATA.company||[]).length){ el.innerHTML=''; return; }
+    var B=DATA.brands||[];
+    var L=[]; B.forEach(function(b){linesOf(b).forEach(function(l){L.push(l)})});
+    var ver=L.filter(function(l){return /^Verified/.test(l.verificationStatus||'')}).length;
+    var sup=L.filter(function(l){return /^Supported/.test(l.verificationStatus||'')}).length;
+    var unres=L.length-ver-sup;
+    var tgts=B.filter(function(b){return (ctx(b)||{}).royaltyTargetBand}).length;
+    var comps=(DATA.components||[]).length;
+    var compBrands={}; (DATA.components||[]).forEach(function(c){if(c.brandId)compBrands[c.brandId]=1});
+    var nCB=Object.keys(compBrands).length;
+    function stat(n,l,warn){return '<div class="kpi"'+(warn?' style="border-top:3px solid var(--frag)"':'')+'><div class="v">'+n+'</div><div class="d">'+l+'</div></div>'}
+    el.innerHTML='<h2 class="secttl">Data coverage — what the numbers rest on</h2>'
+      +'<p class="sub" style="margin-top:2px">Verification and depth across the book, computed from the records. Where coverage is thin, the screens above say less than they seem to.</p>'
+      +'<div class="kpis">'
+      +stat(ver+sup+' of '+L.length,'commercial lines verified or supported by a source')
+      +stat(unres,'lines still unresolved — requiring verification or unable to verify',unres>L.length/3)
+      +stat(tgts+' of '+B.length,'brands with a stated royalty target — the scenario gap is unallocated beyond these',tgts<3)
+      +stat(comps+(nCB?' · '+nCB+' brand'+(nCB===1?'':'s'):''),'products &amp; services mapped — depth exists only where stated, never implied portfolio-wide',nCB<=1)
+      +'</div>';
+  }
   function renderCoVerdict(){
     var el=$('coVerdict'); if(!el) return;
     var co=(DATA.company||[])[0];
@@ -1915,6 +1954,13 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +(houseMs.length
         ?houseMs.length+' action'+(houseMs.length===1?'':'s')+' committed against the house'+(open?', '+open+' still open':', all closed out')+'. '
         :'Nothing is committed against the house yet. ')
+      +(function(){var A=(DATA.moves||[]).filter(function(m){return !/dropped/i.test(m.status||'')});
+        var bl=A.filter(function(m){return stageOf(m.status)==='blocked'}).length;
+        var stl=A.filter(function(m){return freshness(m).cls==='r'}).length;
+        var un=A.filter(function(m){return stageOf(m.status)!=='done'&&!(m.person||'').trim()}).length;
+        var ud=A.filter(function(m){return stageOf(m.status)!=='done'&&!(m.due||'').trim()}).length;
+        var bits=[];if(bl)bits.push(bl+' blocked');if(stl)bits.push(stl+' stalled');if(un)bits.push(un+' unassigned');if(ud)bits.push(ud+' undated');
+        return bits.length?'<b style="color:#F6CFCB">Needs attention: '+bits.join(' · ')+'.</b> ':'Nothing blocked, stalled, unassigned or undated. ';})()
       +'The reasoning, evidence and step-by-step route are in the full audit below &middot; <button type="button" class="ghostlink" data-cov-ops style="color:#EFCB86">every action, on the operations table &rarr;</button></div></div>'
       +'<button type="button" class="go" data-cov-audit>Open the full audit &darr;</button>'
       +'</div>';
@@ -1930,7 +1976,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
      action untouched for three weeks reads as stalled, whatever its status
      field says — the difference between "committed" and "moving" is exactly
      what this table exists to show. */
-  var OPS={alt:'all',status:'all',sort:'updated',dir:1}; /* dir 1 = descending */
+  var OPS={alt:'all',status:'all',sort:'updated',dir:1,view:'list'}; /* dir 1 = descending */
   function altitudeOf(m){
     if(m.componentId) return 'product';
     if((m.lines||[]).length) return 'line';
@@ -1955,6 +2001,29 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     if(d<=7) return {cls:'g',word:'moving',days:d};
     if(d<=21) return {cls:'a',word:'quiet',days:d};
     return {cls:'r',word:'stalled',days:d};
+  }
+  function groupedCardsHTML(list,byProject){
+    var fallback=byProject?'Project not recorded':'Office not recorded';
+    var g={};
+    list.forEach(function(m){var o=byProject?(m.brand||(m.subject==='company'?'The house':'')||fallback):(m.office||fallback);(g[o]=g[o]||[]).push(m)});
+    var keys=Object.keys(g).sort(function(a,b){if(a===fallback)return 1;if(b===fallback)return -1;return g[b].length-g[a].length||a.localeCompare(b)});
+    return '<div class="ofgrid" style="margin-top:12px">'+keys.map(function(o){
+      var ms=g[o];
+      var od=ms.filter(function(m){return stageOf(m.status)==='done'}).length;
+      var ou=ms.filter(function(m){return stageOf(m.status)==='under'}).length;
+      var ob=ms.filter(function(m){return stageOf(m.status)==='blocked'}).length;
+      var rows=ms.map(function(m){
+        var st=stageOf(m.status);
+        return '<div class="cdrow"><span class="stch '+st+'">'+esc(m.status||'Committed')+'</span>'
+          +'<span class="bd"><b>'+esc(m.brand||m.subject||'Portfolio')+' · '+esc(dom(m.domainKey).short)+'</b>'
+          +'<span class="mv">'+esc(m.move||'')+'</span>'
+          +'<span class="who">'+[m.owner?'<b>'+esc(m.owner)+'</b>':'',m.person?esc(m.person):'<b style="color:var(--frag)">unassigned</b>',m.due?'due '+esc(m.due):'',m.horizon?esc(m.horizon):''].filter(Boolean).join(' · ')
+          +' · <button type="button" class="ghostlink" data-plan-open="'+esc(m.id)+'" style="font-size:10.5px">steps &rarr;</button></span></span></div>';
+      }).join('');
+      return '<div class="ofc"><div class="ofh"><b>'+esc(o)+'</b><span class="m">'+ms.length+' action'+(ms.length===1?'':'s')+' · '+od+' done'+(ou?' · '+ou+' underway':'')+(ob?' · '+ob+' blocked':'')+'</span></div>'
+        +'<div class="ofbar"><i style="width:'+(od/ms.length*100)+'%;background:#D9A441"></i><i style="width:'+(ou/ms.length*100)+'%;background:#7FB4DD"></i><i style="width:'+(ob/ms.length*100)+'%;background:#E0766C"></i></div>'
+        +rows+'</div>';
+    }).join('')+'</div>';
   }
   function renderOpsTable(){
     var el=$('opsTable'); if(!el) return;
@@ -2025,11 +2094,16 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'</div>'
       +'<div class="otfilters"><span class="lbl">Showing</span>'
       +chips.map(function(c){return '<button type="button" class="rbchip'+(OPS.status===c[0]?' on':'')+'" data-ots="'+c[0]+'">'+c[1]+'</button>'}).join('')
+      +'<span class="lbl" style="margin-left:10px">view</span>'
+      +[['list','List'],['office','By office'],['project','By project']].map(function(v){return '<button type="button" class="rbchip'+(OPS.view===v[0]?' on':'')+'" data-otv="'+v[0]+'">'+v[1]+'</button>'}).join('')
       +'<span class="lbl" style="margin-left:10px">at</span><span class="rbchip on" style="cursor:default">'+esc(ALT_LABEL[OPS.alt])+'</span>'
       +(OPS.alt!=='all'?'<button type="button" class="ghostlink" data-ota-clear>show every level</button>':'')
       +(OPS.status!=='all'?'<button type="button" class="ghostlink" data-ops-toplan style="margin-left:auto">work these on the Action plan &rarr;</button>':'')
       +'</div>'
-      +'<div class="card" style="margin-top:0"><div style="overflow-x:auto"><table class="dt" id="opsTbl"><thead><tr>'
+      +(OPS.view!=='list'
+        ?'<div class="card" style="margin-top:0;border-top:3px solid var(--steel)">'+groupedCardsHTML(rows,OPS.view==='project')
+          +'<div style="font-size:11px;color:var(--faint);margin-top:9px">'+rows.length+' of '+ALL.length+' shown · grouped by '+(OPS.view==='project'?'the project each action serves':'the office doing the work')+'</div></div>'
+        :'<div class="card" style="margin-top:0"><div style="overflow-x:auto"><table class="dt" id="opsTbl"><thead><tr>'
       +'<th>Freshness</th><th>The action</th>'
       +'<th class="sth'+(OPS.sort==='project'?' on'+(OPS.dir===-1?' up':''):'')+'" data-otsort="project">Project</th>'
       +'<th>Level</th>'
@@ -2039,13 +2113,14 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       +'</tr></thead><tbody>'
       +(trs||'<tr><td colspan="7" style="color:var(--faint)">Nothing matches this view — clear a filter above.</td></tr>')
       +'</tbody></table></div>'
-      +'<div style="font-size:11px;color:var(--faint);margin-top:9px">'+rows.length+' of '+ALL.length+' shown · step-by-step progress and notes live on the Action plan</div></div>'
+      +'<div style="font-size:11px;color:var(--faint);margin-top:9px">'+rows.length+' of '+ALL.length+' shown · step-by-step progress and notes live on the Action plan</div></div>')
       +'</div>';
     el.querySelectorAll('[data-ots]').forEach(function(b){b.onclick=function(){OPS.status=b.dataset.ots;renderOpsTable()}});
     var cl=el.querySelector('[data-ota-clear]'); if(cl) cl.onclick=function(){OPS.alt='all';renderOpsEngine();renderOpsTable()};
     /* The monitor's numbers are filters; its rows link to their plan cards;
        its status column is live on a signed-in account. */
     el.querySelectorAll('[data-kpi]').forEach(function(b){b.onclick=function(){OPS.status=b.dataset.kpi;renderOpsTable()}});
+    el.querySelectorAll('[data-otv]').forEach(function(b){b.onclick=function(){OPS.view=b.dataset.otv;renderOpsTable()}});
     var tp=el.querySelector('[data-ops-toplan]');
     if(tp) tp.onclick=function(){DEL.status=OPS.status;safely('delivery',renderDelivery);go('delivery');
       setTimeout(function(){var t=$('delFilters');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})},80);};
@@ -2061,55 +2136,6 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     el.querySelectorAll('[data-otsort]').forEach(function(h){h.onclick=function(){
       if(OPS.sort===h.dataset.otsort)OPS.dir=-OPS.dir;else{OPS.sort=h.dataset.otsort;OPS.dir=h.dataset.otsort==='updated'?1:-1}
       renderOpsTable()}});
-  }
-  /* Delivery groups two ways: by the office doing the work, or by the
-     project (the brand or the house) the work is for. Same records, same
-     counts — only the lens moves. */
-  var CD_GROUP='office';
-  function renderCoDelivery(){
-    var el=$('coDelivery'); if(!el) return;
-    if(!(DATA.company||[]).length){ el.innerHTML=''; return; }
-    var MV=(DATA.moves||[]).filter(function(m){return !/dropped/i.test(m.status||'')});
-    if(!MV.length){
-      el.innerHTML='<div class="codel"><h2 class="secttl">Delivery around the globe</h2>'
-        +'<p class="sub" style="margin-top:2px">Nothing is being delivered yet. When an action is committed on any audit, it appears here with the office, team and person responsible for it and how far along it is.</p></div>';
-      return;
-    }
-    var byProject=CD_GROUP==='project';
-    var fallback=byProject?'Project not recorded':'Office not recorded';
-    var offices={};
-    MV.forEach(function(m){
-      var o=byProject?(m.brand||(m.subject==='company'?'The house':'')||fallback):(m.office||fallback);
-      (offices[o]=offices[o]||[]).push(m)});
-    var okeys=Object.keys(offices).sort(function(a,b){
-      if(a===fallback)return 1; if(b===fallback)return -1;
-      return offices[b].length-offices[a].length||a.localeCompare(b)});
-    /* The KPI monitor lives on the operations table above; this lens keeps
-       only its per-group progress bars. */
-    var cards=okeys.map(function(o){
-      var ms=offices[o];
-      var od=ms.filter(function(m){return stageOf(m.status)==='done'}).length;
-      var ou=ms.filter(function(m){return stageOf(m.status)==='under'}).length;
-      var ob=ms.filter(function(m){return stageOf(m.status)==='blocked'}).length;
-      var rows=ms.map(function(m){
-        var st=stageOf(m.status);
-        return '<div class="cdrow"><span class="stch '+st+'">'+esc(m.status||'Committed')+'</span>'
-          +'<span class="bd"><b>'+esc(m.brand||m.subject||'Portfolio')+' · '+esc(dom(m.domainKey).short)+'</b>'
-          +'<span class="mv">'+esc(m.move||'')+'</span>'
-          +'<span class="who">'+[m.owner?'<b>'+esc(m.owner)+'</b>':'',m.person?esc(m.person):'',m.horizon?esc(m.horizon):''].filter(Boolean).join(' · ')+'</span>'
-          +'</span></div>';
-      }).join('');
-      return '<div class="ofc"><div class="ofh"><b>'+esc(o)+'</b><span class="m">'+ms.length+' action'+(ms.length===1?'':'s')+' · '+od+' done'+(ou?' · '+ou+' underway':'')+(ob?' · '+ob+' blocked':'')+'</span></div>'
-        +'<div class="ofbar"><i class="done" style="width:'+(od/ms.length*100)+'%;background:#D9A441"></i><i style="width:'+(ou/ms.length*100)+'%;background:#7FB4DD"></i><i style="width:'+(ob/ms.length*100)+'%;background:#E0766C"></i></div>'
-        +rows+'</div>';
-    }).join('');
-    el.innerHTML='<div class="codel"><div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap"><h2 class="secttl" style="margin-bottom:6px">Who is fixing what, where</h2>'
-      +'<span class="cdgrpsel"><button type="button" class="ghost'+(byProject?'':' on')+'" data-cdg="office">By office</button><button type="button" class="ghost'+(byProject?' on':'')+'" data-cdg="project">By project</button></span></div>'
-      +'<p class="sub" style="margin-top:2px">The same actions as the table above, grouped by '+(byProject?'the project they serve — each brand, and the house itself':'the office doing the work')+', carried by a team and a person, judged against the measure recorded when committed. The KPI monitor sits on the operations table; progress notes and step-by-step tracking live on the Action plan.</p>'
-      +'<div class="ofgrid">'+cards+'</div></div>';
-    el.querySelectorAll('[data-cdg]').forEach(function(btn){
-      btn.onclick=function(){CD_GROUP=btn.dataset.cdg;renderCoDelivery();};
-    });
   }
   function renderHomePlan(){
     var el=$('homePlan'); if(!el) return;
@@ -2259,10 +2285,9 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     if(ovt) ovt.textContent=(((DATA.company||[])[0]||{}).name)||name;
     $('bCount').textContent=b.length;
     if((DATA.company||[]).length) safely('company view', renderCompany);
-    safely('house verdict', renderCoVerdict);
+    safely('house verdict', renderCoVerdict); safely('data coverage', renderCoverage);
     safely('operational engine', renderOpsEngine);
     safely('operations table', renderOpsTable);
-    safely('company delivery', renderCoDelivery);
     safely('brands table', renderBrandTable);
     safely('value creation', renderPlan);
     safely('compare', renderCompare);
@@ -2301,6 +2326,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
   ];
   var tourShown=false;
   function maybeTour(){
+    if(DATA.readOnly) return; /* the demonstration opens on the answer, not a tour */
     if(tourShown||memGet('uix_tour_v1')||document.getElementById('tourOvl')) return;
     tourShown=true;
     var step=0;
@@ -3539,6 +3565,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<input class="cm-custom" placeholder="Describe the action" style="display:none;margin-top:8px">'
         +'<div class="cg" style="margin-top:8px"><input class="cm-owner" placeholder="Team (e.g. Finance)" value=""><input class="cm-person" placeholder="Accountable person or role" value=""></div>'
         +'<div class="cg" style="margin-top:8px"><input class="cm-office" placeholder="Office delivering it" value=""><input class="cm-horizon" placeholder="Horizon (e.g. by end Q1)" value="'+esc(horizon)+'"></div>'
+        +'<label style="display:block;margin-top:8px;font-size:11px;color:var(--body)">Due date — required for committed work<input type="date" class="cm-due" style="display:block;width:100%;margin-top:4px"></label>'
         +(!isCompany&&linesOf(b).length?'<select class="cm-line" style="margin-top:8px"><option value="">Lands on the whole brand</option>'+linesOf(b).map(function(l){return '<option value="'+esc(l.name)+'">Lands on: '+esc(l.name)+'</option>'}).join('')+'</select>':'')
         +'<input class="cm-metric" placeholder="Proof it moved" value="'+esc(metric)+'" style="margin-top:8px">'
         +'<div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button type="button" class="btn cm-save" style="padding:9px 14px">Commit</button><span class="cm-msg" style="font-size:11.5px;color:var(--body)"></span></div>'
@@ -3645,9 +3672,11 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
            it too. */
         var personEl=f.querySelector('.cm-person'), officeEl=f.querySelector('.cm-office'), lineEl=f.querySelector('.cm-line');
         if(personEl&&!personEl.value.trim()){msg.textContent='Name the accountable person or role — unowned work stalls.';personEl.focus();return}
+        var dueEl=f.querySelector('.cm-due');
+        if(dueEl&&!dueEl.value){msg.textContent='Set the due date — committed work without a date cannot be judged overdue or on time.';dueEl.focus();return}
         if(DATA.readOnly){msg.textContent='The shared demonstration account is read-only.';return}
         msg.textContent='Saving…';
-        api('/api/move',{action:'create',move:{subject:f.dataset.subject,brand:f.dataset.brand,brandId:f.dataset.brandid,domainKey:f.dataset.domain,move:txt,owner:f.querySelector('.cm-owner').value,person:personEl?personEl.value:'',office:officeEl?officeEl.value:'',lineNames:lineEl?lineEl.value:'',horizon:f.querySelector('.cm-horizon').value,metric:f.querySelector('.cm-metric').value,baselineScore:Number(f.dataset.score),baselineIndex:Number(f.dataset.index)}})
+        api('/api/move',{action:'create',move:{subject:f.dataset.subject,brand:f.dataset.brand,brandId:f.dataset.brandid,domainKey:f.dataset.domain,move:txt,owner:f.querySelector('.cm-owner').value,person:personEl?personEl.value:'',office:officeEl?officeEl.value:'',lineNames:lineEl?lineEl.value:'',due:dueEl?dueEl.value:'',horizon:f.querySelector('.cm-horizon').value,metric:f.querySelector('.cm-metric').value,baselineScore:Number(f.dataset.score),baselineIndex:Number(f.dataset.index)}})
           .then(function(r){if(!r.ok){msg.textContent=r.j.error||'Could not save.';return} DATA.moves=(DATA.moves||[]).concat([r.j.move]); msg.textContent='Committed.'; refreshAfterMove();})
           .catch(function(){msg.textContent='Could not reach the server.'});
       };
@@ -3710,7 +3739,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
      verdict's committed count and the home-page plan all re-read the moves. */
   function refreshAfterMove(){ DATA.brands.concat(DATA.company||[]).forEach(syncConstraintState); renderDetail(); safely('delivery', renderDelivery); if($('detail2').innerHTML){var b=DATA.brands.find(function(x){return x.id===($('detail2').dataset.id||'')}); if(b){$('detail2').innerHTML=detailHTML(b,false);wireMoves($('detail2'));}} if((DATA.company||[]).length) renderCompany(); renderMoves();
     safely('house verdict', renderCoVerdict); safely('operational engine', renderOpsEngine);
-    safely('operations table', renderOpsTable); safely('company delivery', renderCoDelivery);
+    safely('operations table', renderOpsTable); safely('data coverage', renderCoverage);
     safely('home plan', renderHomePlan); }
   function api(path,body){ return fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({},CREDS,body))}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}); }
 
@@ -4255,10 +4284,11 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
       acts+=a.length; ticks+=done.length;
       if(m.due&&today&&m.due<today&&m.status!=='Done') overdue++;
     });
+    var undated=ms.filter(function(m){return m.status!=='Done'&&!(m.due||'').trim()}).length;
     $('delKpis').innerHTML=[
       {t:'Actions in flight',v:open,d:'committed and not yet done'},
       {t:'Actions complete',v:acts?ticks+' / '+acts:'—',d:'across every move on this page'},
-      {t:'Past their date',v:overdue,d:overdue?'set a new date or close them out':'nothing overdue'}
+      {t:'Past their date',v:(overdue||!undated)?overdue:'—',d:overdue?'set a new date or close them out':(undated?undated+' open action'+(undated===1?' has':'s have')+' no due date — overdue unknown':'nothing overdue')}
     ].map(function(k){return '<div class="kpi"><div class="t">'+esc(k.t)+'</div><div class="v">'+esc(k.v)+'</div><div class="d">'+esc(k.d)+'</div></div>'}).join('');
 
     /* The same status vocabulary as the KPI monitor: arriving from a
@@ -4296,7 +4326,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
         +'<span class="dwd">'+esc(d?d.short:m.domainKey)+'</span>'
         +'<span class="dwp"><i style="width:'+pct+'%"></i></span>'
         +'<span class="dwn">'+done.length+'/'+a.length+'</span>'
-        +'<span class="st '+esc(m.status)+'">'+esc(m.status)+'</span></summary>'
+        +'<span class="st '+esc(m.status).replace(/\s+/g,'')+'">'+esc(m.status)+'</span></summary>'
         +'<div class="dwi">'
         +'<div class="dwm"><b>The action</b>'+esc(m.move)+'</div>'
         +'<div class="dwgrid">'

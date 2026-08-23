@@ -560,8 +560,15 @@ details.dm.bind .dmv{color:var(--red)}
   }
 
   /* ── Build ────────────────────────────────────────────────────────────── */
+  /* Every context select starts BLANK. A preselected first option invents
+     data the respondent never chose — the server would store a "$150–500M"
+     nobody asserted. Unanswered stays empty and is stored as unknown. */
+  var REQCTX=[];
   function fill(sel, list){
-    $(sel).innerHTML = list.map(function(o){ return '<option>'+esc(o)+'</option>'; }).join('');
+    $(sel).innerHTML = '<option value="">Select&hellip;</option>'
+      + list.map(function(o){ return '<option>'+esc(o)+'</option>'; }).join('');
+    if (REQCTX.indexOf(sel) < 0) REQCTX.push(sel);
+    $(sel).onchange = function(){ if (typeof paint === 'function') paint(); };
   }
   function fillOptional(sel, list){
     $(sel).innerHTML = '<option value="">Select&hellip;</option>'
@@ -736,9 +743,11 @@ details.dm.bind .dmv{color:var(--red)}
     }
     if (CTX.lineTypes && !IS_LICENSEE && INSTKEY !== 'company') { initLines(); }
     else { var lg = $('linesGrp'); if (lg) lg.style.display = 'none'; }
-    $('cx_challenge').innerHTML = D.map(function(d){
+    $('cx_challenge').innerHTML = '<option value="">Select&hellip;</option>' + D.map(function(d){
       return '<option value="'+esc(d.key)+'">'+esc(d.name)+'</option>';
     }).join('');
+    if (REQCTX.indexOf('cx_challenge') < 0) REQCTX.push('cx_challenge');
+    $('cx_challenge').onchange = function(){ if (typeof paint === 'function') paint(); };
 
     $('methodRows').innerHTML = D.map(function(d){
       return '<tr><td>'+esc(d.name)+'</td><td><span class="pill '+d.role.toLowerCase()+'">'+esc(d.role)+'</span></td>'
@@ -828,11 +837,18 @@ details.dm.bind .dmv{color:var(--red)}
 
     var named = $('cx_name').value.trim().length > 0;
     var ontReady = ontologyReady();
-    var ready = answered === TOTAL_Q && flagged === D.length && named && ontReady;
+    /* Context must be chosen, never inherited: a visible context select left
+       on "Select…" blocks submission and says which. */
+    var ctxMissing = REQCTX.filter(function(id){
+      var el = $(id);
+      return el && el.offsetParent !== null && !el.value;
+    });
+    var ready = answered === TOTAL_Q && flagged === D.length && named && ontReady && !ctxMissing.length;
     var label;
     if (answered < TOTAL_Q) label = (TOTAL_Q - answered) + ' questions left';
     else if (flagged < D.length) label = (D.length - flagged) + ' confidence flags left';
     else if (!named) label = 'Name the ' + INST.subjectLabel.toLowerCase() + ' to submit';
+    else if (ctxMissing.length) label = ctxMissing.length + ' context choice' + (ctxMissing.length===1?'':'s') + ' left';
     else if (!ontReady) label = 'Complete the brand identity and commercial lines';
     else label = 'Submit assessment';
 
