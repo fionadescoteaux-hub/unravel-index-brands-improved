@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brand Commercial Engine Assessment | Unravel Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1B1524; --muted:#5A5266; --faint:#756B80; --line:#E4DEEC; --bg:#F6F4F9;
+  --green:#1F7A5E; --amber:#8A6200; --red:#C4453B;
+  --brand:#351148; --brand-deep:#25092F; --accent:#F9A825; --accent-ink:#2A0E3A;
+  --accent-soft:#FDF3DC; --accent-line:#F2DCA6; --track:#F1ECF6; --card:#fff;
+}
+/* Partner theme — applied at runtime from the partner record. */
+body[data-theme="marquee"]{
+  --ink:#0F1B2E; --muted:#4E5F73; --faint:#7C8B9C; --line:#DCE4EC; --bg:#F4F6F9;
+  --brand:#2D5175; --brand-deep:#081330; --accent:#2D5175; --accent-ink:#fff;
+  --accent-soft:#EEF3F8; --accent-line:#C8D9E8; --track:#E7EDF3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Source Sans 3','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.55}
+h1,h2,h3{margin:0;font-family:'Jost',Helvetica,sans-serif}
+button,input,select{font-family:inherit}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)}
+.skip{position:absolute;left:-9999px;background:var(--brand);color:#fff;padding:10px 16px;font-weight:600}
+.skip:focus{left:0;top:0;z-index:100}
+
+.topbar{background:var(--brand-deep);color:#fff;padding:16px 26px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.topbar .who{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+.topbar .sub{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:4px}
+.wm{margin-left:auto;font-family:'Jost',Helvetica,sans-serif;font-weight:600;font-size:14px;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:7px}
+.wm .ix{font-weight:400;color:#F08BB0;margin-left:-2px}
+body[data-theme="marquee"] .wm .ix{color:#7A97B2}
+.wm .umark{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:4px;background:#351148;color:#fff;font-family:Georgia,serif;font-size:11px;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
+body[data-theme="marquee"] .wm .umark{background:#2D5175}
+
+.wrap{max-width:900px;margin:0 auto;padding:26px 22px 90px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-top:16px}
+.card:first-child{margin-top:0}
+h1.page{font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0}
+.lede{color:var(--muted);margin:12px 0 0;max-width:70ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px;margin-top:20px}
+.tile{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px 15px}
+.tile .h{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:600;margin-bottom:7px}
+.tile .b{font-size:12.5px;color:var(--muted)}
+
+.linkish{border:0;background:transparent;font:inherit;font-size:12px;color:var(--brand);font-weight:600;cursor:pointer;padding:0;text-decoration:underline}
+.ghost{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:9px 13px;font-size:11.5px;font-weight:600;color:var(--brand);cursor:pointer;margin-top:16px}
+.ghost:hover{border-color:var(--brand)}
+
+.method{border:1px solid var(--line);border-radius:8px;margin-top:14px;overflow:hidden}
+.method .mh{background:var(--brand-deep);color:#fff;padding:12px 18px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.method .mb{padding:18px}
+table.w{width:100%;border-collapse:collapse;font-size:12.5px}
+table.w th{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);font-weight:600}
+table.w td{padding:8px;border-bottom:1px solid var(--track)}
+table.w td.n{text-align:right;color:var(--muted)}
+.pill{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;padding:2px 7px;font-weight:700}
+.pill.primary{background:var(--accent-soft);color:var(--brand);border:1px solid var(--accent-line)}
+.pill.enabler{background:var(--track);color:var(--muted);border:1px solid var(--line)}
+.rules{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.rules .rh{color:var(--ink);font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:8px}
+.rules p{margin:0 0 8px}
+.rules p:last-child{margin:0}
+.rules b{color:var(--ink)}
+
+.sticky{position:sticky;top:0;z-index:40;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-top:16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:0 6px 18px rgba(27,21,36,.07)}
+.sticky .lab{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:600}
+.bar{height:6px;border-radius:999px;background:var(--track);overflow:hidden;margin-top:9px}
+.bar i{display:block;height:100%;background:var(--brand);transition:width .2s}
+.btn{border:1px solid var(--brand-deep);background:var(--brand-deep);color:#fff;border-radius:6px;padding:11px 17px;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.btn:hover:not(:disabled){background:var(--brand);border-color:var(--brand)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.dhead{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dnum{flex:none;width:22px;height:22px;border-radius:5px;background:var(--brand-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.dname{font-size:13px;font-weight:600}
+.dcount{margin-left:auto;font-size:10.5px;color:var(--faint)}
+.dt{font-size:12px;color:var(--faint);margin-top:12px}
+
+.q{margin-top:20px}
+.qid{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:700}
+.qtx{font-size:13.5px;font-weight:600;margin:4px 0 11px;line-height:1.45}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:11px;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:7px;padding:11px 13px;cursor:pointer;font-size:12.5px;color:var(--muted)}
+.opt:hover{border-color:var(--brand)}
+.opt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:var(--accent-soft)}
+.opt .lv{flex:none;width:20px;height:20px;border-radius:5px;border:1px solid var(--line);background:var(--track);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700}
+.opt[aria-pressed="true"] .lv{background:var(--brand);border-color:var(--brand);color:#fff}
+.opt .lab{color:var(--ink);font-weight:600}
+.opt .metric{display:block;margin-top:5px;font-size:11px;color:var(--faint);letter-spacing:.02em}
+.opt[aria-pressed="true"] .metric{color:var(--brand);font-weight:600}
+
+.ev{display:block;margin-top:10px}
+.ev span{display:block;font-size:11px;color:var(--faint);margin-bottom:6px}
+.ev input,.fld input,.fld select{width:100%;border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:12.5px;color:var(--ink);background:var(--bg)}
+.ev input:focus,.fld input:focus,.fld select:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 3px var(--accent-soft)}
+
+.conf{margin-top:20px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:15px 17px}
+.conf .ch{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.conf .cd{font-size:12.5px;color:var(--muted);margin:5px 0 11px}
+.confopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.copt{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:7px;padding:10px 12px;cursor:pointer;font-size:12px;color:var(--muted)}
+.copt:hover{border-color:var(--brand)}
+.copt b{display:block;font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.03em}
+.copt[aria-pressed="true"][data-k="evidenced"]{border-color:#BFDFCF;background:#EEF7F2}
+.copt[aria-pressed="true"][data-k="evidenced"] b{color:var(--green)}
+.copt[aria-pressed="true"][data-k="reasoned"]{border-color:var(--accent-line);background:var(--accent-soft)}
+.copt[aria-pressed="true"][data-k="reasoned"] b{color:var(--amber)}
+.copt[aria-pressed="true"][data-k="estimated"]{border-color:#EACBC8;background:#FBEFEE}
+.copt[aria-pressed="true"][data-k="estimated"] b{color:var(--red)}
+.held{margin-top:11px;font-size:11.5px;color:var(--amber);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:6px;padding:9px 12px}
+
+.fix{margin-top:12px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fix .fh{background:var(--bg);padding:11px 16px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--line)}
+.fixgrid{padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:14px}
+.fixgrid .k{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:var(--faint);font-weight:600;margin-bottom:5px}
+.fixgrid .v{font-size:12.5px;color:var(--muted)}
+.fixgrid .v.strong{color:var(--ink);font-weight:600}
+
+.fld{display:block}
+.fld span{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.full{grid-column:1/-1}
+.note{margin-top:14px;font-size:11.5px;color:var(--faint)}
+.err{background:#FBEFEE;border:1px solid #EACBC8;color:#8A2F2A;border-radius:8px;padding:13px 16px;font-size:12.5px;margin-top:16px}
+.foot{margin-top:16px;font-size:10.5px;color:var(--faint);line-height:1.6}
+.state{max-width:640px;margin:60px auto;padding:0 22px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:22px}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:13px 15px}
+.kpi .t{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:600}
+.kpi .v{font-size:22px;font-weight:700;color:var(--brand);margin-top:5px}
+/* ── Result panel ─────────────────────────────────────────── */
+.res{margin-top:22px}
+.resHead{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;border-bottom:2px solid var(--brand-deep);padding-bottom:14px}
+.resIdx{font-size:52px;line-height:1;font-weight:700;color:var(--brand-deep);font-variant-numeric:tabular-nums}
+.resIdx small{font-size:16px;font-weight:600;color:var(--faint);margin-left:3px}
+.resBandWrap{flex:1;min-width:200px}
+.resBand{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent-ink);background:var(--brand);border-radius:3px;padding:4px 10px}
+.resBandNote{font-size:11.5px;color:var(--faint);margin-top:7px}
+.scale{display:flex;gap:2px;margin-top:10px}
+.scale .sb{flex:1;height:5px;background:var(--track);border-radius:2px;position:relative}
+.scale .sb.on{background:var(--brand)}
+.scaleLab{display:flex;gap:2px;margin-top:4px}
+.scaleLab span{flex:1;font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.scaleLab span.on{color:var(--brand);font-weight:700}
+
+.cons{margin-top:18px;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:8px;padding:15px 17px}
+.cons .ch{font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--red);margin-bottom:7px}
+.cons .cn{font-size:19px;font-weight:700;color:var(--ink);line-height:1.25}
+.cons .cs{font-size:13px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.cons p{font-size:12.5px;color:var(--muted);margin:9px 0 0;max-width:70ch}
+
+.dom{margin-top:20px}
+.domH{display:flex;justify-content:space-between;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:700;border-bottom:1px solid var(--line);padding-bottom:7px}
+.dr{display:grid;grid-template-columns:minmax(130px,1.5fr) minmax(90px,2fr) 42px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.dr .dn{font-size:12.5px;color:var(--ink);font-weight:600;line-height:1.3}
+.dr .dw{font-size:10px;color:var(--faint);font-weight:500;letter-spacing:.04em}
+.dr .dt{height:7px;background:var(--track);border-radius:4px;overflow:hidden}
+.dr .df{height:100%;background:var(--brand);border-radius:4px}
+.dr .dv{font-size:13px;font-weight:700;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.dr.isCon .dn{color:var(--red)}
+.dr.isCon .df{background:var(--red)}
+.dr.isCon .dv{color:var(--red)}
+.chip{display:inline-block;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;border-radius:3px;padding:1px 5px;margin-left:6px;vertical-align:middle}
+.chip.con{background:#FBEAE8;color:var(--red)}
+.chip.ver{background:var(--accent-soft);color:var(--amber)}
+@media(max-width:520px){.dr{grid-template-columns:1fr 40px}.dr .dt{grid-column:1/3}}
+/* ── Section-by-section detail ─────────────────────────────── */
+.secH{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin:26px 0 6px}
+.secH h3{font-size:15px;color:var(--ink);margin:0;font-weight:700}
+.secH .c{display:flex;gap:7px}
+.secH button{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--brand);background:var(--card);border:1px solid var(--line);border-radius:4px;padding:5px 10px;cursor:pointer}
+.secH button:hover{background:var(--bg)}
+.secH button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.secL{font-size:12.5px;color:var(--muted);margin:0 0 12px;max-width:74ch}
+
+details.dm{border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:var(--card)}
+details.dm.bind{border-left:3px solid var(--red)}
+details.dm summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr 118px 120px 34px;gap:12px;align-items:center;padding:12px 14px}
+details.dm summary::-webkit-details-marker{display:none}
+details.dm summary:hover{background:var(--bg)}
+details.dm summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.dmn{font-size:13px;color:var(--ink);font-weight:700}
+details.dm.bind .dmn{color:var(--red)}
+.dmw{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.dmb{height:7px;background:var(--track);border-radius:4px;overflow:hidden}
+.dmb i{display:block;height:100%;background:var(--brand);border-radius:4px}
+details.dm.bind .dmb i{background:var(--red)}
+.dmv{font-size:13px;font-weight:700;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+details.dm.bind .dmv{color:var(--red)}
+.dmi{padding:2px 14px 16px;border-top:1px solid var(--line)}
+.dmt{font-size:12.5px;color:var(--muted);margin:12px 0 13px;max-width:74ch}
+.lab{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:0 0 7px}
+.qr{border-left:2px solid var(--line);padding-left:12px;margin-bottom:11px}
+.ql{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);font-weight:700;margin-bottom:3px}
+.qa{font-size:12.5px;color:var(--ink)}
+.qt{font-size:11px;color:var(--faint);margin-top:2px;font-style:italic}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.col{border-radius:8px;padding:12px 14px}
+.col.ok{background:var(--accent-soft)}
+.col.ch{background:var(--bg);border:1px solid var(--line)}
+.col ul{margin:0;padding-left:16px}
+.col li{font-size:12px;line-height:1.55;margin-bottom:8px;color:var(--muted)}
+.col li:last-child{margin-bottom:0}
+.col li b{color:var(--ink)}
+.col li i{font-style:normal;font-weight:700;color:var(--ink)}
+.ob{display:block;font-size:10.5px;color:var(--faint);margin-top:3px;font-style:italic}
+.none{font-size:12px;margin:0;color:var(--muted)}
+.mv{margin-top:14px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.mvh{background:var(--bg);padding:12px 14px;font-size:12.5px;color:var(--ink);border-bottom:1px solid var(--line)}
+.mvh b{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);display:block;margin-bottom:5px;font-weight:700}
+.mv ol{margin:0;padding:2px 14px 2px 34px}
+.mv li{padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink)}
+.mv li:last-child{border-bottom:0}
+.mv li span{display:block;font-size:9.5px;color:var(--faint);margin-top:3px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.mf{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.mf div{padding:11px 14px;font-size:11.5px;color:var(--muted)}
+.mf div:first-child{border-right:1px solid var(--line)}
+.mf b{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px;font-weight:700}
+.mw{border-top:1px solid var(--line);padding:11px 14px;font-size:11.5px;color:var(--muted);line-height:1.55}
+.mw b{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px;font-weight:700}
+@media(max-width:640px){details.dm summary{grid-template-columns:1fr 38px;gap:8px}.dmw,.dmb{display:none}
+  .two{grid-template-columns:1fr}.mf{grid-template-columns:1fr}.mf div:first-child{border-right:0;border-bottom:1px solid var(--line)}}
+@media(max-width:600px){.wrap{padding:16px 14px 70px}.card{padding:18px 16px}}
+.pg-hide{display:none}
+@media print{.pg-hide{display:block!important}#pgNav{display:none!important}}
+</style>
+<style>
+.mv .stp{margin-left:auto;font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;background:rgba(255,255,255,.16);border-radius:3px;padding:2px 8px;white-space:nowrap}
+.mv .mvh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mv .mvf{margin:0;padding:12px 18px 0;font-size:12.5px;line-height:1.5;color:var(--body)}
+.rules{margin:18px 0 0}
+.rules .rh{font-family:'Jost',Helvetica,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:9px}
+.rule{border:1px solid var(--line);border-left:3px solid var(--steel);border-radius:6px;padding:13px 16px;margin-bottom:10px;background:#fff}
+.rule.high{border-left-color:#B0413A}
+.rule .rt{font-weight:600;color:var(--ink);font-size:13px;margin-bottom:5px}
+.rule .rs{font-size:12.5px;line-height:1.5;color:var(--body);margin-bottom:9px}
+.rule ol{margin:0;padding-left:18px;font-size:12.5px;color:var(--body)}
+.rule ol li{margin-bottom:5px;line-height:1.45}
+.rule ol li span{display:inline-block;font-family:'Jost',Helvetica,sans-serif;font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--steel);background:var(--tint);border:1px solid #C8D9E8;border-radius:3px;
+  padding:1px 6px;margin-left:6px;vertical-align:middle}
+.rule .rm{font-size:11.5px;color:var(--faint);margin-top:8px}
+</style>
+<style>
+#linesRows{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.lineRow{border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px}
+.lineCore{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr) minmax(0,1.1fr) minmax(0,1.1fr) minmax(0,1.1fr) 28px;gap:8px;align-items:center}
+.lineMeta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
+.lineRow input,.lineRow select{width:100%;min-width:0;font:inherit;font-size:12.5px;padding:8px 9px;
+  border:1px solid var(--line);border-radius:5px;background:#fff;color:var(--ink)}
+.lineRow .del{border:1px solid var(--line);background:#fff;border-radius:5px;cursor:pointer;color:var(--faint);
+  height:34px;line-height:1;font-size:15px}
+.lineRow .del:hover{color:#B0413A;border-color:#E9CBC8}
+.lineAdd{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--brand);
+  background:var(--card);border:1px solid var(--line);border-radius:4px;padding:6px 12px;cursor:pointer}
+.lineNote{font-size:11.5px;color:var(--faint);margin:8px 0 0}
+@media(max-width:760px){.lineCore,.lineMeta{grid-template-columns:1fr 1fr;grid-auto-rows:auto}.lineRow .del{grid-column:2}}
+.bite{margin:16px 0 0;border:1px solid var(--line);border-radius:6px;padding:13px 16px;background:#fff}
+.bite .bh{font-weight:600;color:var(--ink);font-size:13px;margin-bottom:4px}
+.bite .bs{font-size:12.5px;color:var(--body);margin-bottom:9px;line-height:1.5}
+.bite .chips{display:flex;flex-wrap:wrap;gap:7px}
+.bite .chips button{font-size:12px;border:1px solid var(--line);background:#fff;border-radius:999px;
+  padding:6px 13px;cursor:pointer;color:var(--body)}
+.bite .chips button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.bite .saveRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:11px}
+.bite .saveMsg{font-size:11.5px;color:var(--faint)}
+.ontology{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:13px 15px}
+.ontology .grid{margin-top:10px}
+</style>
+<style>
+.modes{display:flex;flex-wrap:wrap;gap:8px}
+.modes button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:7px;
+  padding:9px 13px;cursor:pointer;color:var(--body);text-align:left;max-width:220px}
+.modes button b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:2px}
+.modes button small{display:block;font-size:10.5px;color:var(--faint);line-height:1.35}
+.modes button[aria-pressed="true"]{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
+.modes button[aria-pressed="true"] b{color:var(--brand)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the assessment</a>
+
+<div class="topbar">
+  <div>
+    <div class="who" id="partnerName">UNRAVEL INDEX</div>
+    <div class="sub" id="instBadge">Brand Commercial Engine</div>
+  </div>
+  <div class="wm"><span class="umark" aria-hidden="true">U</span>Unravel<span class="ix">Index</span></div>
+</div>
+
+<main id="main">
+  <!-- Gate / loading / error -->
+  <div id="gate" class="state">
+    <div class="card" id="gateCard"><h1 class="page">Checking your access link…</h1></div>
+  </div>
+
+  <!-- Assessment -->
+  <div id="app" class="wrap" hidden>
+    <div class="card">
+      <h1 class="page">The commercial engine behind the brand</h1>
+      <p class="lede">Nine domains, eighteen questions, roughly thirty minutes with the people who run the brand day to day. The output identifies the leading constraint candidate, places it against the brand&rsquo;s material commercial lines, and sets out how it will be tested.</p>
+      <div class="tiles">
+        <div class="tile"><div class="h">Every level has a threshold</div><div class="b">Levels are anchored to observable measures, not adjectives. Pick the highest one whose measure you actually clear.</div></div>
+        <div class="tile"><div class="h">Flag your confidence</div><div class="b">Each domain closes with a confidence flag. It never changes your score — it tells the analyst which answers need evidence before they are relied on. An honest low flag costs nothing.</div></div>
+        <div class="tile"><div class="h">No score is shown</div><div class="b">Deliberately. Scoring happens after submission, on the server, so answers are not tuned towards a number.</div></div>
+        <div class="tile"><div class="h">One priority, not nine</div><div class="b">The report identifies the lowest domain or genuine tie, then tests materiality, actionability and outcome evidence before calling it validated.</div></div>
+      </div>
+      <button type="button" class="ghost" id="methodBtn">How the index is built, and what it does with your answers</button>
+      <div class="method" id="methodPanel" hidden>
+        <div class="mh">How the index is built</div>
+        <div class="mb">
+          <p style="font-size:12.5px;color:var(--muted);margin:0 0 16px" id="methodIntro"></p>
+          <table class="w"><thead><tr><th>Domain</th><th>Role</th><th style="text-align:right">What it tests</th></tr></thead><tbody id="methodRows"></tbody></table>
+          <div class="rules">
+            <div class="rh">The three rules that make this a diagnostic</div>
+            <p><b>1 · Candidate before conclusion.</b> The lowest-scoring domain, or genuine tie, is the starting constraint candidate. It is not presented as validated until materiality, actionability and outcome evidence support it.</p>
+            <p><b>2 · Confidence is reported, never applied.</b> A high score flagged as estimated is marked in the report as needing verification. The score is not adjusted — capping it would mean an honest respondent scored lower than an optimistic one.</p>
+            <p><b>3 · The gap is a finding.</b> Your stated biggest challenge is captured but never scored. Where it differs from the diagnosed constraint, that divergence is usually the most useful line in the report.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticky">
+      <div style="flex:1;min-width:180px">
+        <div class="lab" id="progLabel">0 of 27 inputs complete</div>
+        <div class="bar"><i id="progBar" style="width:0%"></i></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--faint)" id="confLabel">9 domains unflagged</div>
+      <button type="button" class="btn" id="submitTop" disabled>18 questions left</button>
+    </div>
+
+    <div class="card">
+      <div class="dhead">
+        <span class="dnum">0</span><span class="dname">Context</span>
+        <span class="dcount">Unscored · sets the benchmark cohort</span>
+      </div>
+      <div class="grp" id="modeGrp" hidden>
+        <div class="grpH">How this brand operates
+          <em>The mode swaps a handful of questions for the version that is true of this brand &mdash; an owned retailer is never asked about royalty statements it does not receive. Domains, weights and scoring are identical whichever mode is chosen, so results stay comparable.</em>
+        </div>
+        <div class="modes" id="modeChips"></div>
+      </div>
+      <div class="grid">
+        <label class="fld"><span id="subjectLabel">Brand</span><input id="cx_name" list="brandRegistryList" placeholder="e.g. Ben Sherman" maxlength="120"><datalist id="brandRegistryList"></datalist></label>
+        <label class="fld" id="platformField"><span>Platform</span><select id="cx_platform"></select></label>
+        <div class="full" id="registryLoad" hidden style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="lineAdd" id="registryBtn">Load governed brand record</button><span class="lineNote" id="registryMsg" style="margin:0"></span></div>
+        <div class="full ontology" id="ontologyGrp">
+          <div class="grpH">Brand identity and verification
+            <em>This creates the identity spine that connects the assessment, commercial lines, partners, evidence and later re-assessments. It is unscored.</em>
+          </div>
+          <div class="grid">
+            <label class="fld"><span>Brand family or parent</span><input id="cx_brand_family" maxlength="120" placeholder="Leave blank if not applicable"></label>
+            <label class="fld"><span>Portfolio status</span><select id="cx_portfolio_status"></select></label>
+            <label class="fld"><span>Relationship to portfolio</span><select id="cx_relationship"></select></label>
+            <label class="fld"><span>Primary territories</span><input id="cx_territories" maxlength="160" placeholder="e.g. Global; North America; EMEA"></label>
+            <label class="fld"><span>Registry verification</span><select id="cx_registry_verification"></select></label>
+            <label class="fld"><span>Last verified</span><input id="cx_registry_verified" type="date"></label>
+            <label class="fld"><span>Registry source</span><input id="cx_registry_source" maxlength="160" placeholder="e.g. Marquee portfolio page"></label>
+            <label class="fld"><span>Source URL</span><input id="cx_registry_url" type="url" maxlength="500" placeholder="https://..."></label>
+          </div>
+        </div>
+        <label class="fld"><span>Years in portfolio</span><select id="cx_years"></select></label>
+        <label class="fld"><span>Retail sales band</span><select id="cx_sales"></select></label>
+        <label class="fld"><span>Live licences</span><select id="cx_licences"></select></label>
+        <label class="fld"><span>Revenue concentration</span><select id="cx_conc"></select></label>
+        <label class="fld full"><span>Trademark coverage against the licence map <i style="font-style:normal;color:var(--faint)">&mdash; captured, never scored</i></span><select id="cx_trademark"></select></label>
+        <div class="full" id="snapshot" style="margin-top:4px">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:600;margin-bottom:8px">Revenue architecture · unscored, used to size and sequence</div>
+          <div class="grid" style="margin-top:0">
+            <label class="fld"><span>Annual royalty income</span><select id="cx_royalty"></select></label>
+            <label class="fld"><span>Guaranteed minimums as a share of royalty</span><select id="cx_guarantee"></select></label>
+            <label class="fld"><span>Overage as a share of royalty</span><select id="cx_overage"></select></label>
+            <label class="fld"><span>Royalty audit coverage, last two years</span><select id="cx_audit"></select></label>
+            <label class="fld"><span id="categoriesLabel">Live licensed categories</span><select id="cx_categories"></select></label>
+            <label class="fld"><span>Royalty income target <i style="font-style:normal;color:var(--faint)">— management-stated, optional</i></span><select id="cx_royalty_target"></select></label>
+            <label class="fld"><span>Target horizon</span><select id="cx_target_horizon"></select></label>
+          </div>
+        </div>
+        <div class="grp" id="linesGrp">
+          <div class="grpH">How this brand earns
+            <em>Capture the commercially material lines, their operating model and the evidence that they are current. This is not a product catalogue: use one line for a meaningful revenue stream, not one row per SKU. Unscored.</em>
+          </div>
+          <div id="linesRows"></div>
+          <button type="button" class="lineAdd" id="lineAdd">Add another line</button>
+          <p class="lineNote">Up to eight material lines. A named line must include its offer type, operating model, commercial status, territory and verification status. Every line captured here can then be assessed on its own eight-minute line cut from the dashboard — so name each material one, and nothing escapes assessment.</p>
+        </div>
+        <label class="fld full"><span id="challengeLabel">In your own view, what is the biggest challenge facing this brand?</span><select id="cx_challenge"></select></label>
+        <label class="fld"><span>Your name</span><input id="cx_rname" maxlength="120"></label>
+        <label class="fld"><span>Your role</span><input id="cx_rrole" placeholder="Brand team or licensee" maxlength="120"></label>
+        <label class="fld full"><span>Email for the report</span><input id="cx_remail" type="email" maxlength="200"></label>
+      </div>
+      <div class="note">The challenge question is never scored. It is compared with the diagnosed constraint — where the two differ, that gap is usually the most useful finding in the report.</div>
+    </div>
+
+    <div id="domains"></div>
+
+    <div class="card" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px;font-size:12.5px;color:var(--muted)" id="submitNote"></div>
+      <button type="button" class="btn" id="submitBtn" disabled>Submit assessment</button>
+    </div>
+    <div id="err"></div>
+    <div class="foot">Instrument: Unravel Index, brand-licensing adaptation · nine weighted domains · two threshold-anchored questions per domain · confidence reported separately · constraint candidates returned, including genuine ties.<br>Scoring happens on the server. Nothing on this page calculates your result.</div>
+  </div>
+
+  <!-- Done -->
+  <div id="done" class="state" hidden>
+    <div class="card">
+      <h1 class="page">Assessment returned</h1>
+      <p class="lede">Scored result for <b id="doneBrand"></b>, saved and sent to the portfolio team.</p>
+
+      <div class="res" id="resPanel">
+        <div class="resHead">
+          <div class="resIdx"><span id="resIdx">0</span><small>/ 100</small></div>
+          <div class="resBandWrap">
+            <span class="resBand" id="resBand">—</span>
+            <div class="scale" id="resScale"></div>
+            <div class="scaleLab" id="resScaleLab"></div>
+          </div>
+        </div>
+
+        <div class="cons">
+          <div class="ch">Constraint candidate</div>
+          <div class="cn" id="resConName">—</div>
+          <div class="cs"><span id="resConScore">0</span> / 100 — the lowest-scoring domain</div>
+          <p>Put simply: of the nine areas, this one scored lowest on your answers — it is the first place to look, not yet a proven problem. What happens next: the portfolio team checks which income it touches, agrees the fix with a named owner and a deadline, and the audit only calls the problem proven once that work visibly moves the numbers.</p>
+          <p id="resTie" hidden></p>
+          <p id="resAlign" hidden></p>
+        </div>
+
+        <div class="dom">
+          <div class="domH"><span>Domain</span><span>Score</span></div>
+          <div id="resDomains"></div>
+        </div>
+      </div>
+
+      <div class="secH" id="secH" hidden>
+        <h3>Section by section</h3>
+        <div class="c"><button type="button" id="openAll">Open all nine</button><button type="button" id="shutAll">Close all</button></div>
+      </div>
+      <p class="secL" id="secL" hidden>Each domain opens. It shows what your answers said, what is holding up, and what would have to become observably true to move it up a level — in the instrument's own thresholds, not commentary.</p>
+      <div id="resRules"></div>
+      <div id="resBite"></div>
+      <div id="resSections"></div>
+
+      <div class="kpis">
+        <div class="kpi"><div class="t">Questions scored</div><div class="v" id="doneQ">18</div></div>
+        <div class="kpi"><div class="t">Evidence cited</div><div class="v"><span id="doneEv">0</span><span style="font-size:12px;color:var(--faint)"> / <span id="doneQ2">18</span></span></div></div>
+        <div class="kpi"><div class="t">Domains to verify</div><div class="v" id="doneHeld">0</div></div>
+      </div>
+
+      <div class="rules" style="margin-top:18px">
+        <div class="rh">How to read this</div>
+        <p>Each domain is scored from its two threshold-anchored answers and converted to a percentage. Those nine scores are weighted into a single index between 20 and 100. The <b>lowest-scoring domain or tied domains</b> become constraint candidates — not automatically validated constraints.</p>
+        <p>Domains scored highly but flagged as <b>estimated</b> rather than evidenced are <b>listed for verification</b> against a royalty statement, a system export or a tracking study. Their scores are not adjusted, and the flag travels with the result.</p>
+        <p><b>The scale runs from 20 to 100 by construction, not 0 to 100.</b> Answering at level one on every question scores 20. Twenty is the floor, not a near miss.</p>
+        <p id="resHeldList" hidden></p>
+        <p style="color:var(--faint)">Scored on <span id="resVer">—</span>. Scoring runs on the server; nothing on this page calculated it.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="instrument.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
+
+  // Which instrument? 'brand' (one brand's engine) or 'company' (the house).
+  var params = new URLSearchParams(location.search);
+  var INSTKEY = (params.get('instrument') || 'brand').toLowerCase();
+  if (!window.UI[INSTKEY]) INSTKEY = 'brand';
+  var INST = window.UI[INSTKEY];
+
+  var D = INST.domains, Q = INST.questions, CONF = window.UI.confidence, CTX = INST.context;
+  // Operating mode (brand instrument only). Resolving the question set is a
+  // pure function of the mode; the base set is never mutated.
+  var MODE = 'multi';
+  function applyMode(m){
+    MODE = m;
+    if (INSTKEY !== 'brand' || !window.uiQuestionsForMode) return;
+    var next = window.uiQuestionsForMode(m);
+    // An answer given to one wording must not stand for another: clear the
+    // answer for any slot whose question object actually changed.
+    for (var k in next) (next[k] || []).forEach(function(q, j){
+      if (Q[k] && Q[k][j] !== q && state.answers[k]) {
+        delete state.answers[k][j === 0 ? 'a' : 'b'];
+      }
+    });
+    Q = next;
+  }
+  var QPD = INST.questionsPerDomain || 2;                   // questions per domain (licensee cut = 1)
+  var TOTAL_Q = D.length * QPD, TOTAL_IN = TOTAL_Q + D.length;
+  var IS_LICENSEE = INSTKEY === 'licensee';
+  var state = { answers:{}, confidence:{}, evidence:{}, partner:null, registry:[], openFix:null, sending:false,
+                completionId:'', brandId:'', constraintLines:[], constraintPlacements:{}, lastResult:null };
+  D.forEach(function(d){ state.evidence[d.key] = { a:'', b:'' }; });
+
+  /* ── Access gate ──────────────────────────────────────────────────────── */
+  function gateMessage(title, body, showDash){
+    $('gateCard').innerHTML = '<h1 class="page">'+esc(title)+'</h1><p class="lede">'+esc(body)+'</p>'
+      + (showDash ? '<p class="note" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line)">Portfolio team looking for results? <a href="/dashboard.html" style="color:var(--brand);font-weight:600">Open the portfolio dashboard &rarr;</a> (access code and dashboard password required)</p>' : '');
+  }
+
+  /* No coded link → open the demonstration account. Client assessments keep
+     their coded links; the demonstration is simply what a bare visit shows.
+     The server still decides what the code may see — nothing is bypassed. */
+  var code = params.get('code');
+  var demoMode = !code;
+  if (demoMode) {
+    code = 'BRANDS-DEMO-P8W3';
+    $('gateCard').innerHTML = '<h1 class="page">Opening the demonstration&hellip;</h1>'
+      + '<p class="lede">No access link supplied, so this opens as the demonstration account. Client assessments open from their own coded links.</p>';
+  }
+  {
+    fetch('/api/partner?code=' + encodeURIComponent(code))
+      .then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j }; }); })
+      .then(function(res){
+        if (!res.ok || !res.j.valid) {
+          gateMessage('That link did not open', res.j.error || 'The access code was not recognised.');
+          return;
+        }
+        if (res.j.atCapacity) { gateMessage('Allocation reached', res.j.message); return; }
+        state.partner = res.j;
+        if (res.j.partnerName) $('partnerName').textContent = res.j.partnerName.toUpperCase();
+        if (res.j.badgeLabel && /marquee/i.test(res.j.badgeLabel + res.j.partnerName)) {
+          document.body.setAttribute('data-theme','marquee');
+        }
+        $('gate').hidden = true;
+        $('app').hidden = false;
+        build();
+        initPager();
+        if(INSTKEY==='brand') loadRegistry(code);
+      })
+      .catch(function(){
+        gateMessage('Could not reach the server',
+          'Nothing has been lost. Check your connection and reload the page — if it keeps happening, tell the programme team.');
+      });
+  }
+
+  /* ── Build ────────────────────────────────────────────────────────────── */
+  function fill(sel, list){
+    $(sel).innerHTML = list.map(function(o){ return '<option>'+esc(o)+'</option>'; }).join('');
+  }
+  function fillOptional(sel, list){
+    $(sel).innerHTML = '<option value="">Select&hellip;</option>'
+      + (list || []).map(function(o){ return '<option>'+esc(o)+'</option>'; }).join('');
+  }
+
+  function loadRegistry(accessCode){
+    fetch('/api/registry?code='+encodeURIComponent(accessCode))
+      .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+      .then(function(res){
+        if(!res.ok||!res.j.available||!Array.isArray(res.j.brands)||!res.j.brands.length)return;
+        state.registry=res.j.brands;
+        $('brandRegistryList').innerHTML=state.registry.map(function(b){return '<option value="'+esc(b.canonicalName)+'"></option>'}).join('');
+        $('registryLoad').hidden=false;
+        $('registryMsg').textContent=state.registry.length+' governed brand record'+(state.registry.length===1?'':'s')+' available.';
+        $('registryBtn').onclick=applyRegistryRecord;
+        $('cx_name').addEventListener('change',function(){
+          var found=findRegistry($('cx_name').value);
+          if(found){
+            /* The mapped record loads itself the moment an exact governed
+               name is chosen — every mapped commercial line lands in the
+               form so nothing escapes assessment. Typed line names are never
+               overwritten: auto-load only fills an empty grid; the button
+               re-loads deliberately. */
+            var hasTyped=[].slice.call($('linesRows').querySelectorAll('input')).some(function(inp){return inp.value.trim()});
+            if(!hasTyped){ applyRegistryRecord(); return; }
+            $('registryMsg').textContent='A governed record matches this name. Load it to replace the lines below with the mapped ones.';
+          } else {
+            $('registryMsg').textContent='No exact governed match; complete the ontology manually.';
+          }
+        });
+      }).catch(function(){ /* Optional registry: manual ontology remains available. */ });
+  }
+  function findRegistry(name){
+    var n=String(name||'').trim().toLowerCase();
+    return state.registry.find(function(b){return String(b.canonicalName||'').trim().toLowerCase()===n})||null;
+  }
+  function applyRegistryRecord(){
+    var b=findRegistry($('cx_name').value), msg=$('registryMsg');
+    if(!b){msg.textContent='Choose an exact brand name from the governed list first.';return;}
+    state.brandId=b.brandId||'';
+    function set(id,v){var el=$(id);if(el&&v!=null)el.value=v;}
+    set('cx_name',b.canonicalName); set('cx_brand_family',b.brandFamily); set('cx_platform',b.platform);
+    set('cx_portfolio_status',b.portfolioStatus); set('cx_relationship',b.relationshipToPortfolio);
+    set('cx_territories',b.primaryTerritories); set('cx_registry_source',b.registrySource);
+    set('cx_registry_url',b.registrySourceUrl); set('cx_registry_verification',b.registryVerificationStatus);
+    set('cx_registry_verified',b.registryVerifiedAt);
+    $('linesRows').innerHTML='';
+    (b.lines||[]).slice(0,CTX.linesMax||8).forEach(function(l){addLine(l)});
+    if(!$('linesRows').children.length)addLine();
+    syncLineAdd();paint();
+    msg.textContent='Governed record loaded. Review it before submitting; changes apply to this assessment snapshot only.';
+  }
+
+  // Renders the nine domain cards from the CURRENT question set and wires
+  // their handlers. Called once at build, and again whenever the operating
+  // mode swaps a question — the swap clears only the affected answers.
+  function renderDomains(){
+    $('domains').innerHTML = D.map(function(d,i){
+      return '<div class="card" id="dom_'+d.key+'">'
+        + '<div class="dhead"><span class="dnum">'+(i+1)+'</span><span class="dname">'+esc(d.name)+'</span>'
+        +   '<span class="pill '+d.role.toLowerCase()+'">'+esc(d.role)+'</span>'
+        +   '<span class="dcount" id="cnt_'+d.key+'">0 of '+QPD+' answered</span></div>'
+        + '<div class="dt">'+esc(d.t)+'</div>'
+        + Q[d.key].map(function(q,j){ return questionHTML(d.key, j, q); }).join('')
+        + confHTML(d)
+        + (d.move ? '<button type="button" class="ghost" data-fix="'+esc(d.key)+'">What we would do about it</button>' : '')
+        + '<div class="fix" id="fix_'+d.key+'" hidden>'
+        +   '<div class="fh">If evidence confirms this as the priority constraint</div>'
+        +   '<div class="fixgrid">'
+        +     '<div><div class="k">The move</div><div class="v strong">'+esc(d.move)+'</div></div>'
+        +     '<div><div class="k">Why it releases the constraint</div><div class="v">'+esc(d.why)+'</div></div>'
+        +     '<div><div class="k">Time to effect</div><div class="v">'+esc(d.when)+'</div></div>'
+        +     '<div><div class="k">Proof it moved</div><div class="v">'+esc(d.proof)+'</div></div>'
+        +   '</div>'
+        +   '<div style="padding:0 16px 16px;font-size:11.5px;color:var(--faint)">Shown for orientation only. The report recommends against the diagnosed constraint, not against every domain.</div>'
+        + '</div></div>';
+    }).join('');
+
+    document.querySelectorAll('[data-fix]').forEach(function(b){
+      b.onclick = function(){
+        var el = $('fix_' + b.dataset.fix);
+        el.hidden = !el.hidden;
+        b.textContent = el.hidden ? 'What we would do about it' : 'Hide the intervention';
+      };
+    });
+    document.querySelectorAll('.opt').forEach(function(b){
+      b.onclick = function(){
+        state.answers[b.dataset.d] = state.answers[b.dataset.d] || {};
+        state.answers[b.dataset.d][b.dataset.q] = Number(b.dataset.lv);
+        paint();
+      };
+    });
+    document.querySelectorAll('.copt').forEach(function(b){
+      b.onclick = function(){ state.confidence[b.dataset.d] = b.dataset.k; paint(); };
+    });
+    document.querySelectorAll('[data-ev]').forEach(function(inp){
+      inp.oninput = function(){ state.evidence[inp.dataset.d][inp.dataset.q] = inp.value; paint(); };
+    });
+  }
+
+  function build(){
+    // Copy that differs between the two instruments.
+    document.querySelector('h1.page').textContent = INST.headline;
+    document.querySelector('.lede').textContent = INST.lede;
+    $('subjectLabel').textContent = INST.subjectLabel;
+    $('instBadge').textContent = INST.name;
+    $('cx_name').placeholder = INSTKEY === 'company' ? 'e.g. Marquee Brands' : 'e.g. Ben Sherman';
+    $('progLabel').textContent = '0 of ' + TOTAL_IN + ' inputs complete';
+    $('confLabel').textContent = D.length + ' domains unflagged';
+    $('submitTop').textContent = TOTAL_Q + ' questions left';
+    if (IS_LICENSEE) {
+      $('snapshot').style.display = 'none';
+      $('ontologyGrp').style.display = 'none';
+      $('challengeLabel').textContent = 'In your own view, what is the biggest thing holding this brand back commercially?';
+      $('cx_rrole').placeholder = 'Licensee — your role';
+      var labs = INST.contextLabels || {};
+      var setLab = function(sel, txt){ var el = $(sel); if (el && txt) el.previousElementSibling && (el.parentNode.querySelector('span').textContent = txt); };
+      setLab('cx_years', labs.years); setLab('cx_sales', labs.sales); setLab('cx_licences', labs.licences); setLab('cx_conc', labs.concentration);
+      document.querySelector('.tiles').innerHTML = '<div class="tile"><div class="h">Ten minutes, nine questions</div><div class="b">One per domain, from your side of the relationship. There are no wrong answers and nothing here is a judgement of you as a licensee.</div></div>'
+        + '<div class="tile"><div class="h">It is read beside the brand team\u2019s view</div><div class="b">Where the two views differ, that is the finding. Answer as you actually experience it.</div></div>'
+        + '<div class="tile"><div class="h">No score is shown</div><div class="b">Scoring happens after submission, on the server.</div></div>'
+        + '<div class="tile"><div class="h">Your answers are confidential to the portfolio team</div><div class="b">They are not shared back to the brand team as a named response.</div></div>';
+    } else {
+      $('categoriesLabel').textContent = INSTKEY === 'company' ? 'Live licensed categories across the portfolio' : 'Live licensed categories';
+      $('challengeLabel').textContent = INSTKEY === 'company' ? 'In your own view, what is the biggest challenge facing the portfolio?' : 'In your own view, what is the biggest challenge facing this brand?';
+    }
+    $('methodIntro').innerHTML = D.length + ' domains, weighted. Four are <b>primary</b> — they generate revenue directly. The rest are <b>enablers</b> — they set the ceiling on what the primaries can achieve. Any domain can become the lowest-scoring candidate; evidence, materiality and action determine whether it becomes a priority constraint.';
+    if (INSTKEY === 'company') $('platformField').style.display = 'none';
+
+    fill('cx_platform', CTX.platforms);
+    fill('cx_years', CTX.years);
+    fill('cx_sales', CTX.sales);
+    fill('cx_licences', CTX.licences);
+    fill('cx_conc', CTX.concentration);
+    if (CTX.royalty)    fill('cx_royalty', CTX.royalty);
+    if (CTX.guarantee)  fill('cx_guarantee', CTX.guarantee);
+    if (CTX.overage)    fill('cx_overage', CTX.overage);
+    if (CTX.audit)      fill('cx_audit', CTX.audit);
+    if (CTX.categories) fill('cx_categories', CTX.categories);
+    if (CTX.royalty && $('cx_royalty_target')) fillOptional('cx_royalty_target', CTX.royalty);
+    if ($('cx_target_horizon')) fillOptional('cx_target_horizon', ['Next 12 months','1–2 years','2–3 years','Beyond 3 years']);
+    if (CTX.trademark) fill('cx_trademark', CTX.trademark);
+    else { var tf=$('cx_trademark'); if(tf) tf.closest('label').style.display='none'; }
+    if (INSTKEY === 'brand' && CTX.ontology) {
+      fillOptional('cx_portfolio_status', CTX.ontology.portfolioStatus);
+      fillOptional('cx_relationship', CTX.ontology.relationshipToPortfolio);
+      fillOptional('cx_registry_verification', CTX.ontology.verificationStatus);
+    } else if (INSTKEY !== 'brand') {
+      $('ontologyGrp').style.display = 'none';
+    }
+    if (INSTKEY === 'brand' && window.UI_MODES) {
+      $('modeGrp').hidden = false;
+      $('modeChips').innerHTML = window.UI_MODES.map(function(m){
+        return '<button type="button" data-mode="' + m.key + '" aria-pressed="' + (m.key === MODE) + '">'
+             + '<b>' + esc(m.label) + '</b><small>' + esc(m.hint) + '</small></button>';
+      }).join('');
+      $('modeChips').querySelectorAll('button').forEach(function(b){
+        b.onclick = function(){
+          if (b.dataset.mode === MODE) return;
+          applyMode(b.dataset.mode);
+          $('modeChips').querySelectorAll('button').forEach(function(x){
+            x.setAttribute('aria-pressed', String(x.dataset.mode === MODE));
+          });
+          // operated brands have no royalty architecture to describe
+          $('snapshot').style.display = MODE === 'operated' ? 'none' : '';
+          renderDomains();
+          paint();
+        };
+      });
+      applyMode(MODE);
+    }
+    if (CTX.lineTypes && !IS_LICENSEE && INSTKEY !== 'company') { initLines(); }
+    else { var lg = $('linesGrp'); if (lg) lg.style.display = 'none'; }
+    $('cx_challenge').innerHTML = D.map(function(d){
+      return '<option value="'+esc(d.key)+'">'+esc(d.name)+'</option>';
+    }).join('');
+
+    $('methodRows').innerHTML = D.map(function(d){
+      return '<tr><td>'+esc(d.name)+'</td><td><span class="pill '+d.role.toLowerCase()+'">'+esc(d.role)+'</span></td>'
+           + '<td class="n" style="text-align:right;max-width:280px">'+esc(d.t)+'</td></tr>';
+    }).join('');
+
+    $('methodBtn').onclick = function(){
+      var p = $('methodPanel');
+      p.hidden = !p.hidden;
+      this.textContent = p.hidden ? 'How the index is built, and what it does with your answers' : 'Hide the method';
+    };
+
+    renderDomains();
+    $('cx_name').oninput = function(){
+      var match=findRegistry(this.value);
+      if(!match||match.brandId!==state.brandId) state.brandId='';
+      paint();
+    };
+    if (INSTKEY === 'brand') {
+      ['cx_portfolio_status','cx_relationship','cx_territories','cx_registry_verification'].forEach(function(id){
+        if ($(id)) { $(id).oninput = paint; $(id).onchange = paint; }
+      });
+    }
+    $('submitBtn').onclick = submit;
+    $('submitTop').onclick = function(){
+      if (!$('submitBtn').disabled) submit();
+      else document.querySelector('#domains .card').scrollIntoView({ behavior:'smooth' });
+    };
+    paint();
+  }
+
+  function questionHTML(key, j, q){
+    var slot = j === 0 ? 'a' : 'b';
+    return '<div class="q"><div class="qid">'+esc(q[0])+'</div><div class="qtx">'+esc(q[1])+'</div>'
+      + '<div class="opts" role="group" aria-label="'+esc(q[0])+'">'
+      + q[2].map(function(o,li){
+          return '<button type="button" class="opt" aria-pressed="false" data-d="'+esc(key)+'" data-q="'+slot+'" data-lv="'+(li+1)+'">'
+            + '<span class="lv">'+(li+1)+'</span>'
+            + '<span><span class="lab">'+esc(o[0])+'</span> — '+esc(o[1])
+            + '<span class="metric">'+esc(o[2])+'</span></span></button>';
+        }).join('')
+      + '</div>'
+      + '<label class="ev"><span>What would you point to as evidence?</span>'
+      + '<input data-ev data-d="'+esc(key)+'" data-q="'+slot+'" maxlength="500" placeholder="A document, a report, a system, a meeting rhythm — or &quot;nothing yet&quot;"></label></div>';
+  }
+
+  function confHTML(d){
+    return '<div class="conf"><div class="ch">Confidence flag · required</div>'
+      + '<div class="cd">How solid are the two answers above? This is not a judgement of the brand — it tells the analyst how much weight the score can carry.</div>'
+      + '<div class="confopts" role="group" aria-label="Confidence for '+esc(d.name)+'">'
+      + CONF.map(function(c){
+          return '<button type="button" class="copt" aria-pressed="false" data-k="'+esc(c.k)+'" data-d="'+esc(d.key)+'">'
+            + '<b>'+esc(c.label)+'</b>'+esc(c.desc)+'</button>';
+        }).join('')
+      + '</div><div class="held" id="held_'+esc(d.key)+'" hidden>'
+      + '<b>Flagged for verification.</b> Your score is unchanged. This domain will be marked in the report as resting on judgement rather than evidence — worth noting what would settle it, above.'
+      + '</div></div>';
+  }
+
+  /* ── Paint ────────────────────────────────────────────────────────────── */
+  function paint(){
+    var answered = 0, flagged = 0;
+
+    D.forEach(function(d){
+      var a = state.answers[d.key] || {};
+      var n = (a.a ? 1 : 0) + (QPD > 1 && a.b ? 1 : 0);
+      answered += n;
+      if (state.confidence[d.key]) flagged++;
+      $('cnt_' + d.key).textContent = n + ' of ' + QPD + ' answered' + (state.confidence[d.key] ? ' · flagged' : '');
+
+      var optimistic = state.confidence[d.key] === 'estimated' && ((a.a > 3) || (a.b > 3));
+      $('held_' + d.key).hidden = !optimistic;
+    });
+
+    document.querySelectorAll('.opt').forEach(function(b){
+      var a = state.answers[b.dataset.d] || {};
+      b.setAttribute('aria-pressed', String(a[b.dataset.q] === Number(b.dataset.lv)));
+    });
+    document.querySelectorAll('.copt').forEach(function(b){
+      b.setAttribute('aria-pressed', String(state.confidence[b.dataset.d] === b.dataset.k));
+    });
+
+    var total = answered + flagged;
+    $('progLabel').textContent = total + ' of ' + TOTAL_IN + ' inputs complete — ' + answered + ' of ' + TOTAL_Q + ' answers, ' + flagged + ' of ' + D.length + ' confidence flags';
+    $('progBar').style.width = Math.round(total / TOTAL_IN * 100) + '%';
+    $('confLabel').textContent = flagged === D.length ? 'All domains flagged' : (D.length - flagged) + ' domains unflagged';
+
+    var named = $('cx_name').value.trim().length > 0;
+    var ontReady = ontologyReady();
+    var ready = answered === TOTAL_Q && flagged === D.length && named && ontReady;
+    var label;
+    if (answered < TOTAL_Q) label = (TOTAL_Q - answered) + ' questions left';
+    else if (flagged < D.length) label = (D.length - flagged) + ' confidence flags left';
+    else if (!named) label = 'Name the ' + INST.subjectLabel.toLowerCase() + ' to submit';
+    else if (!ontReady) label = 'Complete the brand identity and commercial lines';
+    else label = 'Submit assessment';
+
+    $('submitTop').textContent = state.sending ? 'Sending…' : label;
+    $('submitTop').disabled = !ready || state.sending;
+    $('submitBtn').disabled = !ready || state.sending;
+    $('submitBtn').textContent = state.sending ? 'Sending…' : 'Submit assessment';
+    $('submitNote').textContent = ready
+      ? 'Answers, evidence and confidence flags are sent to the portfolio team. Scoring happens on the server — you will not see a number here.'
+      : label + ' — answers, evidence and confidence flags are held against this brand once submitted.';
+  }
+
+  /* ── Submit ───────────────────────────────────────────────────────────── */
+  function submit(){
+    if (state.sending) return;
+    state.sending = true; $('err').innerHTML = ''; paint();
+
+    var payload = {
+      instrument: INSTKEY,
+      partnerCode: state.partner.partnerCode,
+      brand: {
+        name: $('cx_name').value.trim(),
+        canonicalName: $('cx_name').value.trim(),
+        brandId: state.brandId || '',
+        brandFamily: INSTKEY === 'brand' ? $('cx_brand_family').value.trim() : '',
+        portfolioStatus: INSTKEY === 'brand' ? $('cx_portfolio_status').value : '',
+        relationshipToPortfolio: INSTKEY === 'brand' ? $('cx_relationship').value : '',
+        primaryTerritories: INSTKEY === 'brand' ? $('cx_territories').value.trim() : '',
+        registrySource: INSTKEY === 'brand' ? $('cx_registry_source').value.trim() : '',
+        registrySourceUrl: INSTKEY === 'brand' ? $('cx_registry_url').value.trim() : '',
+        registryVerificationStatus: INSTKEY === 'brand' ? $('cx_registry_verification').value : '',
+        registryVerifiedAt: INSTKEY === 'brand' ? $('cx_registry_verified').value : '',
+        platform: $('cx_platform').value,
+        yearsInPortfolio: $('cx_years').value,
+        salesBand: $('cx_sales').value,
+        licenceCount: $('cx_licences').value,
+        concentration: $('cx_conc').value,
+        // Revenue-architecture snapshot (brand & company only; blank for licensee)
+        royaltyBand: IS_LICENSEE ? '' : $('cx_royalty').value,
+        guaranteeShare: IS_LICENSEE ? '' : $('cx_guarantee').value,
+        overageShare: IS_LICENSEE ? '' : $('cx_overage').value,
+        auditCoverage: IS_LICENSEE ? '' : $('cx_audit').value,
+        categoryCount: IS_LICENSEE ? '' : $('cx_categories').value,
+        royaltyTargetBand: (IS_LICENSEE || !$('cx_royalty_target')) ? '' : $('cx_royalty_target').value,
+        targetHorizon: (IS_LICENSEE || !$('cx_target_horizon')) ? '' : $('cx_target_horizon').value,
+        lines: (IS_LICENSEE || INSTKEY === 'company') ? [] : readLines(),
+        mode: INSTKEY === 'brand' ? MODE : '',
+        trademark: (CTX.trademark && $('cx_trademark')) ? $('cx_trademark').value : ''
+      },
+      respondent: {
+        name: $('cx_rname').value.trim(),
+        role: $('cx_rrole').value.trim(),
+        email: $('cx_remail').value.trim()
+      },
+      statedChallenge: $('cx_challenge').value,
+      answers: state.answers,
+      confidence: state.confidence,
+      evidence: state.evidence
+    };
+
+    fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j }; }); })
+      .then(function(res){
+        state.sending = false;
+        if (!res.ok || !res.j.saved) { showError(res.j.error || 'That did not save.'); paint(); return; }
+        state.completionId = res.j.completionId || '';
+        state.brandId = res.j.brandId || state.brandId || '';
+        state.lastResult = res.j.result || null;
+        $('doneQ').textContent = TOTAL_Q; $('doneQ2').textContent = TOTAL_Q;
+        if (IS_LICENSEE) document.querySelector('#done .lede').innerHTML = 'Scored result for <b id="doneBrand"></b>, saved and read beside the brand team\u2019s view of the same domains.';
+        $('doneBrand').textContent = res.j.brand;
+        $('doneEv').textContent = res.j.evidenceCount;
+        $('doneHeld').textContent = res.j.heldCount;
+        renderResult(res.j.result);
+        $('app').hidden = true;
+        $('done').hidden = false;
+        window.scrollTo(0, 0);
+      })
+      .catch(function(){
+        // Never a silent failure. The respondent must know it did not save.
+        state.sending = false;
+        showError('That did not reach the server. Nothing was lost — your answers are still on this page. Check your connection and press submit again.');
+        paint();
+      });
+  }
+
+  /**
+   * Paint the scored result returned by the server. Every number here comes
+   * from /api/submit — this function does no arithmetic beyond bar widths.
+   * If the server sends no result block, the panel is hidden rather than
+   * showing zeros.
+   */
+  function renderResult(r){
+    var panel = $('resPanel');
+    if (!r || typeof r.overall !== 'number') { if (panel) panel.hidden = true; return; }
+    panel.hidden = false;
+
+    $('resIdx').textContent = r.overall;
+    $('resBand').textContent = r.band || '';
+    $('resVer').textContent = r.weightingVersion || '—';
+    $('resSubjWord').textContent = INSTKEY === 'company' ? 'company' : 'brand';
+
+    // Band scale — the reached band and everything below it are filled.
+    var bands = r.bands || [], hitIdx = -1;
+    bands.forEach(function(b, i){ if (r.overall >= b.min && r.overall <= b.max) hitIdx = i; });
+    $('resScale').innerHTML = bands.map(function(b, i){
+      return '<div class="sb' + (i <= hitIdx ? ' on' : '') + '"></div>';
+    }).join('');
+    $('resScaleLab').innerHTML = bands.map(function(b, i){
+      return '<span class="' + (i === hitIdx ? 'on' : '') + '">' + esc(b.name) + '</span>';
+    }).join('');
+    $('resBandNote');
+
+    $('resConName').textContent = (r.constraintTiedNames&&r.constraintTiedNames.length>1)?r.constraintTiedNames.join(' / '):(r.constraintName||'');
+    $('resConScore').textContent = r.constraintScore;
+
+    // Scores move in fixed steps, so two domains sitting equally lowest is
+    // common and it matters: there is no single weakest link to fix first.
+    var tie = $('resTie'), tied = r.constraintTiedNames || [];
+    if (tied.length > 1) {
+      tie.hidden = false;
+      tie.innerHTML = '<b>Equally lowest:</b> ' + esc(tied.join(', ')) + '. '
+        + 'Nothing separates them on this evidence. Keep the tie open, place each candidate against its affected lines and use evidence to decide whether either becomes the priority constraint.';
+    } else { tie.hidden = true; }
+
+    // Did the respondent's own answer match the diagnosis? Worth saying either way.
+    var al = $('resAlign');
+    if (r.statedChallenge && r.statedChallenge.stated) {
+      al.hidden = false;
+      al.innerHTML = r.statedChallenge.aligned
+        ? 'This matches what you named as the biggest challenge before answering.'
+        : 'You named <b>' + esc(r.statedChallenge.statedName) + '</b> as the biggest challenge before answering. The instrument diagnoses a different domain. That gap is worth discussing rather than resolving on the spot.';
+    } else { al.hidden = true; }
+
+    // Nine domain rows, canonical order.
+    $('resDomains').innerHTML = (r.domains || []).map(function(d){
+      var chips = (d.constraint ? '<span class="chip con">constraint</span>' : '')
+                + (d.held ? '<span class="chip ver">verify</span>' : '');
+      return '<div class="dr' + (d.constraint ? ' isCon' : '') + '">'
+        + '<div><div class="dn">' + esc(d.name) + chips + '</div>'
+        + '<div class="dw">' + d.weight + '% weight · ' + esc(d.confidence || '') + '</div></div>'
+        + '<div class="dt"><div class="df" style="width:' + Math.max(2, Math.min(100, d.score)) + '%"></div></div>'
+        + '<div class="dv">' + d.score + '</div>'
+        + '</div>';
+    }).join('');
+
+    renderRules(r);
+    renderBite(r);
+    renderSections(r);
+
+    var held = r.heldForVerification || [], hl = $('resHeldList');
+    if (held.length) {
+      var names = (r.domains || []).filter(function(d){ return d.held; }).map(function(d){ return d.name; });
+      hl.hidden = false;
+      hl.innerHTML = '<b>Held for verification:</b> ' + esc(names.join(', ')) + '.';
+    } else { hl.hidden = true; }
+  }
+
+  /**
+   * The section-by-section breakdown. Every line of assessment copy here is
+   * pulled from the instrument's own threshold text — the level the respondent
+   * chose is what is true now, and the level above it is what would have to
+   * become observably true next. Nothing is written after the fact.
+   *
+   * Level 4 (evidenced) and 5 (tracked) count as holding up; 1-3 need to change.
+   */
+  /* ── Revenue lines ──────────────────────────────────────────────────────
+     Up to six named lines per brand. Unscored throughout: they size and
+     place the finding, they never touch the index. Rows with no name are
+     dropped on submit, so a half-filled row cannot corrupt the payload.  */
+  function lineRow(v){
+    v = v || {};
+    var opt = function(list, sel){
+      return list.map(function(o){
+        return '<option' + (o === sel ? ' selected' : '') + '>' + esc(o) + '</option>';
+      }).join('');
+    };
+    var row = document.createElement('div');
+    row.className = 'lineRow';
+    row.innerHTML = '<div class="lineCore">'
+      + '<input class="ln" maxlength="80" placeholder="Material line, e.g. Cookware" value="' + esc(v.name || '') + '">'
+      + '<select class="lt"><option value="">Offer type&hellip;</option>' + opt(CTX.lineTypes, v.offeringType || v.type) + '</select>'
+      + '<select class="lom"><option value="">Operating model&hellip;</option>' + opt(CTX.lineOperatingModels || [], v.operatingModel) + '</select>'
+      + '<select class="lstatus"><option value="">Status&hellip;</option>' + opt(CTX.lineStatuses || [], v.commercialStatus) + '</select>'
+      + '<select class="ls"><option value="">Income share&hellip;</option>' + opt(CTX.lineShare, v.share) + '</select>'
+      + '<button type="button" class="del" title="Remove this line">&times;</button></div>'
+      + '<div class="lineMeta">'
+      + '<input class="lterritory" maxlength="120" placeholder="Territory, e.g. Global" value="'+esc(v.territory||'')+'">'
+      + '<input class="lpartner" maxlength="120" placeholder="Partner / licensee" value="'+esc(v.partner||'')+'">'
+      + '<input class="lchannel" maxlength="120" placeholder="Primary channel" value="'+esc(v.channel||'')+'">'
+      + '<select class="ll"><option value="">Licensees&hellip;</option>' + opt(CTX.lineLicensees, v.licensees) + '</select>'
+      + '<select class="lr"><option value="">Next renewal&hellip;</option>' + opt(CTX.lineRenewal, v.renewal) + '</select>'
+      + '<select class="lverify"><option value="">Verification&hellip;</option>' + opt((CTX.ontology&&CTX.ontology.verificationStatus)||[], v.verificationStatus) + '</select>'
+      + '<input class="lsource" maxlength="160" placeholder="Evidence source" value="'+esc(v.sourceLabel||'')+'">'
+      + '<input class="lsourceurl" type="url" maxlength="500" placeholder="Source URL" value="'+esc(v.sourceUrl||'')+'">'
+      + '<input class="lverified" type="date" value="'+esc(v.verifiedAt||'')+'">'
+      + '</div>';
+    row.querySelector('.del').onclick = function(){
+      row.remove();
+      if (!$('linesRows').children.length) addLine();
+      syncLineAdd();
+    };
+    row.querySelectorAll('input,select').forEach(function(el){ el.oninput=paint; el.onchange=paint; });
+    return row;
+  }
+  function addLine(v){ $('linesRows').appendChild(lineRow(v)); syncLineAdd(); }
+  function syncLineAdd(){
+    var n = $('linesRows').children.length, max = CTX.linesMax || 6;
+    $('lineAdd').style.display = n >= max ? 'none' : '';
+  }
+  function initLines(){
+    $('linesRows').innerHTML = '';
+    addLine();
+    $('lineAdd').onclick = function(){ addLine(); };
+  }
+  function readLines(){
+    var out = [], rows = $('linesRows') ? $('linesRows').children : [];
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i], nm = (r.querySelector('.ln').value || '').trim();
+      if (!nm) continue;                       // an unnamed line is not a line
+      out.push({ name:nm,
+                 lineId:'',
+                 type:r.querySelector('.lt').value || '',
+                 offeringType:r.querySelector('.lt').value || '',
+                 operatingModel:r.querySelector('.lom').value || '',
+                 commercialStatus:r.querySelector('.lstatus').value || '',
+                 territory:(r.querySelector('.lterritory').value || '').trim(),
+                 partner:(r.querySelector('.lpartner').value || '').trim(),
+                 channel:(r.querySelector('.lchannel').value || '').trim(),
+                 share:r.querySelector('.ls').value || '',
+                 licensees:r.querySelector('.ll').value || '',
+                 renewal:r.querySelector('.lr').value || '',
+                 sourceLabel:(r.querySelector('.lsource').value || '').trim(),
+                 sourceUrl:(r.querySelector('.lsourceurl').value || '').trim(),
+                 verificationStatus:r.querySelector('.lverify').value || '',
+                 verifiedAt:r.querySelector('.lverified').value || '' });
+    }
+    return out;
+  }
+
+  function ontologyReady(){
+    if (INSTKEY !== 'brand') return true;
+    if (!$('cx_portfolio_status').value || !$('cx_relationship').value ||
+        !$('cx_territories').value.trim() || !$('cx_registry_verification').value) return false;
+    var lines = r && Array.isArray(r.commercialLines) && r.commercialLines.length ? r.commercialLines : readLines();
+    if (!lines.length) return false;
+    for (var i=0;i<lines.length;i++) {
+      var l=lines[i];
+      if (!l.offeringType || !l.operatingModel || !l.commercialStatus || !l.territory || !l.verificationStatus) return false;
+    }
+    return true;
+  }
+
+  /* ── Context findings ───────────────────────────────────────────────────
+     A domain score says where the brand is; the revenue architecture says
+     what that costs. These fire only where the two combine. Capped at four:
+     a report opening with ten findings has ranked nothing.               */
+  function renderRules(r){
+    var host = $('resRules');
+    if (!host) return;
+    host.innerHTML = ''; host.className = '';
+    if (!r || !r.domains || !window.uiRulesFired || INSTKEY !== 'brand') return;
+    var scores = {};
+    r.domains.forEach(function(d){ scores[d.key] = d.score; });
+    var ctx = {
+      guarantee: $('cx_guarantee') ? $('cx_guarantee').value : '',
+      audit: $('cx_audit') ? $('cx_audit').value : '',
+      overage: $('cx_overage') ? $('cx_overage').value : '',
+      categories: $('cx_categories') ? $('cx_categories').value : '',
+      concentration: $('cx_conc').value,
+      licences: $('cx_licences').value,
+      years: $('cx_years').value,
+      royalty: $('cx_royalty') ? $('cx_royalty').value : '',
+      trademark: $('cx_trademark') ? $('cx_trademark').value : '',
+      sales: $('cx_sales').value
+    };
+    var fired = [];
+    try { fired = window.uiRulesFired(scores, ctx) || []; } catch (e) { fired = []; }
+    if (!fired.length) return;
+    host.className = 'rules';
+    host.innerHTML = '<div class="rh">What your answers and your revenue structure say together</div>'
+      + fired.slice(0, 4).map(function(x){
+          return '<div class="rule ' + (x.severity === 'high' ? 'high' : '') + '">'
+               + '<div class="rt">' + esc(x.title) + '</div>'
+               + '<div class="rs">' + esc(x.says) + '</div>'
+               + '<ol>' + x.actions.map(function(a){
+                   return '<li>' + esc(a.t) + '<span>' + esc(a.owner) + '</span></li>'; }).join('') + '</ol>'
+               + '<div class="rm"><b>Proof it moved:</b> ' + esc(x.metric) + '</div></div>';
+        }).join('');
+  }
+
+  /* Where the constraint actually bites. One assessment per brand; the lines
+     locate the finding inside it. Selection is local to this screen and
+     travels with the submitted payload only if made before submit.       */
+  function renderBite(r){
+    var host = $('resBite');
+    if (!host) return;
+    host.innerHTML = ''; host.className = '';
+    var lines = readLines();
+    if (!r || !r.constraintName || !lines.length || INSTKEY !== 'brand') return;
+    var candidates = r.constraintCandidates || (r.constraintKey ? [r.constraintKey] : []);
+    var byKey = {};
+    (r.domains || []).forEach(function(d){ byKey[d.key]=d; });
+    state.constraintPlacements = {};
+    candidates.forEach(function(k){ state.constraintPlacements[k]=[]; });
+    host.className = 'bite';
+    host.innerHTML = '<div class="bh">Place the constraint candidate on the commercial engine</div>'
+      + '<div class="bs">Select the material lines each candidate actually affects. This establishes where the finding is commercially relevant; it does not change the index.</div>'
+      + candidates.map(function(k){
+          var d=byKey[k]||{name:k};
+          return '<div style="margin-top:10px"><b style="font-size:12px;color:var(--ink)">'+esc(d.name)+'</b>'
+            +'<div class="chips" data-domain="'+esc(k)+'" style="margin-top:6px">'+lines.map(function(l,i){
+              return '<button type="button" data-i="'+i+'" data-line="'+esc(l.lineId||l.name)+'" aria-pressed="false">'+esc(l.name)+'</button>';
+            }).join('')+'</div></div>';
+        }).join('')
+      + '<div class="saveRow"><button type="button" class="btn" id="savePlacement">Save affected lines</button><span class="saveMsg" id="placementMsg"></span></div>';
+    var btns = host.querySelectorAll('.chips button');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].onclick = function(){
+        var on = this.getAttribute('aria-pressed') === 'true';
+        this.setAttribute('aria-pressed', on ? 'false' : 'true');
+        var domain=this.closest('.chips').dataset.domain;
+        state.constraintPlacements[domain]=[];
+        var all=this.closest('.chips').querySelectorAll('button[aria-pressed="true"]');
+        for(var j=0;j<all.length;j++) state.constraintPlacements[domain].push(all[j].dataset.line);
+      };
+    }
+    $('savePlacement').onclick=function(){
+      var msg=$('placementMsg');
+      var any=Object.keys(state.constraintPlacements).some(function(k){return state.constraintPlacements[k].length});
+      if(!any){msg.textContent='Select at least one affected line.';return}
+      if(!state.completionId||!state.partner){msg.textContent='The assessment could not be matched for saving.';return}
+      this.disabled=true;msg.textContent='Saving…';var btn=this;
+      fetch('/api/context',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        partnerCode:state.partner.partnerCode,completionId:state.completionId,action:'place-constraint',
+        constraintPlacements:state.constraintPlacements
+      })}).then(function(x){return x.json().then(function(j){return{ok:x.ok,j:j}})}).then(function(res){
+        btn.disabled=false;
+        if(!res.ok){msg.textContent=res.j.error||'Could not save the affected lines.';return}
+        state.constraintLines=res.j.constraintLines||[];
+        msg.textContent='Saved. The portfolio team will see where the candidate is commercially material.';
+      }).catch(function(){btn.disabled=false;msg.textContent='Could not reach the server. Your selections remain on this page.'});
+    };
+  }
+
+  var VIABLE_FROM = 4;
+
+  function shortQ(label){
+    var parts = String(label).split('\u00b7');
+    return (parts[1] || parts[0]).trim();
+  }
+
+  function renderSections(r){
+    var host = $('resSections');
+    if (!host) return;
+    if (!r || !r.domains || !r.domains.length) { host.innerHTML = ''; return; }
+
+    var html = r.domains.map(function(dm){
+      var d = D.filter(function(x){ return x.key === dm.key; })[0] || {};
+      var qs = Q[dm.key] || [];
+      var a = state.answers[dm.key] || {};
+      var levels = QPD > 1 ? [a.a, a.b] : [a.a];
+      var isCon = !!dm.constraint;
+
+      var stands = qs.slice(0, levels.length).map(function(q, i){
+        var L = levels[i];
+        if (!L) return '';
+        var opt = q[2][L - 1];
+        return '<div class="qr"><div class="ql">' + esc(q[0]) + '</div>'
+             + '<div class="qa"><b>' + esc(opt[0]) + '</b> — ' + esc(opt[1]) + '</div>'
+             + '<div class="qt">Threshold met: ' + esc(opt[2]) + '</div></div>';
+      }).join('');
+
+      var ok = [], ch = [];
+      qs.slice(0, levels.length).forEach(function(q, i){
+        var L = levels[i];
+        if (!L) return;
+        if (L >= VIABLE_FROM) {
+          ok.push('<li>' + esc(shortQ(q[0])) + ': <b>' + esc(q[2][L - 1][2]) + '</b></li>');
+        } else {
+          var now = q[2][L - 1], next = q[2][L];
+          ch.push('<li><b>' + esc(shortQ(q[0])) + '</b> — from <i>' + esc(now[0]) + '</i> to <i>' + esc(next[0]) + '</i>.<br>'
+                + esc(next[1]) + '<span class="ob">Observable when: ' + esc(next[2]) + '</span></li>');
+        }
+      });
+
+      // The "what needs to change" list says what. The play says HOW — and it
+      // exists for all nine domains, not only the constraint. Render it wherever
+      // there is a gap to close; suppress it where the domain is already
+      // evidenced throughout, because a method for something already working is
+      // noise.
+      // The advice is conditioned on the level actually answered, not on the
+      // domain alone: the weakest question in the domain selects the band, so
+      // a brand at level 1 is told to make the thing exist and a brand at
+      // level 3 is told to evidence it. Falls back to the general play where
+      // no bands are defined (company and licensee instruments).
+      var play = '';
+      if (d.play && (isCon || ch.length)) {
+        var lows = levels.filter(function(x){ return !!x; });
+        var lowest = lows.length ? Math.min.apply(null, lows) : null;
+        var band = (d.play.bands && lowest && lowest < 5) ? d.play.bands[lowest] : null;
+        var acts = (band && band.actions) || d.play.actions || [];
+        var horizon = (band && band.horizon) || d.play.horizon;
+        var metric = (band && band.metric) || d.play.metric;
+        var head = isCon ? 'The move against this constraint' : 'How to move it';
+        var step = band ? '<span class="stp">Level ' + lowest + ' &rarr; ' + (lowest + 1) + '</span>' : '';
+        play = '<div class="mv"><div class="mvh"><b>' + head + '</b>' + esc(d.play.lever) + step + '</div>'
+             + (band ? '<p class="mvf">' + esc(band.focus) + '</p>' : '')
+             + '<ol>' + acts.map(function(x){ return '<li>' + esc(x.t) + '<span>' + esc(x.owner) + '</span></li>'; }).join('') + '</ol>'
+             + '<div class="mf"><div><b>Horizon</b>' + esc(horizon) + '</div>'
+             + '<div><b>Proof it moved</b>' + esc(metric) + '</div></div>'
+             + (d.why ? '<div class="mw"><b>Why this is the way to do it</b>' + esc(d.why) + '</div>' : '')
+             + '</div>';
+      }
+
+      return '<details class="dm' + (isCon ? ' bind' : '') + '"' + (isCon ? ' open' : '') + '>'
+        + '<summary><span class="dmn">' + esc(dm.name) + (isCon ? '<span class="chip con">constraint</span>' : '') + '</span>'
+        + '<span class="dmw">' + dm.weight + '% · ' + esc(dm.confidence || '') + '</span>'
+        + '<span class="dmb"><i style="width:' + Math.max(2, Math.min(100, dm.score)) + '%"></i></span>'
+        + '<span class="dmv">' + dm.score + '</span></summary>'
+        + '<div class="dmi">' + (d.t ? '<p class="dmt">' + esc(d.t) + '</p>' : '')
+        + '<div class="lab">Where it stands</div>' + stands
+        + '<div class="two">'
+        + '<div class="col ok"><div class="lab">What is holding up</div>'
+        + (ok.length ? '<ul>' + ok.join('') + '</ul>' : '<p class="none">Nothing in this domain has reached an evidenced level yet.</p>') + '</div>'
+        + '<div class="col ch"><div class="lab">What needs to change</div>'
+        + (ch.length ? '<ul>' + ch.join('') + '</ul>' : '<p class="none">Every answer here is evidenced or better. Hold it — this is not where the next gain is.</p>') + '</div>'
+        + '</div>' + play + '</div></details>';
+    }).join('');
+
+    host.innerHTML = html;
+    $('secH').hidden = false;
+    $('secL').hidden = false;
+    $('openAll').onclick = function(){ toggleAll(true); };
+    $('shutAll').onclick = function(){ toggleAll(false); };
+  }
+
+  function toggleAll(open){
+    var list = document.querySelectorAll('#resSections details.dm');
+    for (var i = 0; i < list.length; i++) list[i].open = open;
+  }
+
+  function showError(msg){
+    $('err').innerHTML = '<div class="err"><b>Not submitted.</b> ' + esc(msg) + '</div>';
+    $('err').scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  /* ── One section per page ────────────────────────────────────────────────
+     The brand and its details come first on their own page, then one page
+     per domain, then review-and-submit. Back and forward move between them;
+     nothing typed is lost on navigation because the whole form stays in the
+     document — pages are hidden, never removed. "View all" restores the
+     single-page layout, and print always shows everything. */
+  var PAGES=[], PG=0;
+  function initPager(){
+    try{
+      var ctxCard=$('cx_name')&&$('cx_name').closest?$('cx_name').closest('.card'):null;
+      var domainsHost=$('domains');
+      var submitCard=$('submitBtn')&&$('submitBtn').closest?$('submitBtn').closest('.card'):null;
+      if(!ctxCard||!domainsHost||!submitCard) return;
+      var domainCards=[].slice.call(domainsHost.children);
+      PAGES=[{el:ctxCard,label:'The '+(INSTKEY==='company'?'company':'brand')+' and its details'}]
+        .concat(domainCards.map(function(el,i){
+          var n=el.querySelector?el.querySelector('.dname'):null;
+          return {el:el,label:(n&&n.textContent)||('Section '+(i+1))};
+        }))
+        .concat([{el:submitCard,label:'Review and submit'}]);
+      if(PAGES.length<3) return;
+      var nav=document.createElement('div');
+      nav.id='pgNav'; nav.className='card';
+      nav.style.cssText='display:flex;align-items:center;gap:14px;flex-wrap:wrap';
+      nav.innerHTML='<button type="button" class="lineAdd" id="pgBack">&larr; Back</button>'
+        +'<div style="flex:1;min-width:200px;text-align:center"><div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600" id="pgCount"></div><div style="font-size:14px;font-weight:600;color:var(--ink)" id="pgLabel"></div></div>'
+        +'<button type="button" class="btn" id="pgNext" style="min-width:120px">Next &rarr;</button>'
+        +'<div style="width:100%;text-align:center"><button type="button" id="pgAll" style="background:none;border:0;cursor:pointer;font-size:11.5px;color:var(--faint);text-decoration:underline;text-underline-offset:3px">View all sections on one page</button></div>';
+      submitCard.parentNode.insertBefore(nav, submitCard.nextSibling);
+      function show(i){
+        PG=Math.max(0,Math.min(PAGES.length-1,i));
+        PAGES.forEach(function(p,j){ p.el.classList.toggle('pg-hide', j!==PG); });
+        $('pgCount').textContent='Section '+(PG+1)+' of '+PAGES.length;
+        $('pgLabel').textContent=PAGES[PG].label;
+        $('pgBack').style.visibility=PG===0?'hidden':'visible';
+        $('pgNext').style.visibility=PG===PAGES.length-1?'hidden':'visible';
+        window.scrollTo(0,0);
+      }
+      $('pgBack').onclick=function(){ show(PG-1); };
+      $('pgNext').onclick=function(){ show(PG+1); };
+      $('pgAll').onclick=function(){
+        PAGES.forEach(function(p){ p.el.classList.remove('pg-hide'); });
+        nav.remove();
+      };
+      show(0);
+    }catch(e){ /* paging is a convenience — a failure must never block the form */ }
+  }
+})();
+</script>
+</body>
+</html>
