@@ -18,6 +18,19 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+.page{animation:pgin .2s ease}
+@keyframes pgin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.page{animation:none}}
+/* ── First look: what am I seeing? ──
+   Slim guidance strips that narrate the ontology in plain language the
+   first three times a screen is opened, then retire themselves. "Got it"
+   retires one immediately. Stored per browser; nothing leaves the page. */
+.fhint{display:flex;gap:11px;align-items:flex-start;background:var(--tint);border:1px solid #C8D9E8;border-left:4px solid var(--steel);border-radius:0 9px 9px 0;padding:11px 15px;margin:0 0 12px;font-size:12.5px;color:var(--body);line-height:1.6}
+.fhint .fi{flex:none;width:19px;height:19px;border-radius:50%;background:var(--steel);color:#fff;display:grid;place-items:center;font-family:'Jost',Helvetica,sans-serif;font-size:11px;font-weight:600;margin-top:1px}
+.fhint b{color:var(--navy)}
+.fhint button{margin-left:auto;flex:none;border:1px solid #C8D9E8;background:#fff;color:var(--steel);border-radius:999px;padding:4px 12px;font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer}
+.fhint button:hover{background:var(--steel);color:#fff}
 button,input{font-family:inherit}
 .jost{font-family:'Jost',Helvetica,sans-serif}
 .skip{position:absolute;left:-9999px;background:var(--navy);color:#fff;padding:10px 16px;font-weight:600;z-index:300}
@@ -229,7 +242,8 @@ details.cmp[open] .chev{transform:rotate(45deg)}
 .evsum::-webkit-details-marker{display:none}
 .evsum:focus-visible{outline:2px solid var(--steel);outline-offset:2px;border-radius:4px}
 .evflag{font-size:9px;letter-spacing:.1em;color:#7A5520;background:#FBF6EC;border:1px solid #E8D8BE;border-radius:999px;padding:3px 10px;text-transform:none}
-.secttl{font-family:'Jost',Helvetica,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:30px 0 2px;padding-top:18px;border-top:1px solid var(--line)}
+.secttl{font-family:'Jost',Helvetica,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--body);font-weight:600;margin:30px 0 2px;padding-top:18px;border-top:1px solid var(--line)}
+.secttl::before{content:'';display:inline-block;width:20px;height:3px;background:var(--gold);border-radius:2px;margin-right:10px;vertical-align:3px}
 .improve{margin:0 24px 22px;border:1px solid var(--line);border-radius:8px;padding:16px 18px;background:#fff}
 details.imp{border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:#fff}
 details.imp.con{border-color:#E9CBC8}
@@ -379,7 +393,7 @@ details.imp summary:focus-visible{outline:2px solid var(--steel);outline-offset:
 .kpi .v.sm{font-size:19px;font-weight:400;line-height:1.25;min-height:37px;display:flex;align-items:flex-end}
 .kpi .d{font-size:11.5px;color:var(--faint);margin-top:6px}
 
-.card{min-width:0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:18px}
+.card{min-width:0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(8,19,48,.04),0 14px 34px -26px rgba(8,19,48,.2)}
 .card h2{font-family:'Jost',Helvetica,sans-serif;font-size:11.5px;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--steel);margin:0}
 .card .cs{color:var(--body);font-size:13.5px;margin-top:6px}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -450,7 +464,9 @@ details.imp summary:focus-visible{outline:2px solid var(--steel);outline-offset:
 .policy b.h{display:block;font-family:'Jost',Helvetica,sans-serif;color:var(--navy);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
 table.dt{width:100%;border-collapse:collapse;margin-top:14px;font-size:12.5px}
 table.dt th{text-align:left;font-family:'Jost',Helvetica,sans-serif;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:500;padding:8px 9px 8px 0;border-bottom:1px solid var(--navy)}
-table.dt td{padding:10px 9px 10px 0;border-bottom:1px solid var(--line)}
+table.dt td{padding:10px 9px 10px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+table.dt tbody tr{transition:background .1s}
+table.dt tbody tr:hover td{background:var(--tint)}
 table.dt tr.bind td{background:var(--tint)}
 .pill{display:inline-block;font-family:'Jost',Helvetica,sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;border-radius:4px;padding:2px 8px;background:var(--tint);color:var(--steel);border:1px solid #C8D9E8}
 
@@ -1404,6 +1420,7 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     document.querySelectorAll('.nav>.navgrp>button').forEach(function(x){x.classList.toggle('on',x.dataset.page===p)});
     /* Accordion: the active page's group is the open one. */
     document.querySelectorAll('.navgrp').forEach(function(g){g.classList.toggle('open',g.dataset.grp===p)});
+    if(typeof renderHints==='function') try{renderHints(p)}catch(e){}
     document.querySelectorAll('.page').forEach(function(x){x.hidden=x.dataset.page!==p});
     window.scrollTo(0,0);
     if(typeof updateHelpFab==="function") try{updateHelpFab()}catch(e){}
@@ -2190,6 +2207,10 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
     safely('home plan', renderHomePlan);
     reportFailures();
     safely('welcome tour', maybeTour);
+    safely('first-look hints', function(){
+      var cur=document.querySelector('.page:not([hidden])');
+      renderHints(cur?cur.dataset.page:'overview');
+    });
   }
 
   /* ── Welcome tour ──────────────────────────────────────────────────────
@@ -2198,13 +2219,13 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
      until finished or skipped, then never again on this browser. */
   var TOUR=[
     {t:'It starts with eighteen questions',
-     b:'Each brand’s own team answered eighteen questions about how the brand is run as a business — deals, money, licensees, decisions. Every answer sits on a level from 1 (nothing in place) to 5 (working and proven). The numbers on this dashboard are those answers added up — nothing more mysterious than that.'},
-    {t:'The Overview page',
-     b:'One card per brand. The big number is the overall index. The area named in red on each card is that brand’s <b>weakest link</b> — the first place to investigate. It becomes the priority to fix only after the evidence tests on the brand’s audit pass. Select any card to open the full audit.'},
-    {t:'Inside a brand — five tabs',
-     b:'<b>Executive Audit</b> — the verdict and why.<br><b>Commercial Map</b> — where the money comes from.<br><b>Evidence</b> — what the scores rest on.<br><b>Actions</b> — the to-do list.<br><b>History</b> — what changed since last time.'},
+     b:'Each brand’s own team answered eighteen questions about how the brand is run as a business — deals, money, licensees, decisions. Every answer sits on a level from 1 (nothing in place) to 5 (working and proven). Every number on this dashboard is those answers added up — nothing more mysterious than that.'},
+    {t:'It opens with the money answer',
+     b:'What the whole book brings in today, the target management has stated, and the distance between — one bar carries the story. Below it, <b>every brand as a card</b>: select one and it unfolds into the commercial lines and the products and services it holds; one more click opens the brand’s full audit.'},
+    {t:'The menu is the map',
+     b:'The menu descends the way the business is built: the portfolio, <b>the company</b> that runs it, the <b>brands</b> beneath, then the action plan and the analysis. Every item drops down into the sections its page holds. The company page is governance — the house verdict, every plan feeding one line of sight, and an operations table that shows what is moving and what has stalled.'},
     {t:'How to act on what you see',
-     b:'On the Executive Audit, open the weakest area. You’ll see what was answered, what the next level up looks like, and numbered steps to get there — each with who does it, how, and how you’ll know it worked. Press <b>“Add these steps to the action plan”</b> and they land on the Actions tab as trackable work.'}
+     b:'On any audit, open the weakest area: what was answered, what the next level up looks like, and numbered steps to get there — who does it, how, and how you’ll know it worked. Press <b>“Add these steps to the action plan”</b> and the work lands on the Action plan, the operations table and the KPI monitor with an owner, a horizon and a measure.'}
   ];
   var tourShown=false;
   function maybeTour(){
@@ -2975,6 +2996,51 @@ table.dt td,table.dt th,.kpi .v,.dhead .sc .n,.dbar b,.row .v,.legend .n,.isc,.l
      notes again). Never load-bearing: every read and write is guarded. */
   function memGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
   function memSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+  /* ── First look ────────────────────────────────────────────────────────
+     One slim strip per major screen element, narrating what it is in plain
+     language, shown the first three times that page is opened and then
+     retired. "Got it" retires one immediately. Counting is per browser via
+     the same storage the tour uses; a visit is one page-open per session. */
+  var HINTS={
+    overview:[
+      ['homeEngine','The whole book as one commercial engine.','What it brings in today, the target management stated, and the distance still to close. Everything beneath explains this number.'],
+      ['brandGallery','Each card is one brand, run as a business.','Select a card and it unfolds into the commercial lines and the products and services it holds — one more click opens the brand&rsquo;s full audit.'],
+      ['portfolioShape','Every brand on the same nine domains.','The gold shape is the portfolio average; the dashed navy line is the company itself. Where they are weak in the same place, one fix serves the whole book.']],
+    company:[
+      ['coVerdict','This page is governance.','The house&rsquo;s verdict first, then every plan at every level feeding one line of sight, then delivery. The full nine-domain audit sits collapsed at the bottom.'],
+      ['opsEngine','Five altitudes of the same book.','An action lives at exactly one level — the one whose constraint it addresses — and rolls up by counting. Select a rung to focus the table below on that level.'],
+      ['opsTable','Every action, one row, one truth.','Freshness is computed from the record&rsquo;s own updates — moving, quiet, or stalled — whatever the status field says.']],
+    brands:[
+      ['groups','One tile per brand.','The index, its weakest link and the state of the evidence. Select any tile for the full nine-domain audit.'],
+      ['compareSec','Read brands against each other.','Pick up to five: they draw as one shape and sit side by side on every domain. A wide spread is a transfer hypothesis — the stronger brand may have practice worth copying.']],
+    delivery:[
+      ['delKpis','Committed work, with owners and measures.','Tick steps and keep notes as delivery happens; outcomes recorded here are what advance a constraint from candidate to validated.']],
+    insights:[
+      ['upliftSec','A scenario, never a forecast.','How the index would move if each weakest link reached the Embedded level — it sequences where to investigate first; it is not recoverable revenue.']],
+    reports:[
+      ['rbSubs','Build the document you need.','Choose subjects and sections; the builder assembles the same audits the screens render into one printable report.']]
+  };
+  var hintSeen={};
+  function renderHints(page){
+    var list=HINTS[page]||[];
+    list.forEach(function(h){
+      var key=h[0], target=document.getElementById(key);
+      if(!target) return;
+      var count=parseInt(memGet('uix_h_'+key)||'0',10);
+      var done=memGet('uix_hx_'+key)==='1'||count>=3;
+      var existing=target.previousElementSibling;
+      var has=existing&&existing.classList&&existing.classList.contains('fhint')&&existing.dataset.hk===key;
+      if(done){ if(has) existing.remove(); return; }
+      if(!hintSeen[key]){ hintSeen[key]=1; memSet('uix_h_'+key,String(count+1)); }
+      if(has) return;
+      var el=document.createElement('div');
+      el.className='fhint'; el.dataset.hk=key;
+      el.innerHTML='<span class="fi" aria-hidden="true">i</span><span><b>'+h[1]+'</b> '+h[2]+'</span><button type="button" data-hint-dismiss>Got it</button>';
+      el.querySelector('[data-hint-dismiss]').onclick=function(){memSet('uix_hx_'+key,'1');el.remove()};
+      target.parentNode.insertBefore(el,target);
+    });
+  }
   var TABINTRO={
     exec:'<b>What this tab is.</b> The verdict on this brand — how well it runs as a business, based on the answers its own team gave. The weakest area is named at the top; that is the first place to investigate — it becomes the priority to fix only once the evidence tests pass. Open any row in the scorecard below to see the questions, the answers, and the exact steps to improve.',
     map:'<b>What this tab is.</b> Where this brand’s money actually comes from — every commercial line, how big it is, and whether we could verify it against a real source. Use it to see which income the weak area puts at risk.',
